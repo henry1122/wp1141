@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>章宏瑞 - 台灣大學電機工程學系學生 大三生
+    </title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="cv-header">
+        <div class="container">
+            <div class="header-content">
+                <div class="profile-section">
+                    <div class="profile-image">
+                        <div class="avatar-container">
+                            <img id="profile-photo" src="personal picture.jpg" alt="章宏瑞" class="profile-photo" style="cursor: pointer;" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="avatar-placeholder" style="display: none;">
+                                <span id="initials">章宏瑞</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h1 class="name" id="name">章宏瑞</h1>
+                        <h2 class="title">電機工程學系學生 | EDA 與數位設計專長</h2>
+                        <p class="summary">目前專精於 EDA 工具開發與數位電路設計，具備些許FPGA的開發經驗，近期致力於研究SAT問題方面的知識與技術。</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span class="icon">📧</span>
+                        <span id="email">hrjhang1122@gmail.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📱</span>
+                        <span id="phone">+886-966-586-065</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📍</span>
+                        <span id="location">台灣新竹縣</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">🔗</span>
+                        <a href="#" id="linkedin">Facebook:hocashi chang</a>
+                    </div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button id="language-toggle" aria-pressed="false">🌐 中文</button>
+                <button id="background-toggle" aria-pressed="false">🎨 背景</button>
+                <button id="theme-toggle" aria-pressed="false">主題切換</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="cv-main">
+        <div class="cv-layout">
+            <!-- Left Column -->
+            <div class="cv-left">
+                <section class="cv-section" id="experience">
+                    <h2 class="section-title">🔬 研究經驗</h2>
+                    <div class="timeline" id="experience-list">
+                        <!-- Experience items will be populated by TypeScript -->
+                    </div>
+                </section>
+
+                <section class="cv-section" id="education">
+                    <h2 class="section-title">🎓 學歷背景</h2>
+                    <div class="timeline" id="education-list">
+                        <!-- Education items will be populated by TypeScript -->
+                    </div>
+                </section>
+
+                <section class="cv-section" id="projects">
+                    <h2 class="section-title">💻 專題作品</h2>
+                    <div class="projects-grid" id="projects-list">
+                        <!-- Projects will be populated by TypeScript -->
+                    </div>
+                </section>
+
+
+                <section class="cv-section" id="gallery">
+                    <h2 class="section-title">📸 生活剪影</h2>
+                    
+                    <div class="gallery-category">
+                        <h3 class="category-title">👥 朋友&生活</h3>
+                        <div class="photo-gallery" id="friends-gallery">
+                            <!-- Friends photos will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-category">
+                        <h3 class="category-title">🏔️ 登山健行</h3>
+                        <div class="photo-gallery" id="mountain-gallery">
+                            <!-- Mountain photos will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-category">
+                        <h3 class="category-title">🍽️ 美食專區</h3>
+                        <div class="photo-gallery" id="food-gallery">
+                            <!-- Food photos will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="gallery-category">
+                        <h3 class="category-title">✈️ 輕度旅行</h3>
+                        <div class="photo-gallery" id="travel-gallery">
+                            <!-- Travel photos will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="cv-right">
+                <section class="cv-section" id="skills">
+                    <h2 class="section-title">⚡ 技能與專長</h2>
+                    <div class="skills-container" id="skills-list">
+                        <!-- Skills will be populated by TypeScript -->
+                    </div>
+                </section>
+
+                <section class="cv-section" id="languages">
+                    <h2 class="section-title">🌐 語言能力</h2>
+                    <div class="languages-list" id="languages-list">
+                        <!-- Languages will be populated by TypeScript -->
+                    </div>
+                </section>
+
+                <section class="cv-section" id="certifications">
+                    <h2 class="section-title">🏆 證照與競賽經歷</h2>
+                    <div class="certifications-list" id="certifications-list">
+                        <!-- Certifications will be populated by TypeScript -->
+                    </div>
+                </section>
+
+                <section class="cv-section" id="interests">
+                    <h2 class="section-title">🎯 興趣與愛好</h2>
+                    <div class="interests-list" id="interests-list">
+                        <!-- Interests will be populated by TypeScript -->
+                    </div>
+                </section>
+
+                <section class="cv-section" id="contact">
+                    <h2 class="section-title">📧 聯絡資訊</h2>
+                    <form id="contact-form" class="contact-form" novalidate>
+                        <div class="form-group">
+                            <label for="input-name">姓名</label>
+                            <input type="text" id="input-name" name="name" required minlength="2" placeholder="請輸入您的姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-email">電子郵件</label>
+                            <input type="email" id="input-email" name="email" required placeholder="your.email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-message">訊息</label>
+                            <textarea id="input-message" name="message" required maxlength="500" rows="4" placeholder="請輸入您的訊息..."></textarea>
+                            <small id="message-counter">0 / 500</small>
+                        </div>
+                        <button type="submit" class="submit-btn">送出訊息</button>
+                        <p id="form-status" role="status" aria-live="polite"></p>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="cv-footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>© <span id="year"></span> 章宏瑞. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#experience">研究經驗</a>
+                    <a href="#education">學歷背景</a>
+                    <a href="#projects">專題作品</a>
+                    <a href="#skills">技能與專長</a>
+                    <a href="#contact">聯絡我</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Photo Modal -->
+    <div id="photo-modal" class="photo-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <button class="modal-nav modal-prev" id="modal-prev">‹</button>
+            <button class="modal-nav modal-next" id="modal-next">›</button>
+            <img id="modal-image" class="modal-image" src="" alt="">
+            <div class="modal-info" id="modal-info"></div>
+        </div>
+    </div>
+
+    <!-- 直接載入預先編譯的 JS，確保無需工具即可開啟 -->
+    <script src="dist/main.js" defer></script>
+</body>
+</html>
+
+
+
+
+
