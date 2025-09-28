@@ -90,7 +90,7 @@ const SpeedMatchGame: React.FC<SpeedMatchGameProps> = ({ isActive, onGameEnd, on
       }
       // 不自動調用onGameEnd，讓玩家看到Game Over畫面
     }
-  }, [gameStarted, gameEnded, timeLeft]);
+  }, [gameStarted, gameEnded, timeLeft, highScore, score]);
 
   console.log('SpeedMatchGame render:', { isActive, gameStarted, gameEnded });
 

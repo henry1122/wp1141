@@ -142,7 +142,7 @@ const GameContent: React.FC = () => {
               <p>{t.finalScore}: <span className="highlight">{stats.score.toLocaleString()}</span></p>
               <p>{t.level}: <span className="highlight">{stats.level}</span></p>
               <p>{t.gameTime}: <span className="highlight">{Math.floor(stats.timeElapsed / 60)}:{(stats.timeElapsed % 60).toString().padStart(2, '0')}</span></p>
-              <p>{t.highScore}: <span className="highlight">{highScore.score.toLocaleString()}</span></p>
+              <p>{t.highScore}: <span className="highlight">{highScore.toLocaleString()}</span></p>
             </div>
             <button className="control-button restart" onClick={() => startGame()}>
               {t.playAgain}
@@ -233,7 +233,7 @@ const GameContent: React.FC = () => {
       {/* 關卡選擇器 */}
       <LevelSelector 
         currentLevel={currentDifficulty}
-        highScore={highScore.score}
+        highScore={highScore}
         onLevelSelect={(level) => {
           console.log('Level selected:', level);
           setDifficulty(level);

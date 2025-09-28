@@ -16,11 +16,9 @@ import {
   getLowestEmptyRow,
   GAME_CONFIG
 } from '../utils/gameLogic';
-import { useHighScore } from './useHighScore';
 import { Difficulty, LEVEL_CONFIGS, getNextLevel } from '../types/levels';
 
 export const useGameState = () => {
-  const { checkAndUpdateHighScore, highScore, isNewHighScore } = useHighScore();
   const [gameState, setGameState] = useState<GameState>(GameState.MENU);
   const [currentDifficulty, setCurrentDifficulty] = useState<Difficulty>(Difficulty.EASY);
   const [board, setBoard] = useState<(Ball | null)[][]>(createEmptyBoard());
@@ -34,6 +32,8 @@ export const useGameState = () => {
   });
   const [levelComplete, setLevelComplete] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
+  const [highScore, setHighScore] = useState(0);
+  const [isNewHighScore, setIsNewHighScore] = useState(false);
 
   const gameLoopRef = useRef<NodeJS.Timeout | null>(null);
   const dropTimerRef = useRef<NodeJS.Timeout | null>(null);
@@ -41,6 +41,18 @@ export const useGameState = () => {
   const countdownTimerRef = useRef<NodeJS.Timeout | null>(null);
   const statsRef = useRef(stats);
   const currentLevelConfig = LEVEL_CONFIGS[currentDifficulty];
+
+  // 檢查並更新最高分
+  const checkAndUpdateHighScore = useCallback((newScore: number, newLevel: number) => {
+    if (newScore > highScore) {
+      setHighScore(newScore);
+      setIsNewHighScore(true);
+      // 3秒後重置新紀錄標記
+      setTimeout(() => setIsNewHighScore(false), 3000);
+      return true;
+    }
+    return false;
+  }, [highScore]);
 
   // 保持 statsRef 最新，並且即時檢查最高分
   useEffect(() => {
