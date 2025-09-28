@@ -1,0 +1,328 @@
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.settings-panel {
+  background: var(--color-surface, #f8fafc);
+  border-radius: 20px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20px 40px var(--color-shadow, rgba(0, 0, 0, 0.1));
+  border: 1px solid var(--color-border, #e2e8f0);
+  animation: slideIn 0.3s ease-out;
+}
+
+.settings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 16px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.settings-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text, #1e293b);
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-textSecondary, #64748b);
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-button:hover {
+  background: var(--color-border, #e2e8f0);
+  color: var(--color-text, #1e293b);
+}
+
+.settings-content {
+  padding: 24px;
+  max-height: calc(80vh - 100px);
+  overflow-y: auto;
+}
+
+.setting-group {
+  margin-bottom: 32px;
+}
+
+.setting-group:last-child {
+  margin-bottom: 0;
+}
+
+.setting-group-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-text, #1e293b);
+  margin: 0 0 16px 0;
+}
+
+/* 主題選擇器 */
+.theme-selector {
+  display: flex;
+  gap: 12px;
+}
+
+.theme-option {
+  flex: 1;
+  background: var(--color-background, #ffffff);
+  border: 2px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-option:hover {
+  border-color: var(--color-primary, #2563eb);
+  transform: translateY(-2px);
+}
+
+.theme-option.active {
+  border-color: var(--color-primary, #2563eb);
+  background: var(--color-primary, #2563eb);
+  color: white;
+}
+
+.theme-preview {
+  width: 40px;
+  height: 24px;
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.light-preview {
+  background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+}
+
+.dark-preview {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.preview-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.preview-surface {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.light-preview .preview-surface {
+  background: #ffffff;
+}
+
+.dark-preview .preview-surface {
+  background: #374151;
+}
+
+/* 語言選擇器 */
+.language-selector {
+  display: flex;
+  gap: 12px;
+}
+
+.language-option {
+  flex: 1;
+  background: var(--color-background, #ffffff);
+  border: 2px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-text, #1e293b);
+}
+
+.language-option:hover {
+  border-color: var(--color-primary, #2563eb);
+  transform: translateY(-2px);
+}
+
+.language-option.active {
+  border-color: var(--color-primary, #2563eb);
+  background: var(--color-primary, #2563eb);
+  color: white;
+}
+
+.flag {
+  font-size: 1.5rem;
+}
+
+/* 開關設定 */
+.toggle-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.toggle-setting {
+  display: flex;
+  align-items: center;
+}
+
+.toggle-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  color: var(--color-text, #1e293b);
+  font-weight: 500;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 48px;
+  height: 24px;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-border, #e2e8f0);
+  transition: 0.3s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background: white;
+  transition: 0.3s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: var(--color-primary, #2563eb);
+}
+
+.toggle-switch input:checked + .toggle-slider:before {
+  transform: translateX(24px);
+}
+
+/* 遊戲資訊 */
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--color-background, #ffffff);
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #e2e8f0);
+}
+
+.info-label {
+  color: var(--color-textSecondary, #64748b);
+  font-weight: 500;
+}
+
+.info-value {
+  color: var(--color-text, #1e293b);
+  font-weight: 600;
+}
+
+/* 動畫 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-20px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 480px) {
+  .settings-panel {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .settings-content {
+    padding: 16px;
+  }
+  
+  .theme-selector,
+  .language-selector {
+    flex-direction: column;
+  }
+  
+  .theme-option,
+  .language-option {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+}

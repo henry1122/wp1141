@@ -1,0 +1,328 @@
+.color-memory-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 3000;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.color-memory-game {
+  background: var(--color-surface);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  border: 2px solid var(--color-primary);
+  text-align: center;
+  animation: gameSlideIn 0.5s ease-out;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mini-game-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0;
+  animation: titleGlow 3s ease-in-out infinite;
+}
+
+.exit-button {
+  background: var(--color-error);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.2s ease;
+}
+
+.exit-button:hover {
+  transform: scale(1.2);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.game-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  padding: 15px;
+  background: var(--color-background);
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+}
+
+.score-display,
+.round-display,
+.time-display,
+.high-score-display {
+  font-weight: 600;
+  color: var(--color-text);
+  animation: infoFloat 2s ease-in-out infinite;
+}
+
+.time-display {
+  color: var(--color-warning);
+  font-size: 1.1rem;
+}
+
+.high-score-display {
+  color: var(--color-primary);
+  font-size: 1rem;
+}
+
+.game-start,
+.sequence-display,
+.input-prompt,
+.feedback,
+.game-end {
+  margin: 30px 0;
+  padding: 20px;
+  border-radius: 12px;
+  animation: contentSlideIn 0.5s ease-out;
+}
+
+.game-start {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+}
+
+.start-button,
+.restart-button,
+.exit-button-full {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: all 0.3s ease;
+  animation: buttonBreathe 3s ease-in-out infinite;
+}
+
+.start-button:hover,
+.restart-button:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.exit-button-full {
+  background: var(--color-secondary);
+}
+
+.exit-button-full:hover {
+  transform: translateY(-2px);
+  background: var(--color-textSecondary);
+}
+
+.sequence-display {
+  background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+  color: white;
+}
+
+.input-prompt {
+  background: linear-gradient(135deg, #ffa726, #ff7043);
+  color: white;
+}
+
+.progress {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.feedback.correct {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: white;
+  animation: correctPulse 0.5s ease-out;
+}
+
+.feedback.wrong {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  color: white;
+  animation: wrongShake 0.5s ease-out;
+}
+
+.game-end {
+  background: var(--gradient-secondary);
+  color: white;
+}
+
+.end-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.color-button {
+  width: 80px;
+  height: 80px;
+  border: 3px solid white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  animation: colorButtonFloat 3s ease-in-out infinite;
+}
+
+.color-button:hover:not(:disabled) {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  border-width: 4px;
+}
+
+.color-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.color-button.highlighted {
+  animation: colorHighlight 0.6s ease-in-out;
+  transform: scale(1.2);
+  box-shadow: 0 0 30px currentColor;
+  border-color: white;
+  border-width: 5px;
+}
+
+/* 動畫定義 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes gameSlideIn {
+  from {
+    transform: translateY(-30px) scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes titleGlow {
+  0%, 100% {
+    text-shadow: 0 0 10px var(--color-primary);
+  }
+  50% {
+    text-shadow: 0 0 20px var(--color-primary), 0 0 30px var(--color-primary);
+  }
+}
+
+@keyframes infoFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes contentSlideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes buttonBreathe {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+@keyframes correctPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes wrongShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes colorButtonFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(2deg);
+  }
+}
+
+@keyframes colorHighlight {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.3);
+    filter: brightness(1.5);
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 480px) {
+  .color-memory-game {
+    padding: 20px;
+  }
+  
+  .color-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 200px;
+  }
+  
+  .color-button {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .mini-game-title {
+    font-size: 1.2rem;
+  }
+}

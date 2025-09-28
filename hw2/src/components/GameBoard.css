@@ -1,0 +1,153 @@
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.next-ball-preview {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 10px 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.next-ball-preview h3 {
+  color: white;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  background: var(--color-surface);
+  padding: 10px;
+  border-radius: 15px;
+  border: 2px solid var(--color-border);
+  position: relative;
+  box-shadow: 0 8px 32px var(--color-shadow);
+  transition: all 0.3s ease;
+  animation: boardFloat 4s ease-in-out infinite;
+}
+
+.game-board:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px var(--color-shadow);
+}
+
+.game-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.game-cell.empty {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.game-cell.empty::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: var(--color-border);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
+  transition: all 0.2s ease;
+}
+
+.game-cell.empty:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  cursor: pointer;
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--color-primary);
+}
+
+.game-cell.empty:hover::before {
+  opacity: 0.8;
+  background: white;
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+.game-cell.occupied {
+  background: transparent;
+}
+
+/* 危險區域動畫 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* 網格線效果 */
+.game-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 47px,
+      rgba(255, 255, 255, 0.1) 47px,
+      rgba(255, 255, 255, 0.1) 49px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 47px,
+      rgba(255, 255, 255, 0.1) 47px,
+      rgba(255, 255, 255, 0.1) 49px
+    );
+  pointer-events: none;
+  border-radius: 15px;
+}
+
+/* 新增動畫 */
+@keyframes boardFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* 危險區域動態效果 */
+.game-board.danger-zone {
+  animation: dangerPulse 1s ease-in-out infinite, boardFloat 4s ease-in-out infinite;
+  border-color: var(--color-error);
+}
+
+@keyframes dangerPulse {
+  0%, 100% {
+    box-shadow: 0 8px 32px var(--color-shadow);
+  }
+  50% {
+    box-shadow: 0 8px 32px var(--color-shadow), 0 0 30px var(--color-error);
+  }
+}

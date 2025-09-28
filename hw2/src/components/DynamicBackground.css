@@ -1,0 +1,93 @@
+.dynamic-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.background-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: all 1s ease-in-out;
+}
+
+.background-gradient.wave {
+  animation: backgroundWave 10s ease-in-out infinite;
+}
+
+.background-gradient.pulse {
+  animation: backgroundPulse 4s ease-in-out infinite;
+}
+
+.background-gradient.rotate {
+  animation: backgroundRotate 20s linear infinite;
+}
+
+.background-gradient.matrix {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%) !important;
+}
+
+.background-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 背景動畫 */
+@keyframes backgroundWave {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+    filter: hue-rotate(30deg);
+  }
+}
+
+@keyframes backgroundPulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: brightness(1) saturate(1);
+  }
+  50% {
+    transform: scale(1.02);
+    filter: brightness(1.1) saturate(1.2);
+  }
+}
+
+@keyframes backgroundRotate {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  25% {
+    transform: rotate(90deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+  }
+  75% {
+    transform: rotate(270deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .background-gradient.wave,
+  .background-gradient.pulse,
+  .background-gradient.rotate {
+    animation-duration: 15s;
+  }
+}

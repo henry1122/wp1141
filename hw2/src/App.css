@@ -1,0 +1,543 @@
+/* CSS 變數定義 */
+:root {
+  /* 預設亮色主題 */
+  --color-primary: #2563eb;
+  --color-secondary: #64748b;
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text: #1e293b;
+  --color-textSecondary: #64748b;
+  --color-accent: #3b82f6;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-border: #e2e8f0;
+  --color-shadow: rgba(0, 0, 0, 0.1);
+  
+  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --gradient-background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+  
+  /* 動畫變數 */
+  --animation-speed: 1s;
+  --hover-lift: -4px;
+  --glow-color: var(--color-primary);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--gradient-background);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.app-container {
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  animation: containerFloat 6s ease-in-out infinite;
+}
+
+@keyframes containerFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* 主選單佈局 */
+.menu-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  text-align: center;
+}
+
+.game-title {
+  font-size: 4.5rem;
+  font-weight: bold;
+  background: linear-gradient(45deg, #FF6B6B, #4ECDC4, #45B7D1, #FFA726, #AB47BC);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: rainbow-gradient-shift 4s ease-in-out infinite, titleFloat 3s ease-in-out infinite;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 8px var(--color-shadow);
+  position: relative;
+}
+
+.game-title::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+  background-size: 200% 200%;
+  animation: titleShimmer 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes rainbow-gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+}
+
+@keyframes titleFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.02);
+  }
+}
+
+@keyframes titleShimmer {
+  0%, 100% {
+    background-position: -200% 0;
+    opacity: 0;
+  }
+  50% {
+    background-position: 200% 0;
+    opacity: 1;
+  }
+}
+
+.game-description {
+  font-size: 1.2rem;
+  color: var(--color-text);
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+/* 按鈕組 */
+.menu-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 遊戲佈局 */
+.game-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.game-area {
+  flex-shrink: 0;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 250px;
+}
+
+/* 遊戲控制按鈕 */
+.game-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.control-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px var(--color-shadow);
+  min-width: 140px;
+  position: relative;
+  overflow: hidden;
+  animation: buttonFloat 4s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes buttonFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg);
+  }
+  50% {
+    transform: translateY(-2px) rotateX(2deg);
+  }
+}
+
+.control-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.control-button:hover::before {
+  left: 100%;
+}
+
+.control-button.start {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.control-button.pause {
+  background: linear-gradient(45deg, #FFA726, #FF7043);
+  color: white;
+}
+
+.control-button.resume {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.control-button.reset,
+.control-button.restart {
+  background: linear-gradient(45deg, #FF6B6B, #FF7043);
+  color: white;
+}
+
+.control-button.menu {
+  background: linear-gradient(45deg, #AB47BC, #8E24AA);
+  color: white;
+}
+
+.control-button.settings {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 2px solid var(--color-border);
+}
+
+.control-button.levels {
+  background: var(--gradient-secondary);
+  color: white;
+}
+
+.control-button.mini-games {
+  background: linear-gradient(45deg, #ff9a9e, #fecfef);
+  color: white;
+}
+
+.control-button:hover {
+  transform: translateY(-6px) rotateX(5deg) scale(1.02);
+  box-shadow: 0 12px 35px var(--color-shadow);
+  filter: brightness(1.1) saturate(1.2);
+}
+
+.control-button:hover::before {
+  animation: buttonShine 0.6s ease-out;
+}
+
+@keyframes buttonShine {
+  0% {
+    left: -100%;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+  }
+}
+
+.control-button:active {
+  transform: translateY(0);
+}
+
+/* 遊戲說明 */
+.game-instructions {
+  background: var(--color-surface);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid var(--color-border);
+  max-width: 500px;
+  box-shadow: 0 8px 32px var(--color-shadow);
+  position: relative;
+  overflow: hidden;
+  animation: instructionsFloat 5s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+.game-instructions::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent,
+    var(--color-primary),
+    transparent
+  );
+  opacity: 0.1;
+  animation: instructionsRotate 8s linear infinite;
+}
+
+.game-instructions:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 15px 40px var(--color-shadow);
+  border-color: var(--color-primary);
+}
+
+@keyframes instructionsFloat {
+  0%, 100% {
+    transform: translateY(0) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotateY(1deg);
+  }
+}
+
+@keyframes instructionsRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.game-instructions h3 {
+  color: var(--color-text);
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.game-instructions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.game-instructions li {
+  color: var(--color-textSecondary);
+  margin-bottom: 12px;
+  font-size: 1rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-instructions li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), transparent);
+  transition: width 0.3s ease;
+  z-index: -1;
+}
+
+.game-instructions li:hover {
+  color: var(--color-text);
+  background: var(--color-background);
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px var(--color-shadow);
+}
+
+.game-instructions li:hover::before {
+  width: 100%;
+}
+
+/* 覆蓋層 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1500;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.overlay-content {
+  background: var(--color-surface);
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
+  padding: 40px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 40px var(--color-shadow);
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+}
+
+.pause-title,
+.game-over-title {
+  color: var(--color-text);
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.new-high-score {
+  background: var(--gradient-secondary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  margin: 20px 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: celebrate 1s ease-in-out;
+  box-shadow: 0 4px 20px var(--color-shadow);
+}
+
+.final-stats {
+  margin: 20px 0 30px 0;
+  color: var(--color-textSecondary);
+}
+
+.final-stats p {
+  margin: 10px 0;
+  font-size: 1.1rem;
+}
+
+.highlight {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+@keyframes celebrate {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.05) rotate(-2deg);
+  }
+  75% {
+    transform: scale(1.05) rotate(2deg);
+  }
+}
+
+/* 動畫 */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* 響應式設計 */
+@media (max-width: 1024px) {
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .sidebar {
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 10px;
+  }
+  
+  .game-title {
+    font-size: 3rem;
+  }
+  
+  .game-description {
+    font-size: 1rem;
+  }
+  
+  .game-instructions {
+    padding: 20px;
+  }
+  
+  .overlay-content {
+    padding: 30px 20px;
+    margin: 0 20px;
+  }
+  
+  .menu-buttons {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+  
+  .control-button {
+    min-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 2.5rem;
+  }
+  
+  .game-instructions li {
+    font-size: 0.9rem;
+  }
+}

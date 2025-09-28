@@ -904,11 +904,11 @@ body::before {
     }
     
     .modal-image {
-        max-width: 90vw;
-        max-height: 80vh;
-        min-width: 250px;
-        min-height: 150px;
-        padding: 10px;
+        max-width: 95vw;
+        max-height: 85vh;
+        min-width: 300px;
+        min-height: 200px;
+        padding: 15px;
     }
 }
 
@@ -1163,8 +1163,8 @@ body::before {
 
 .modal-content {
     position: relative;
-    max-width: 80vw;
-    max-height: 80vh;
+    max-width: 90vw;
+    max-height: 90vh;
     margin: auto;
     animation: zoomIn 0.3s ease-out;
     display: flex;
@@ -1173,18 +1173,18 @@ body::before {
 }
 
 .modal-image {
-    max-width: 70vw;
-    max-height: 70vh;
+    max-width: 80vw;
+    max-height: 80vh;
     width: auto;
     height: auto;
     object-fit: contain;
     border-radius: var(--border-radius);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     background: white;
-    padding: 15px;
-    /* 統一圖片尺寸，確保不會太大 */
-    min-width: 300px;
-    min-height: 200px;
+    padding: 20px;
+    /* 統一圖片尺寸，確保能看到完整圖片 */
+    min-width: 400px;
+    min-height: 300px;
 }
 
 .modal-close {
