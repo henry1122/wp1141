@@ -25,11 +25,7 @@ Color Chain Reaction 是一個策略性的益智遊戲，玩家需要在網格�
 
 ### 安裝步驟
 
-1. **複製專案**
-   ```bash
-   git clone [repository-url]
-   cd hw2
-   ```
+1. **下載整個資料夾**
 
 2. **安裝npm**
    ```bash
