@@ -52,6 +52,7 @@
                 <button id="language-toggle" aria-pressed="false">🌐 中文</button>
                 <button id="background-toggle" aria-pressed="false">🎨 背景</button>
                 <button id="theme-toggle" aria-pressed="false">主題切換</button>
+                <button id="pdf-generate" class="pdf-button" onclick="testPrint()">🖨️ 列印CV</button>
             </div>
         </div>
     </header>
@@ -197,6 +198,15 @@
 
     <!-- 直接載入預先編譯的 JS，確保無需工具即可開啟 -->
     <script src="dist/main.js" defer></script>
+    
+    <!-- 簡單的列印測試函數 -->
+    <script>
+        function testPrint() {
+            console.log("測試列印功能被點擊");
+            alert("列印功能測試 - 即將開啟列印對話框");
+            window.print();
+        }
+    </script>
 </body>
 </html>
 

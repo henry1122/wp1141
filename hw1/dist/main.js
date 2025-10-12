@@ -1138,9 +1138,53 @@ function initializePhotoModal() {
     };
 }
 
+// Print CV Function
+function initializePDFGeneration() {
+    const pdfButton = document.querySelector("#pdf-generate");
+    
+    if (!pdfButton) {
+        console.error("PDF button not found!");
+        return;
+    }
+    
+    console.log("PDF button found, adding event listener");
+    
+    pdfButton.addEventListener("click", () => {
+        console.log("PDF button clicked!");
+        printCV();
+    });
+}
+
+function printCV() {
+    // Show loading state
+    const pdfButton = document.querySelector("#pdf-generate");
+    const originalText = pdfButton.textContent;
+    pdfButton.textContent = "🖨️ 列印中...";
+    pdfButton.disabled = true;
+    
+    // Add print-specific class to body for styling
+    document.body.classList.add('printing');
+    
+    // Use browser's built-in print functionality
+    setTimeout(() => {
+        window.print();
+        
+        // Remove print class after printing
+        setTimeout(() => {
+            document.body.classList.remove('printing');
+            
+            // Reset button
+            pdfButton.textContent = originalText;
+            pdfButton.disabled = false;
+        }, 1000);
+    }, 100);
+}
+
 // Initialize everything when DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM loaded, initializing CV...");
     initializeCV();
     initializeSmoothScrolling();
     initializeScrollAnimations();
+    initializePDFGeneration();
 });

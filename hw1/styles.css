@@ -387,6 +387,43 @@ body::before {
     transform: translateY(-2px);
 }
 
+/* Print Button Special Styling */
+.pdf-button {
+    background: linear-gradient(135deg, #27ae60, #229954) !important;
+    border: 1px solid rgba(255,255,255,0.4) !important;
+    font-weight: 600 !important;
+    animation: pulse 2s infinite;
+}
+
+.pdf-button:hover {
+    background: linear-gradient(135deg, #229954, #1e8449) !important;
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+}
+
+/* Print-specific styles when printing class is active */
+body.printing .header-actions,
+body.printing .cv-footer,
+body.printing .contact-form,
+body.printing .photo-gallery,
+body.printing .gallery-category,
+body.printing #gallery,
+body.printing #contact {
+    display: none !important;
+}
+
+body.printing .cv-layout {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+}
+
+body.printing .cv-section {
+    break-inside: avoid !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    margin-bottom: 15px !important;
+}
+
 /* Main Layout */
 .cv-main {
     padding: 40px 0;
@@ -461,7 +498,7 @@ body::before {
 .timeline::before {
     content: '';
     position: absolute;
-    left: 20px;
+    left: 0px; /* 移到最左邊，因為沒有圈圈了 */
     top: 0;
     bottom: 0;
     width: 2px;
@@ -471,7 +508,7 @@ body::before {
 .timeline-item {
     position: relative;
     margin-bottom: 30px;
-    padding-left: 60px;
+    padding-left: 20px; /* 減少左邊距，因為沒有圈圈了 */
     animation: fadeInLeft 0.8s ease-out both;
     animation-delay: calc(var(--item-delay, 0) * 0.1s);
 }
@@ -487,6 +524,7 @@ body::before {
     background: var(--secondary-color);
     border: 4px solid var(--bg-color);
     box-shadow: 0 0 0 2px var(--secondary-color);
+    display: none; /* 隱藏大圈圈 */
 }
 
 .timeline-item h3 {
@@ -872,15 +910,16 @@ body::before {
     }
     
     .timeline-item {
-        padding-left: 40px;
+        padding-left: 15px; /* 響應式設計中也減少左邊距 */
     }
     
     .timeline::before {
-        left: 15px;
+        left: 0px; /* 響應式設計中也移到最左邊 */
     }
     
     .timeline-item::before {
         left: 6px;
+        display: none; /* 響應式設計中也隱藏圈圈 */
     }
     
     .photo-gallery {
@@ -1080,6 +1119,7 @@ body::before {
     border: 3px solid var(--bg-color);
     box-shadow: 0 0 0 3px var(--secondary-color);
     animation: pulse 2s infinite;
+    display: none; /* 隱藏大圈圈 */
 }
 
 /* Enhanced Contact Form */
@@ -1269,45 +1309,90 @@ body::before {
 
 /* Print Styles */
 @media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        line-height: 1.4;
+        color: #000 !important;
+        background: white !important;
+    }
+    
     .header-actions,
     .cv-footer,
-    .contact-form {
-        display: none;
+    .contact-form,
+    .photo-gallery,
+    .gallery-category,
+    #gallery,
+    #contact {
+        display: none !important;
     }
     
     .cv-layout {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
     }
     
     .cv-section {
         break-inside: avoid;
-        box-shadow: none;
-        border: 1px solid #ccc;
+        box-shadow: none !important;
+        border: 1px solid #ccc !important;
+        margin-bottom: 15px;
+        padding: 20px !important;
+        page-break-inside: avoid;
     }
     
     .cv-header {
         background: white !important;
         color: black !important;
-        box-shadow: none;
+        box-shadow: none !important;
+        padding: 20px 0 !important;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #333 !important;
     }
     
-    .profile-info .name,
-    .profile-info .title,
-    .profile-info .summary {
+    .profile-info .name {
         color: black !important;
+        font-size: 24pt !important;
+        font-weight: bold !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .profile-info .title {
+        color: #333 !important;
+        font-size: 14pt !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .profile-info .summary {
+        color: #555 !important;
+        font-size: 11pt !important;
     }
     
     .contact-info {
         color: black !important;
+        font-size: 10pt !important;
+    }
+    
+    .contact-item {
+        margin-bottom: 3px !important;
     }
     
     .contact-item a {
         color: black !important;
+        text-decoration: none !important;
     }
     
     .section-title {
         color: black !important;
+        font-size: 16pt !important;
+        font-weight: bold !important;
+        border-bottom: 2px solid #333 !important;
+        margin-bottom: 15px !important;
+        padding-bottom: 5px !important;
     }
     
     .timeline-item h3,
@@ -1316,23 +1401,123 @@ body::before {
     .language-name,
     .cert-item h4 {
         color: black !important;
+        font-weight: bold !important;
     }
     
     .timeline-item .company,
     .project-item a {
         color: #0066cc !important;
+        font-weight: 500 !important;
+    }
+    
+    .timeline-item .period {
+        color: #666 !important;
+        font-style: italic !important;
     }
     
     .project-tag,
     .interest-item {
         background: #f0f0f0 !important;
         color: black !important;
-        border: 1px solid #ccc;
+        border: 1px solid #ccc !important;
+        display: inline-block !important;
+        margin: 2px !important;
+        padding: 2px 6px !important;
+        font-size: 9pt !important;
     }
     
     .skill-item {
         background: #f8f8f8 !important;
         color: black !important;
-        border: 1px solid #ddd;
+        border: 1px solid #ddd !important;
+        display: inline-block !important;
+        margin: 2px !important;
+        padding: 2px 6px !important;
+        font-size: 9pt !important;
+    }
+    
+    .skill-category {
+        margin-bottom: 10px !important;
+    }
+    
+    .skill-category h4 {
+        font-size: 11pt !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .project-item {
+        margin-bottom: 15px !important;
+        padding: 15px !important;
+        border: 1px solid #ddd !important;
+    }
+    
+    .project-item h3 {
+        font-size: 12pt !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .project-item .description {
+        font-size: 10pt !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .timeline-item {
+        margin-bottom: 15px !important;
+        padding-left: 20px !important;
+    }
+    
+    .timeline-item h3 {
+        font-size: 12pt !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .timeline-item .company {
+        font-size: 11pt !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .timeline-item .period {
+        font-size: 10pt !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .timeline-item .description {
+        font-size: 10pt !important;
+    }
+    
+    .language-item {
+        margin-bottom: 5px !important;
+        padding: 3px 0 !important;
+    }
+    
+    .cert-item {
+        margin-bottom: 8px !important;
+        padding: 8px !important;
+        border: 1px solid #ddd !important;
+    }
+    
+    .cert-item h4 {
+        font-size: 11pt !important;
+        margin-bottom: 3px !important;
+    }
+    
+    .cert-item .issuer {
+        font-size: 10pt !important;
+        color: #666 !important;
+    }
+    
+    /* Remove animations and transitions for print */
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    /* Ensure proper page breaks */
+    .cv-section {
+        page-break-inside: avoid;
+    }
+    
+    .cv-section:last-child {
+        page-break-after: avoid;
     }
 }

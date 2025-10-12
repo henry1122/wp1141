@@ -199,6 +199,7 @@ function initializeCV(): void {
     initializeThemeToggle();
     initializeContactForm();
     initializePhotoModal();
+    initializePDFGeneration();
 }
 
 function populatePersonalInfo(): void {
@@ -817,6 +818,40 @@ function initializePhotoModal(): void {
         currentPhotoIndex = allPhotos.findIndex(photo => photo.src === photoSrc);
         showPhoto({ src: photoSrc, alt: category, category: category });
     };
+}
+
+// Print CV Function
+function initializePDFGeneration(): void {
+    const pdfButton = select<HTMLButtonElement>("#pdf-generate");
+    
+    pdfButton.addEventListener("click", () => {
+        printCV();
+    });
+}
+
+function printCV(): void {
+    // Show loading state
+    const pdfButton = select<HTMLButtonElement>("#pdf-generate");
+    const originalText = pdfButton.textContent;
+    pdfButton.textContent = "🖨️ 列印中...";
+    pdfButton.disabled = true;
+    
+    // Add print-specific class to body for styling
+    document.body.classList.add('printing');
+    
+    // Use browser's built-in print functionality
+    setTimeout(() => {
+        window.print();
+        
+        // Remove print class after printing
+        setTimeout(() => {
+            document.body.classList.remove('printing');
+            
+            // Reset button
+            pdfButton.textContent = originalText;
+            pdfButton.disabled = false;
+        }, 1000);
+    }, 100);
 }
 
 // Initialize everything when DOM is loaded
