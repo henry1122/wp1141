@@ -52,25 +52,37 @@
 1. **克隆專案**
    ```bash
    git clone <repository-url>
-   cd ntu-course-selector
+   cd hw3
    ```
 
-2. **安裝依賴**
+2. **安裝根目錄依賴**
    ```bash
+   # 在 hw3 目錄下執行
    npm install
    ```
 
 3. **數據轉換**
    ```bash
+   # 在 hw3 目錄下執行（轉換原始數據為前端可用格式）
    node convert-ntu-data.js
    ```
 
-4. **啟動開發服務器**
+4. **進入前端專案目錄並安裝依賴**
    ```bash
+   # 進入 React 專案目錄
+   cd ntu-course-selector
+   
+   # 安裝前端依賴
+   npm install
+   ```
+
+5. **啟動開發服務器**
+   ```bash
+   # 在 ntu-course-selector 目錄下執行
    npm start
    ```
 
-5. **開啟瀏覽器**
+6. **開啟瀏覽器**
    ```
    http://localhost:3000
    ```
@@ -78,29 +90,33 @@
 ## 專案結構
 
 ```
-ntu-course-selector/
-├── public/
-│   ├── data/
-│   │   ├── courses.csv          # 課程數據
-│   │   └── departments.csv      # 學系數據
-│   └── index.html
-├── src/
-│   ├── components/              # React組件
-│   │   ├── CourseBrowser.tsx    # 課程瀏覽
-│   │   ├── CourseSelection.tsx  # 選課管理
-│   │   ├── CourseCart.tsx       # 選課清單
-│   │   ├── ScheduleView.tsx     # 時間表
-│   │   ├── AllRecords.tsx       # 歷史記錄
-│   │   └── SubmissionResult.tsx # 提交結果
-│   ├── context/
-│   │   └── AppContext.tsx       # 全局狀態管理
-│   ├── hooks/
-│   │   └── useDataLoader.ts     # 數據載入Hook
-│   ├── types/
-│   │   └── index.ts             # TypeScript類型定義
-│   └── App.tsx                  # 主應用組件
-├── convert-ntu-data.js          # 數據轉換腳本
-└── package.json
+hw3/                              # 專案根目錄
+├── convert-ntu-data.js           # 數據轉換腳本（在根目錄執行）
+├── hw3-ntucourse-data-1002.csv  # 原始課程數據
+├── package.json                  # 根目錄依賴
+├── ntu-course-selector/          # React 前端專案
+│   ├── public/
+│   │   ├── data/
+│   │   │   ├── courses.csv       # 轉換後的課程數據
+│   │   │   └── departments.csv   # 轉換後的學系數據
+│   │   └── index.html
+│   ├── src/
+│   │   ├── components/           # React組件
+│   │   │   ├── CourseBrowser.tsx    # 課程瀏覽
+│   │   │   ├── CourseSelection.tsx  # 選課管理
+│   │   │   ├── CourseCart.tsx       # 選課清單
+│   │   │   ├── ScheduleView.tsx     # 時間表
+│   │   │   ├── AllRecords.tsx       # 歷史記錄
+│   │   │   └── SubmissionResult.tsx # 提交結果
+│   │   ├── context/
+│   │   │   └── AppContext.tsx       # 全局狀態管理
+│   │   ├── hooks/
+│   │   │   └── useDataLoader.ts     # 數據載入Hook
+│   │   ├── types/
+│   │   │   └── index.ts             # TypeScript類型定義
+│   │   └── App.tsx                  # 主應用組件
+│   └── package.json              # 前端專案依賴
+└── README.md                     # 專案說明文件
 ```
 
 ## 使用指南
@@ -169,9 +185,14 @@ ntu-course-selector/
 
 ### 數據轉換
 `convert-ntu-data.js` 腳本會將原始CSV數據轉換為前端可用的格式：
-- 解析時間段格式
-- 格式化先修課程資訊
-- 提取人數限制數據
+- **執行位置**：必須在 `hw3` 根目錄下執行
+- **輸入文件**：`hw3-ntucourse-data-1002.csv`（原始課程數據）
+- **輸出位置**：`ntu-course-selector/public/data/` 目錄
+- **處理內容**：
+  - 解析時間段格式
+  - 格式化先修課程資訊
+  - 提取人數限制數據
+  - 生成課程和學系CSV文件
 
 ### 狀態管理
 使用React Context API管理全局狀態：
