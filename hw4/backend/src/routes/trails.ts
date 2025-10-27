@@ -18,8 +18,8 @@ router.get('/', optionalAuth, getTrails);
 // GET /api/trails/:id - Get specific trail (public)
 router.get('/:id', getTrailById);
 
-// POST /api/trails - Create new trail (authenticated)
-router.post('/', authenticateToken, createTrailValidation, createTrail);
+// POST /api/trails - Create new trail (public)
+router.post('/', optionalAuth, createTrailValidation, createTrail);
 
 // PUT /api/trails/:id - Update trail (authenticated, owner only)
 router.put('/:id', authenticateToken, updateTrailValidation, updateTrail);

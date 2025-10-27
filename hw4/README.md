@@ -86,11 +86,13 @@ npm run install:all
 
 3. 初始化資料庫
 ```bash
+cd backend
 npm run db:init
 ```
 
 4. 種子資料庫
 ```bash
+cd backend
 npm run db:seed
 ```
 
@@ -128,14 +130,14 @@ cd ..
 - `npm run server:dev` - 只啟動後端開發伺服器
 - `npm run client:dev` - 只啟動前端開發伺服器
 
-### 後端指令
+### 後端指令（需要在 backend 目錄執行）
 - `npm run dev` - 啟動開發伺服器
 - `npm run build` - 建置生產版本
 - `npm run start` - 啟動生產伺服器
 - `npm run db:init` - 初始化資料庫
 - `npm run db:seed` - 種子資料庫
 
-### 前端指令
+### 前端指令（需要在 frontend 目錄執行）
 - `npm run dev` - 啟動開發伺服器
 - `npm run build` - 建置生產版本
 - `npm run preview` - 預覽生產版本
@@ -252,13 +254,13 @@ VITE_APP_VERSION=1.0.0
 
 ### 生產環境建置
 
-1. 建置前端
+1. 建置前端（在 frontend 目錄執行）
 ```bash
 cd frontend
 npm run build
 ```
 
-2. 建置後端
+2. 建置後端（在 backend 目錄執行）
 ```bash
 cd backend
 npm run build

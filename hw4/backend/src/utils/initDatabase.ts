@@ -67,11 +67,11 @@ export const initDatabase = async (): Promise<void> => {
     if (existingUsers.count === 0) {
       await dbRun(
         'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-        ['john_doe', 'john@example.com', '$2b$10$rQZ8k9vL8k9vL8k9vL8k9e']
+        ['john_doe', 'john@example.com', '$2a$10$6XEeoAy..NyEwYrsmQsq6.Yih4VQvDMrK2rh0XEjMJyyjuvB3d7J.']
       );
       await dbRun(
         'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-        ['jane_smith', 'jane@example.com', '$2b$10$rQZ8k9vL8k9vL8k9vL8k9e']
+        ['jane_smith', 'jane@example.com', '$2a$10$6XEeoAy..NyEwYrsmQsq6.Yih4VQvDMrK2rh0XEjMJyyjuvB3d7J.']
       );
     }
 

@@ -19,7 +19,7 @@ import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import api from '../services/api';
+import { trailsAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 
 // Form validation schema
@@ -32,7 +32,7 @@ const schema = yup.object({
   elevation_gain: yup.number().min(0, '海拔高度不能為負數').max(10000, '海拔高度不能超過10000公尺').required('海拔高度為必填項目'),
   start_location: yup.string().min(1, '起點至少1個字').max(200, '起點最多200個字').required('起點為必填項目'),
   end_location: yup.string().min(1, '終點至少1個字').max(200, '終點最多200個字').required('終點為必填項目'),
-  tags: yup.string().required('標籤為必填項目')
+  tags: yup.string().optional()
 });
 
 interface CreateTrailForm {
@@ -54,12 +54,7 @@ const CreateTrail: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  // Check if user is logged in
-  useEffect(() => {
-    if (!isLoading && !user) {
-      navigate('/login');
-    }
-  }, [user, isLoading, navigate]);
+  // No authentication required - all users can create trails
 
   const {
     control,
@@ -97,47 +92,23 @@ const CreateTrail: React.FC = () => {
     );
   }
 
-  // Show message if not logged in
-  if (!user) {
-    return (
-      <Container maxWidth="md" sx={{ mt: 4 }}>
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
-          <Typography variant="h5" color="error" gutterBottom>
-            請先登入
-          </Typography>
-          <Typography variant="body1" sx={{ mb: 3 }}>
-            您需要登入才能建立路線
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={() => navigate('/login')}
-          >
-            前往登入
-          </Button>
-        </Paper>
-      </Container>
-    );
-  }
-
   const onSubmit = async (data: CreateTrailForm) => {
     setIsSubmitting(true);
     setError(null);
 
     try {
       // Parse tags from comma-separated string
-      const tagsArray = data.tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+      const tagsArray = data.tags ? data.tags.split(',').map(tag => tag.trim()).filter(tag => tag) : [];
       
       const trailData = {
         ...data,
         tags: tagsArray,
-        coordinates: [], // Empty coordinates array for now
-        rating: 0,
-        review_count: 0
+        coordinates: [] // Empty coordinates array for now
       };
 
       console.log('Sending trail data:', trailData);
-      const response = await api.post('/trails', trailData);
-      console.log('Trail created successfully:', response.data);
+      const response = await trailsAPI.createTrail(trailData);
+      console.log('Trail created successfully:', response);
       setSuccess(true);
       
       // Redirect to trails list after successful creation
@@ -147,9 +118,7 @@ const CreateTrail: React.FC = () => {
 
     } catch (err: any) {
       console.error('Create trail error:', err);
-      if (err.response?.status === 401) {
-        setError('請先登入才能建立路線');
-      } else if (err.response?.status === 400) {
+      if (err.response?.status === 400) {
         setError(err.response?.data?.error || '請檢查輸入的資料');
       } else {
         setError(err.response?.data?.message || '建立路線時發生錯誤');

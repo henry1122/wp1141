@@ -19,6 +19,7 @@ import Weather from './pages/Weather';
 import Settings from './pages/Settings';
 import Test from './pages/Test';
 import BaiyuePage from './pages/BaiyuePage';
+import DebugCreateTrail from './pages/DebugCreateTrail';
 
 // Protected Route Component
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -93,6 +94,7 @@ const App: React.FC = () => {
           <Route path="/settings" element={<Settings />} />
           <Route path="/test" element={<Test />} />
           <Route path="/baiyue" element={<BaiyuePage />} />
+          <Route path="/debug-create-trail" element={<DebugCreateTrail />} />
           
           {/* Auth Routes */}
           <Route 

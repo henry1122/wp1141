@@ -22,7 +22,6 @@ export const createTrailValidation = [
     .isInt({ min: 1, max: 1440 })
     .withMessage('Duration must be between 1 and 1440 minutes'),
   body('elevation_gain')
-    .optional()
     .isFloat({ min: 0, max: 10000 })
     .withMessage('Elevation gain must be between 0 and 10000 meters'),
   body('coordinates')
@@ -68,7 +67,6 @@ export const updateTrailValidation = [
     .isInt({ min: 1, max: 1440 })
     .withMessage('Duration must be between 1 and 1440 minutes'),
   body('elevation_gain')
-    .optional()
     .isFloat({ min: 0, max: 10000 })
     .withMessage('Elevation gain must be between 0 and 10000 meters'),
   body('coordinates')
@@ -238,15 +236,10 @@ export const createTrail = async (req: Request, res: Response): Promise<void> =>
       return;
     }
 
-    if (!req.user) {
-      res.status(401).json({
-        success: false,
-        error: 'Authentication required'
-      });
-      return;
-    }
-
     const trailData: CreateTrailRequest = req.body;
+    
+    // Use user ID if authenticated, otherwise use null for anonymous users
+    const userId = req.user ? req.user.id : null;
 
     // Insert trail
     const result = await dbRun(`
@@ -260,12 +253,12 @@ export const createTrail = async (req: Request, res: Response): Promise<void> =>
       trailData.difficulty,
       trailData.distance,
       trailData.duration,
-      trailData.elevation_gain || 0,
+      trailData.elevation_gain,
       JSON.stringify(trailData.coordinates),
       trailData.start_location,
       trailData.end_location,
       JSON.stringify(trailData.tags || []),
-      req.user.id
+      userId
     ]);
 
     const trailId = (result as any).lastID;

@@ -21,6 +21,11 @@ export const authenticateToken = async (
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
 
+    console.log('=== Auth Debug ===');
+    console.log('Auth header:', authHeader);
+    console.log('Token:', token);
+    console.log('JWT_SECRET:', process.env.JWT_SECRET);
+
     if (!token) {
       res.status(401).json({
         success: false,
@@ -29,15 +34,29 @@ export const authenticateToken = async (
       return;
     }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: number };
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.log('❌ JWT_SECRET not found');
+      res.status(500).json({
+        success: false,
+        error: 'JWT secret not configured'
+      });
+      return;
+    }
+    
+    console.log('✅ JWT_SECRET found, verifying token...');
+    const decoded = jwt.verify(token, jwtSecret) as { userId: number };
+    console.log('✅ Token verified, userId:', decoded.userId);
     
     // Get user from database
+    console.log('🔍 Looking for user with ID:', decoded.userId);
     const user = await dbGet(
       'SELECT id, username, email, created_at, updated_at FROM users WHERE id = ?',
       [decoded.userId]
     ) as User;
 
     if (!user) {
+      console.log('❌ User not found in database');
       res.status(401).json({
         success: false,
         error: 'Invalid token - user not found'
@@ -45,6 +64,7 @@ export const authenticateToken = async (
       return;
     }
 
+    console.log('✅ User found:', user.username);
     req.user = user;
     next();
   } catch (error) {
@@ -77,7 +97,19 @@ export const optionalAuth = async (
     const token = authHeader && authHeader.split(' ')[1];
 
     if (token) {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!) as { userId: number };
+      const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret) {
+      console.log('❌ JWT_SECRET not found');
+      res.status(500).json({
+        success: false,
+        error: 'JWT secret not configured'
+      });
+      return;
+    }
+    
+    console.log('✅ JWT_SECRET found, verifying token...');
+    const decoded = jwt.verify(token, jwtSecret) as { userId: number };
+    console.log('✅ Token verified, userId:', decoded.userId);
       const user = await dbGet(
         'SELECT id, username, email, created_at, updated_at FROM users WHERE id = ?',
         [decoded.userId]
