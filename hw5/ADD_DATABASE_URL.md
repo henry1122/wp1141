@@ -39,12 +39,12 @@ mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=
      ```
 
 4. **修改連接字串**
-   - 將 `<username>` 替換為您建立的資料庫使用者名稱
-   - 將 `<password>` 替換為您設定的密碼（注意：密碼中的特殊字元需要 URL 編碼，例如 `@` 需要編碼為 `%40`）
+   - 將 `<username>` 替換為：`hocashi`
+   - 將 `<password>` 替換為：`P@qq3849`（注意：密碼中的特殊字元需要 URL 編碼）
    - 在 `@cluster0.xxxxx.mongodb.net/` 後面加上資料庫名稱，例如：`my-x`
    - 最終格式應該是：
      ```
-     mongodb+srv://<username>:<encoded-password>@cluster0.xxxxx.mongodb.net/my-x?retryWrites=true&w=majority
+     mongodb+srv://hocashi:P%40qq3849@cluster0.xxxxx.mongodb.net/my-x?retryWrites=true&w=majority
      ```
    - ⚠️ 注意：`@` 符號在密碼中需要編碼為 `%40`
 
@@ -58,7 +58,7 @@ mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=
 
 2. **構建連接字串**
    ```
-   mongodb+srv://<username>:<encoded-password>@cluster0.xxxxx.mongodb.net/my-x?retryWrites=true&w=majority
+   mongodb+srv://hocashi:P%40qq3849@cluster0.xxxxx.mongodb.net/my-x?retryWrites=true&w=majority
    ```
    - 將 `cluster0.xxxxx.mongodb.net` 替換為您實際的叢集地址
    - 將 `my-x` 替換為您想要的資料庫名稱
@@ -68,7 +68,7 @@ mongodb+srv://username:password@cluster.mongodb.net/database?retryWrites=true&w=
 打開 `.env.local` 文件，添加或更新：
 
 ```env
-DATABASE_URL=mongodb+srv://<username>:<encoded-password>@cluster0.xxxxx.mongodb.net/my-x?retryWrites=true&w=majority
+DATABASE_URL=mongodb+srv://hocashi:P%40qq3849@cluster0.xxxxx.mongodb.net/my-x?retryWrites=true&w=majority
 ```
 
 **重要：**

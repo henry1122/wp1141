@@ -129,7 +129,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'POST') {
     try {
       if (!session?.user?.id) {
-        return res.status(401).json({ error: 'Unauthorized' })
+        console.error('POST /api/posts: No session or user ID')
+        return res.status(401).json({ error: 'Unauthorized: Please sign in first' })
       }
 
       const { content, imageUrl, parentPostId } = req.body
@@ -138,11 +139,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(400).json({ error: 'Content is required' })
       }
 
-      const processedContent = processPostContent(content)
+      const processedContent = processPostContent(content.trim())
 
       if (processedContent.length > 280) {
-        return res.status(400).json({ error: 'Post exceeds character limit' })
+        return res.status(400).json({ error: 'Post exceeds character limit (280 characters)' })
       }
+
+      console.log('Creating post:', { 
+        authorId: session.user.id, 
+        contentLength: processedContent.content.length,
+        parentPostId: parentPostId || null 
+      })
 
       const post = await prisma.post.create({
         data: {

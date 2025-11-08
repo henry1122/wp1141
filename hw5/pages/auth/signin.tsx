@@ -72,10 +72,63 @@ export default function SignIn() {
         return
       }
 
-      // User found, now sign in with their provider
+      // Check if login was successful (credentials user)
+      if (data.success && data.user) {
+        // For credentials users, use the credentials-login API to create proper NextAuth session
+        if (data.needsManualSession) {
+          try {
+            const sessionRes = await fetch('/api/auth/credentials-login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ userID: data.user.userID }),
+              credentials: 'include', // Important: include cookies
+            })
+            
+            if (sessionRes.ok) {
+              // Session created successfully
+              // Wait a moment for cookie to be set and NextAuth to recognize it
+              await new Promise(resolve => setTimeout(resolve, 300))
+              
+              // Force a full page reload to ensure NextAuth picks up the session
+              window.location.href = '/'
+              return
+            } else {
+              const errorData = await sessionRes.json()
+              console.error('Session creation failed:', errorData)
+              setError('無法創建登入會話，請重試')
+              setLoading(false)
+              return
+            }
+          } catch (sessionError) {
+            console.error('Session creation error:', sessionError)
+            setError('登入失敗，請重試')
+            setLoading(false)
+            return
+          }
+        }
+        
+        // If no manual session needed, try to reload session
+        const session = await getSession()
+        if (session?.user?.userID || data.user.userID) {
+          router.push('/')
+        } else {
+          // Wait a bit for session to update, then redirect
+          setTimeout(() => {
+            router.push('/')
+          }, 500)
+        }
+        return
+      }
+
+      // User found, now sign in with their provider (OAuth users)
       if (data.user?.accounts?.[0]?.provider) {
         const provider = data.user.accounts[0].provider
-        await signIn(provider, { callbackUrl: '/' })
+        if (provider === 'credentials') {
+          // Already handled above
+          router.push('/')
+        } else {
+          await signIn(provider, { callbackUrl: '/' })
+        }
       } else {
         setError('No OAuth account found for this userID')
         setLoading(false)
@@ -97,28 +150,28 @@ export default function SignIn() {
 
         {!showUserIDLogin ? (
           <>
-            <div className="space-y-4">
-              <button
+        <div className="space-y-4">
+          <button
                 onClick={() => signIn('google', { callbackUrl: '/auth/register' })}
-                className="w-full bg-white text-gray-900 py-3 px-4 rounded-full font-semibold hover:bg-gray-100 transition"
-              >
-                Continue with Google
-              </button>
+            className="w-full bg-white text-gray-900 py-3 px-4 rounded-full font-semibold hover:bg-gray-100 transition"
+          >
+            Continue with Google
+          </button>
 
-              <button
+          <button
                 onClick={() => signIn('github', { callbackUrl: '/auth/register' })}
-                className="w-full bg-white text-gray-900 py-3 px-4 rounded-full font-semibold hover:bg-gray-100 transition"
-              >
-                Continue with GitHub
-              </button>
+            className="w-full bg-white text-gray-900 py-3 px-4 rounded-full font-semibold hover:bg-gray-100 transition"
+          >
+            Continue with GitHub
+          </button>
 
-              <button
+          <button
                 onClick={() => signIn('facebook', { callbackUrl: '/auth/register' })}
-                className="w-full bg-white text-gray-900 py-3 px-4 rounded-full font-semibold hover:bg-gray-100 transition"
-              >
-                Continue with Facebook
-              </button>
-            </div>
+            className="w-full bg-white text-gray-900 py-3 px-4 rounded-full font-semibold hover:bg-gray-100 transition"
+          >
+            Continue with Facebook
+          </button>
+        </div>
 
             <div className="relative">
               <div className="absolute inset-0 flex items-center">

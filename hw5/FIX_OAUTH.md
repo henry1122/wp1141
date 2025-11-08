@@ -16,19 +16,40 @@ NextAuth 使用的回調 URL 格式為：
 2. 選擇您的專案
 3. 前往 **APIs & Services** → **Credentials**
 4. 找到您的 OAuth 2.0 Client ID，點擊編輯（鉛筆圖標）
-5. 在 **Authorized redirect URIs** 部分，確保添加了以下 URI：
 
+5. **設定 Authorized JavaScript origins（JavaScript 來源）**
+   
+   在 **Authorized JavaScript origins** 區塊中，添加以下網址：
+   
+   **本地開發環境：**
+   ```
+   http://localhost:3000
+   ```
+   
+   **如果部署到 Vercel：**
+   ```
+   https://your-app-name.vercel.app
+   ```
+   
+   ⚠️ **重要：** 只包含網域，不要包含路徑或尾隨斜線
+
+6. **設定 Authorized redirect URIs（重定向 URI）**
+   
+   在 **Authorized redirect URIs** 部分，確保添加了以下 URI：
+   
    **本地開發環境：**
    ```
    http://localhost:3000/api/auth/callback/google
    ```
-
+   
    **如果部署到 Vercel：**
    ```
    https://your-app-name.vercel.app/api/auth/callback/google
    ```
+   
+   ⚠️ **重要：** URI 必須完全匹配，包括協議、網域、路徑
 
-6. 點擊 **Save** 保存
+7. 點擊 **Save** 保存
 
 ### 3. 檢查環境變數
 
@@ -46,10 +67,13 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 
 ### 4. 重要注意事項
 
-- **不要**在重定向 URI 末尾添加斜線 `/`
+- **JavaScript origins：** 只包含網域（例如：`http://localhost:3000`），不要包含路徑
+- **Redirect URIs：** 必須包含完整路徑（例如：`http://localhost:3000/api/auth/callback/google`）
+- **不要**在任何 URI 末尾添加斜線 `/`
 - **確保**協議正確（`http://` 用於本地，`https://` 用於生產）
 - **確保**端口號正確（本地開發通常是 `3000`）
-- 修改後可能需要等待幾分鐘才能生效
+- 修改後可能需要等待 1-2 分鐘才能生效
+- **如果部署到 Vercel：** 必須同時設定 JavaScript origins 和 redirect URIs，並更新 Vercel 環境變數中的 `NEXTAUTH_URL`
 
 ### 5. 驗證步驟
 

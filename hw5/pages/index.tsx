@@ -9,15 +9,30 @@ export default function Home() {
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/signin')
+    // Give NextAuth time to load the session
+    if (status === 'loading') {
+      return // Wait for session to load
+    }
+    
+    // If authenticated and has userID, stay on home page
+    if (status === 'authenticated' && session?.user?.userID) {
+      // User is logged in with userID, stay on home page
       return
     }
-    if (status === 'authenticated' && session) {
-      if (!session.user?.userID) {
-        router.push('/auth/register')
-        return
-      }
+    
+    // If authenticated but no userID, redirect to register
+    if (status === 'authenticated' && session && !session.user?.userID) {
+      router.push('/auth/register')
+      return
+    }
+    
+    // If unauthenticated, redirect to signin
+    // But wait a bit to make sure session isn't still loading
+    if (status === 'unauthenticated') {
+      const timeout = setTimeout(() => {
+        router.push('/auth/signin')
+      }, 500)
+      return () => clearTimeout(timeout)
     }
   }, [session, status, router])
 

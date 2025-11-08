@@ -55,18 +55,34 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this post?')) return
+    if (!session?.user?.id) {
+      alert('請先登入')
+      return
+    }
+
+    if (!confirm('確定要刪除這篇貼文嗎？')) return
 
     try {
       const res = await fetch(`/api/posts/${post.id}`, {
         method: 'DELETE',
+        credentials: 'include', // Important: include cookies
       })
 
-      if (res.ok && onUpdate) {
-        onUpdate()
+      if (res.ok) {
+        if (onUpdate) {
+          onUpdate()
+        } else {
+          // If no onUpdate callback, reload the page
+          window.location.reload()
+        }
+      } else {
+        const data = await res.json()
+        alert(data.error || '刪除失敗')
+        console.error('Delete error:', data)
       }
     } catch (error) {
       console.error('Error deleting post:', error)
+      alert('刪除時發生錯誤，請重試')
     }
   }
 

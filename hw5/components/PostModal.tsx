@@ -22,25 +22,37 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
   const canPost = content.trim().length > 0 && length <= maxLength
 
   const handlePost = async () => {
-    if (!canPost || !session?.user?.id) return
+    if (!canPost || !session?.user?.id) {
+      if (!session?.user?.id) {
+        alert('請先登入')
+      }
+      return
+    }
 
     setLoading(true)
     try {
       const res = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Important: include cookies
         body: JSON.stringify({
-          content,
+          content: content.trim(),
           parentPostId: parentPostId || null,
         }),
       })
 
       if (res.ok) {
         onClose()
+        // Reload to show the new post/comment
         window.location.reload()
+      } else {
+        const data = await res.json()
+        alert(data.error || '發布失敗，請重試')
+        console.error('Post error:', data)
       }
     } catch (error) {
       console.error('Error posting:', error)
+      alert('發布時發生錯誤，請重試')
     } finally {
       setLoading(false)
     }
