@@ -18,12 +18,14 @@
 
 ## 1️⃣ NEXTAUTH_SECRET（已完成 ✅）
 
-已為你生成：
-```
-D2RHmhINY53O18ILccmzQGt0g4kwF1GzprYUWZ8H++Q=
+您可以使用以下命令生成：
+```bash
+openssl rand -base64 32
 ```
 
-直接複製到 `.env.local` 檔案的 `NEXTAUTH_SECRET` 即可。
+或者使用線上工具生成一個隨機字串。
+
+**⚠️ 注意：** 請不要使用範例中的值，應該為每個專案生成唯一的 secret。
 
 ---
 
@@ -281,11 +283,11 @@ D2RHmhINY53O18ILccmzQGt0g4kwF1GzprYUWZ8H++Q=
 ```env
 # NextAuth
 NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=D2RHmhINY53O18ILccmzQGt0g4kwF1GzprYUWZ8H++Q=
+NEXTAUTH_SECRET=your-generated-nextauth-secret-here
 
 # OAuth
-GOOGLE_CLIENT_ID=你的值
-GOOGLE_CLIENT_SECRET=你的值
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 GITHUB_ID=你的值
 GITHUB_SECRET=你的值
 FACEBOOK_CLIENT_ID=你的值（選填）

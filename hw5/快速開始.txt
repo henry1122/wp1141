@@ -7,7 +7,8 @@
 🚀 最快速開始（只需要 3 個）：
 
 1. NEXTAUTH_SECRET
-   ✅ 已完成！值：D2RHmhINY53O18ILccmzQGt0g4kwF1GzprYUWZ8H++Q=
+   ⚠️ 請使用以下命令生成：`openssl rand -base64 32`
+   或使用線上工具生成一個隨機字串
 
 2. GitHub OAuth（約 2 分鐘）
    ① 前往：https://github.com/settings/developers
