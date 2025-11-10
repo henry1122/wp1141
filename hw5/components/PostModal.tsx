@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useSession } from 'next-auth/react'
-import { FaTimes } from 'react-icons/fa'
+import { FaTimes, FaImage, FaVideo } from 'react-icons/fa'
 import { calculatePostLength } from '@/lib/utils'
 
 interface PostModalProps {
@@ -16,6 +16,11 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
   const [loading, setLoading] = useState(false)
   const [showDrafts, setShowDrafts] = useState(false)
   const [drafts, setDrafts] = useState<any[]>([])
+  const [imageUrl, setImageUrl] = useState<string | null>(null)
+  const [videoUrl, setVideoUrl] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const videoInputRef = useRef<HTMLInputElement>(null)
 
   const length = calculatePostLength(content)
   const maxLength = 280
@@ -38,6 +43,8 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
         body: JSON.stringify({
           content: content.trim(),
           parentPostId: parentPostId || null,
+          imageUrl: imageUrl || null,
+          videoUrl: videoUrl || null,
         }),
       })
 
@@ -124,6 +131,71 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
     }
   }
 
+  const handleFileUpload = async (file: File, type: 'image' | 'video') => {
+    if (!file) return
+
+    // Validate file type
+    if (type === 'image' && !file.type.startsWith('image/')) {
+      alert('請選擇圖片檔案')
+      return
+    }
+    if (type === 'video' && !file.type.startsWith('video/')) {
+      alert('請選擇影片檔案')
+      return
+    }
+
+    // Validate file size (10MB for images, 50MB for videos)
+    const maxSize = type === 'image' ? 10 * 1024 * 1024 : 50 * 1024 * 1024
+    if (file.size > maxSize) {
+      alert(type === 'image' ? '圖片大小不能超過 10MB' : '影片大小不能超過 50MB')
+      return
+    }
+
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      })
+
+      if (res.ok) {
+        const data = await res.json()
+        if (type === 'image') {
+          setImageUrl(data.url)
+          setVideoUrl(null) // Remove video if image is uploaded
+        } else {
+          setVideoUrl(data.url)
+          setImageUrl(null) // Remove image if video is uploaded
+        }
+      } else {
+        const errorData = await res.json()
+        alert(errorData.error || '上傳失敗，請重試')
+      }
+    } catch (error) {
+      console.error('Error uploading file:', error)
+      alert('上傳時發生錯誤，請重試')
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleImageClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleVideoClick = () => {
+    videoInputRef.current?.click()
+  }
+
+  const removeMedia = () => {
+    setImageUrl(null)
+    setVideoUrl(null)
+  }
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-background rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-xl border border-border">
@@ -188,27 +260,107 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
               )}
             </div>
           ) : (
-            <textarea
-              value={content}
-              onChange={(e) => {
-                const newContent = e.target.value
-                // Check length and prevent typing if over limit (except for hashtags/mentions)
-                const testLength = calculatePostLength(newContent)
-                if (testLength <= maxLength || newContent.length <= content.length) {
-                  setContent(newContent)
-                }
-              }}
-              placeholder="What's happening?"
-              className="w-full bg-transparent resize-none outline-none text-lg min-h-[200px] text-foreground placeholder:text-muted-foreground"
-            />
+            <div className="space-y-4">
+              <textarea
+                value={content}
+                onChange={(e) => {
+                  const newContent = e.target.value
+                  // Check length and prevent typing if over limit (except for hashtags/mentions)
+                  const testLength = calculatePostLength(newContent)
+                  if (testLength <= maxLength || newContent.length <= content.length) {
+                    setContent(newContent)
+                  }
+                }}
+                placeholder="What's happening?"
+                className="w-full bg-transparent resize-none outline-none text-lg min-h-[200px] text-foreground placeholder:text-muted-foreground"
+              />
+              
+              {/* Media Preview */}
+              {imageUrl && (
+                <div className="relative">
+                  <img
+                    src={imageUrl}
+                    alt="Upload preview"
+                    className="w-full max-h-64 object-cover rounded-lg border border-border"
+                  />
+                  <button
+                    onClick={removeMedia}
+                    className="absolute top-2 right-2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition"
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              )}
+              
+              {videoUrl && (
+                <div className="relative">
+                  <video
+                    src={videoUrl}
+                    controls
+                    className="w-full max-h-64 rounded-lg border border-border"
+                  />
+                  <button
+                    onClick={removeMedia}
+                    className="absolute top-2 right-2 bg-black/50 text-white rounded-full p-2 hover:bg-black/70 transition"
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              )}
+              
+              {/* Hidden file inputs */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleFileUpload(file, 'image')
+                }}
+              />
+              <input
+                ref={videoInputRef}
+                type="file"
+                accept="video/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleFileUpload(file, 'video')
+                }}
+              />
+            </div>
           )}
         </div>
 
         {/* Footer */}
         {!showDrafts && (
-          <div className="p-4 border-t border-border flex items-center justify-between">
-            <div className={`text-sm ${length > maxLength ? 'text-destructive' : length > maxLength * 0.9 ? 'text-yellow-600' : 'text-muted-foreground'}`}>
-              {length}/{maxLength}
+          <div className="p-4 border-t border-border">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-4">
+                <button
+                  onClick={handleImageClick}
+                  disabled={uploading || !!videoUrl}
+                  className="text-primary hover:text-primary/80 transition p-2 rounded-full hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="上傳圖片"
+                >
+                  <FaImage className="text-xl" />
+                </button>
+                <button
+                  onClick={handleVideoClick}
+                  disabled={uploading || !!imageUrl}
+                  className="text-primary hover:text-primary/80 transition p-2 rounded-full hover:bg-secondary disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="上傳影片"
+                >
+                  <FaVideo className="text-xl" />
+                </button>
+                {uploading && (
+                  <span className="text-sm text-muted-foreground">上傳中...</span>
+                )}
+              </div>
+              <div className={`text-sm ${length > maxLength ? 'text-destructive' : length > maxLength * 0.9 ? 'text-yellow-600' : 'text-muted-foreground'}`}>
+                {length}/{maxLength}
+              </div>
             </div>
           </div>
         )}

@@ -7,9 +7,10 @@ interface PostListProps {
   type?: 'all' | 'following'
   userID?: string
   postType?: 'posts' | 'likes'
+  hashtag?: string
 }
 
-export default function PostList({ type = 'all', userID, postType = 'posts' }: PostListProps) {
+export default function PostList({ type = 'all', userID, postType = 'posts', hashtag }: PostListProps) {
   const [posts, setPosts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
@@ -18,7 +19,9 @@ export default function PostList({ type = 'all', userID, postType = 'posts' }: P
     setLoading(true)
     try {
       let url = '/api/posts'
-      if (userID) {
+      if (hashtag) {
+        url = `/api/posts?hashtag=${hashtag}`
+      } else if (userID) {
         url = `/api/users/${userID}/posts?type=${postType}`
       } else {
         url = `/api/posts?type=${type}`

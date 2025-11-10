@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { createNotification } from '@/lib/notifications'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -57,12 +58,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Create repost
-    await prisma.repost.create({
+    const repost = await prisma.repost.create({
       data: {
         userId: session.user.id,
         postId: id as string,
       },
     })
+
+    // Get post to find author
+    const post = await prisma.post.findUnique({
+      where: { id: id as string },
+      select: { authorId: true },
+    })
+
+    // Create notification
+    if (post) {
+      await createNotification(post.authorId, 'repost', session.user.id, id as string)
+    }
 
     // Trigger Pusher event
     try {

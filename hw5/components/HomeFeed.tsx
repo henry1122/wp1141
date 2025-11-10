@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import PostList from './PostList'
+import NewPostNotice from './NewPostNotice'
 import { calculatePostLength } from '@/lib/utils'
 
 export default function HomeFeed() {
@@ -48,6 +49,9 @@ export default function HomeFeed() {
 
   return (
     <div className="flex flex-col h-screen bg-background">
+      {/* New Post Notice */}
+      {tab === 'following' && <NewPostNotice />}
+      
       {/* Header */}
       <div className="sticky top-0 bg-background/80 backdrop-blur-sm border-b border-border z-10">
         <div className="px-4 py-3">

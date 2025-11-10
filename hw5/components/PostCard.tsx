@@ -214,7 +214,8 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
         if (formatted.indexOf(`<a href`, formatted.indexOf(match)) !== -1) {
           return match
         }
-        return `<span class="text-primary">${match}</span>`
+        const hashtag = match.replace('#', '')
+        return `<span class="text-primary cursor-pointer hover:underline" data-hashtag="${hashtag}">${match}</span>`
       }
     )
 
@@ -227,6 +228,11 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
       const userID = target.getAttribute('data-userid')
       if (userID) {
         router.push(`/profile/${userID}`)
+      }
+    } else if (target.hasAttribute('data-hashtag')) {
+      const hashtag = target.getAttribute('data-hashtag')
+      if (hashtag) {
+        router.push(`/hashtag/${hashtag}`)
       }
     }
   }
@@ -298,13 +304,28 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
               />
             )}
 
-            {/* Image */}
+            {/* Media */}
             {post.imageUrl && (
-              <img
-                src={post.imageUrl}
-                alt="Post"
-                className="rounded-xl mb-3 max-w-full border border-border"
-              />
+              <div className="mb-3">
+                <img
+                  src={post.imageUrl}
+                  alt="Post"
+                  className="rounded-xl max-w-full border border-border cursor-pointer"
+                  onClick={() => window.open(post.imageUrl, '_blank')}
+                />
+              </div>
+            )}
+            
+            {post.videoUrl && (
+              <div className="mb-3">
+                <video
+                  src={post.videoUrl}
+                  controls
+                  className="rounded-xl max-w-full border border-border"
+                >
+                  您的瀏覽器不支援影片播放
+                </video>
+              </div>
             )}
 
             {/* Interactions */}

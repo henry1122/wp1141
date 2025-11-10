@@ -61,6 +61,8 @@ model User {
   reposts       Repost[]
   following     Follow[]  @relation("UserFollowing")
   followers     Follow[]  @relation("UserFollowers")
+  notifications Notification[] @relation("NotificationUser")
+  notificationsActed Notification[] @relation("NotificationActor")
 
   @@map("users")
 }
@@ -81,6 +83,7 @@ model Post {
   authorId    String    @db.ObjectId
   author      User      @relation("PostAuthor", fields: [authorId], references: [id], onDelete: Cascade)
   imageUrl    String?
+  videoUrl    String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 
@@ -90,6 +93,7 @@ model Post {
   parentPostId String?  @db.ObjectId // For comments
   parentPost  Post?     @relation("PostComments", fields: [parentPostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   childPosts  Post[]    @relation("PostComments")
+  notifications Notification[]
 
   @@index([authorId])
   @@index([parentPostId])
@@ -161,6 +165,25 @@ model Draft {
 
   @@index([authorId])
   @@map("drafts")
+}
+
+model Notification {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  type      String   // 'like', 'repost', 'comment', 'follow'
+  actorId   String   @db.ObjectId // User who performed the action
+  postId    String?  @db.ObjectId // Post related to the notification (null for follow)
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user  User @relation("NotificationUser", fields: [userId], references: [id], onDelete: Cascade)
+  actor User @relation("NotificationActor", fields: [actorId], references: [id], onDelete: Cascade)
+  post  Post? @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([read])
+  @@index([createdAt])
+  @@map("notifications")
 }
 
 

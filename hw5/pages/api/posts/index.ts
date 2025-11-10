@@ -2,15 +2,49 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { createNotification } from '@/lib/notifications'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const session = await getServerSession(req, res, authOptions)
 
   if (req.method === 'GET') {
     try {
-      const { type = 'all', limit = 20, offset = 0 } = req.query
+      const { type = 'all', limit = 20, offset = 0, hashtag } = req.query
 
       let posts
+
+      // Filter by hashtag
+      if (hashtag) {
+        const hashtagPattern = `#${hashtag}`
+        posts = await prisma.post.findMany({
+          where: {
+            content: {
+              contains: hashtagPattern,
+            },
+            parentPostId: null, // Only top-level posts
+          },
+          include: {
+            author: {
+              select: {
+                id: true,
+                name: true,
+                userID: true,
+                image: true,
+              },
+            },
+            _count: {
+              select: {
+                childPosts: true,
+                likes: true,
+                reposts: true,
+              },
+            },
+          },
+          orderBy: { createdAt: 'desc' },
+          take: parseInt(limit as string),
+          skip: parseInt(offset as string),
+        })
+      } else
 
       if (type === 'following' && session?.user?.id) {
         // Get users that the current user follows
@@ -133,7 +167,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ error: 'Unauthorized: Please sign in first' })
       }
 
-      const { content, imageUrl, parentPostId } = req.body
+      const { content, imageUrl, videoUrl, parentPostId } = req.body
 
       if (!content || content.trim().length === 0) {
         return res.status(400).json({ error: 'Content is required' })
@@ -156,6 +190,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           content: processedContent.content,
           authorId: session.user.id,
           imageUrl: imageUrl || null,
+          videoUrl: videoUrl || null,
           parentPostId: parentPostId || null,
         },
         include: {
@@ -189,7 +224,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
 
         if (parentPostId) {
-          // This is a comment - get updated comment count
+          // This is a comment - get parent post author to create notification
+          const parentPost = await prisma.post.findUnique({
+            where: { id: parentPostId },
+            select: { authorId: true },
+          })
+
+          if (parentPost) {
+            await createNotification(parentPost.authorId, 'comment', session.user.id, parentPostId)
+          }
+
+          // Get updated comment count
           const commentCount = await prisma.post.count({
             where: { parentPostId: post.parentPostId || parentPostId },
           })

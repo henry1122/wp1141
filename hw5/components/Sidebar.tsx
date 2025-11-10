@@ -1,7 +1,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useState, useRef, useEffect } from 'react'
-import { FaHome, FaUser, FaFeather, FaSignOutAlt } from 'react-icons/fa'
+import { FaHome, FaUser, FaFeather, FaSignOutAlt, FaBell, FaSearch } from 'react-icons/fa'
 import PostModal from './PostModal'
 
 export default function Sidebar() {
@@ -9,6 +9,7 @@ export default function Sidebar() {
   const router = useRouter()
   const [showLogout, setShowLogout] = useState(false)
   const [showPostModal, setShowPostModal] = useState(false)
+  const [unreadCount, setUnreadCount] = useState(0)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -21,6 +22,30 @@ export default function Sidebar() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  // Fetch unread notification count
+  useEffect(() => {
+    if (!session?.user?.id) return
+
+    const fetchUnreadCount = async () => {
+      try {
+        const res = await fetch('/api/notifications/unread-count', {
+          credentials: 'include',
+        })
+        if (res.ok) {
+          const data = await res.json()
+          setUnreadCount(data.count || 0)
+        }
+      } catch (error) {
+        console.error('Error fetching unread count:', error)
+      }
+    }
+
+    fetchUnreadCount()
+    // Poll every 30 seconds for new notifications
+    const interval = setInterval(fetchUnreadCount, 30000)
+    return () => clearInterval(interval)
+  }, [session?.user?.id])
 
   const handleLogout = async () => {
     await signOut({ callbackUrl: '/auth/signin' })
@@ -55,6 +80,35 @@ export default function Sidebar() {
           >
             <FaHome className="text-xl" />
             <span className="text-lg">Home</span>
+          </button>
+
+          <button
+            onClick={() => navigateTo('/explore')}
+            className={`w-full flex items-center space-x-4 px-4 py-3 rounded-full transition ${
+              router.pathname === '/explore'
+                ? 'bg-primary text-primary-foreground font-semibold'
+                : 'hover:bg-secondary text-foreground'
+            }`}
+          >
+            <FaSearch className="text-xl" />
+            <span className="text-lg">Explore</span>
+          </button>
+
+          <button
+            onClick={() => navigateTo('/notifications')}
+            className={`w-full flex items-center space-x-4 px-4 py-3 rounded-full transition relative ${
+              router.pathname === '/notifications'
+                ? 'bg-primary text-primary-foreground font-semibold'
+                : 'hover:bg-secondary text-foreground'
+            }`}
+          >
+            <FaBell className="text-xl" />
+            <span className="text-lg">Notifications</span>
+            {unreadCount > 0 && (
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
           </button>
 
           <button
