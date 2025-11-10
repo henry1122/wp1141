@@ -90,7 +90,7 @@ export default function PostList({ type = 'all', userID, postType = 'posts' }: P
       const channel = pusherClient.subscribe('my-x-channel')
 
       channel.bind('like-updated', (data: any) => {
-        setPosts((prevPosts) =>
+        setPosts((prevPosts: any[]) =>
           prevPosts.map((post) => {
             if (post.id === data.postId) {
               const currentLikes = post._count?.likes || 0
@@ -114,14 +114,14 @@ export default function PostList({ type = 'all', userID, postType = 'posts' }: P
       channel.bind('new-post', (data: any) => {
         // Only add if viewing 'all' feed
         if (type === 'all' && !userID) {
-          setPosts((prevPosts) => [data.post, ...prevPosts])
+          setPosts((prevPosts: any[]) => [data.post, ...prevPosts])
         }
       })
 
       channel.bind('new-comment', (data: any) => {
         console.log('Received new-comment event:', data)
         // Update comment count for parent post
-        setPosts((prevPosts) =>
+        setPosts((prevPosts: any[]) =>
           prevPosts.map((post) => {
             if (post.id === data.parentPostId) {
               const currentCount = post._count?.childPosts || post._count?.comments || 0
@@ -141,7 +141,7 @@ export default function PostList({ type = 'all', userID, postType = 'posts' }: P
       })
 
       channel.bind('repost-updated', (data: any) => {
-        setPosts((prevPosts) =>
+        setPosts((prevPosts: any[]) =>
           prevPosts.map((post) => {
             if (post.id === data.postId) {
               const currentReposts = post._count?.reposts || 0
