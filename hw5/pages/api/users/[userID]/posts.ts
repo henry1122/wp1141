@@ -134,17 +134,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const likedSet = new Set(likes.map((l) => l.postId))
         const repostedSet = new Set(reposts.map((r) => r.postId))
 
-        posts = posts.map((post) => ({
+        posts = posts.map((post: any) => ({
           ...post,
           liked: likedSet.has(post.id),
           reposted: repostedSet.has(post.id),
+          isRepost: post.isRepost || false,
         }))
       } else {
         // Add default values if not logged in
-        posts = posts.map((post) => ({
+        posts = posts.map((post: any) => ({
           ...post,
           liked: false,
           reposted: false,
+          isRepost: post.isRepost || false,
         }))
       }
 
