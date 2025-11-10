@@ -52,8 +52,13 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
   // Toggle comments visibility
   const handleToggleComments = () => {
     if (!showComments) {
-      setShowComments(true)
-      fetchComments()
+      // If no comments yet, directly open comment modal
+      if (commentCount === 0) {
+        setShowCommentModal(true)
+      } else {
+        setShowComments(true)
+        fetchComments()
+      }
     } else {
       setShowComments(false)
     }
