@@ -51,7 +51,7 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
 
   // Toggle comments visibility
   const handleToggleComments = () => {
-    if (!showComments && commentCount >= 1) {
+    if (!showComments) {
       setShowComments(true)
       fetchComments()
     } else {
@@ -336,7 +336,7 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
             </div>
 
             {/* Comments Section */}
-            {showComments && commentCount >= 1 && (
+            {showComments && (
               <div className="mt-4 pt-4 border-t border-border">
                 {loadingComments ? (
                   <div className="text-center py-4 text-muted-foreground">載入留言中...</div>
