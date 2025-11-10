@@ -54,11 +54,63 @@ export default function Profile() {
     }
   }
 
+  const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      alert('請選擇圖片檔案')
+      return
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('圖片大小不能超過 5MB')
+      return
+    }
+
+    try {
+      // Upload image
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!uploadRes.ok) {
+        throw new Error('上傳失敗')
+      }
+
+      const uploadData = await uploadRes.json()
+      const imageUrl = uploadData.url
+
+      // Update user profile
+      const updateRes = await fetch(`/api/users/${userID}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageUrl }),
+      })
+
+      if (updateRes.ok) {
+        fetchUser() // Refresh user data
+        alert('頭貼更新成功！')
+      } else {
+        throw new Error('更新失敗')
+      }
+    } catch (error) {
+      console.error('Error updating avatar:', error)
+      alert('更新頭貼時發生錯誤，請重試')
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 ml-64 flex items-center justify-center">
           <div className="text-xl">Loading...</div>
         </div>
       </div>
@@ -69,7 +121,7 @@ export default function Profile() {
     return (
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 ml-64 flex items-center justify-center">
           <div className="text-xl">User not found</div>
         </div>
       </div>
@@ -81,7 +133,7 @@ export default function Profile() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex-1 border-x border-dark-border">
+      <div className="flex-1 ml-64 border-x border-dark-border">
         {/* Header */}
         <div className="sticky top-0 bg-dark/80 backdrop-blur-md border-b border-dark-border z-10">
           <div className="flex items-center space-x-4 p-4">
@@ -119,13 +171,26 @@ export default function Profile() {
             )}
           </div>
 
-          {/* Avatar */}
-          <div className="absolute -bottom-16 left-4">
-            <img
-              src={user.image || '/default-avatar.png'}
-              alt={user.name}
-              className="w-32 h-32 rounded-full border-4 border-dark"
-            />
+          {/* Avatar - Moved to top right */}
+          <div className="absolute top-4 right-4">
+            <div className="relative">
+              <img
+                src={user.image || '/default-avatar.png'}
+                alt={user.name}
+                className="w-32 h-32 rounded-full border-4 border-dark"
+              />
+              {isOwnProfile && (
+                <label className="absolute bottom-0 right-0 bg-primary text-white rounded-full p-2 cursor-pointer hover:bg-primary/90 transition shadow-lg">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleAvatarChange}
+                  />
+                  <FaEdit className="text-sm" />
+                </label>
+              )}
+            </div>
           </div>
 
           {/* Actions */}
@@ -155,7 +220,7 @@ export default function Profile() {
           </div>
 
           {/* User Info */}
-          <div className="px-4 pt-20 pb-4">
+          <div className="px-4 pt-4 pb-4">
             <h1 className="text-2xl font-bold">{user.name}</h1>
             <p className="text-gray-400">@{user.userID}</p>
             {user.bio && <p className="mt-4">{user.bio}</p>}

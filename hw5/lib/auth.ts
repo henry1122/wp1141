@@ -5,6 +5,61 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import { prisma } from './prisma'
 import { userIDSchema } from './userID'
 
+// 臨時存儲 email -> provider 的映射，用於在 createUser 時獲取 provider
+// 這個 Map 會在用戶創建後自動清理
+const pendingUserProviders = new Map<string, string>()
+
+// 創建自訂 Adapter，覆寫 createUser 方法以自動生成 userID 和 provider
+function createCustomAdapter(prisma: any) {
+  const baseAdapter = PrismaAdapter(prisma) as any
+  
+  return {
+    ...baseAdapter,
+    async createUser(data: any) {
+      // 從臨時存儲中獲取 provider（由 signIn callback 設置）
+      const provider = pendingUserProviders.get(data.email || '') || 'unknown'
+      
+      // 生成臨時 userID（格式：temp_google_xxx 或 temp_github_xxx）
+      // 使用時間戳和隨機數確保唯一性
+      const timestamp = Date.now().toString(36)
+      const randomSuffix = Math.random().toString(36).substring(2, 8)
+      const tempUserID = `temp_${provider}_${timestamp}_${randomSuffix}`
+      
+      console.log('[Custom Adapter] Creating user with:', {
+        email: data.email,
+        provider,
+        tempUserID,
+      })
+      
+      try {
+        // 創建用戶時包含所有必需欄位
+        const user = await prisma.user.create({
+          data: {
+            ...data,
+            userID: tempUserID,  // ✅ 自動生成臨時 userID
+            provider: provider,  // ✅ 從 signIn callback 獲取 provider
+          },
+        })
+        
+        // 創建成功後，從臨時存儲中刪除（避免內存洩漏）
+        if (data.email) {
+          pendingUserProviders.delete(data.email)
+        }
+        
+        console.log('[Custom Adapter] ✅ User created successfully:', user.id)
+        return user
+      } catch (error) {
+        // 如果創建失敗，也清理臨時存儲
+        if (data.email) {
+          pendingUserProviders.delete(data.email)
+        }
+        console.error('[Custom Adapter] ❌ Error creating user:', error)
+        throw error
+      }
+    },
+  }
+}
+
 // Wrap adapter initialization in try-catch to catch any errors
 let adapter: any
 try {
@@ -17,10 +72,10 @@ try {
     })
   }
   
-  adapter = PrismaAdapter(prisma) as any
-  console.log('✅ PrismaAdapter initialized successfully')
+  adapter = createCustomAdapter(prisma)
+  console.log('✅ Custom PrismaAdapter initialized successfully')
 } catch (error) {
-  console.error('❌ Error initializing PrismaAdapter:', error)
+  console.error('❌ Error initializing Custom PrismaAdapter:', error)
   if (error instanceof Error) {
     console.error('Error message:', error.message)
     console.error('Error stack:', error.stack)
@@ -65,7 +120,7 @@ export const authOptions: NextAuthOptions = {
     },
     async signIn({ user, account, profile }) {
       try {
-        // Always allow sign in - PrismaAdapter will handle user creation
+        // Always allow sign in - Custom Adapter will handle user creation
         // We'll check for userID in the redirect callback or session callback
         console.log('[NextAuth SignIn] ===== Sign In Callback =====')
         console.log('[NextAuth SignIn] User email:', user.email)
@@ -78,6 +133,11 @@ export const authOptions: NextAuthOptions = {
           return false
         }
         
+        // 將 email 和 provider 存儲到臨時 Map 中，供 createUser 使用
+        // 這樣在 adapter 創建用戶時就能知道 provider 了
+        pendingUserProviders.set(user.email, account.provider)
+        console.log('[NextAuth SignIn] ✅ Stored provider mapping:', user.email, '->', account.provider)
+        
         // Test database connection
         try {
           await prisma.$connect()
@@ -87,7 +147,7 @@ export const authOptions: NextAuthOptions = {
           if (dbError instanceof Error) {
             console.error('[NextAuth SignIn] Database error message:', dbError.message)
           }
-          // Don't return false here - let PrismaAdapter handle it
+          // Don't return false here - let Custom Adapter handle it
         }
         
         console.log('[NextAuth SignIn] ✅ Allowing sign in')
@@ -98,6 +158,10 @@ export const authOptions: NextAuthOptions = {
         if (error instanceof Error) {
           console.error('[NextAuth SignIn] Error message:', error.message)
           console.error('[NextAuth SignIn] Error stack:', error.stack)
+        }
+        // 清理臨時存儲
+        if (user?.email) {
+          pendingUserProviders.delete(user.email)
         }
         // Return false to prevent sign in on error
         return false
@@ -227,6 +291,19 @@ export const authOptions: NextAuthOptions = {
               session.user.name = dbUser.name
               session.user.image = dbUser.image
               // Don't set userID for guest - this will trigger registration
+              return session
+            }
+
+            // 檢查是否為臨時 userID（以 temp_ 開頭）
+            // 如果是臨時 userID，不設置到 session 中，讓用戶重定向到註冊頁面
+            if (dbUser && dbUser.userID && dbUser.userID.startsWith('temp_')) {
+              console.log('[NextAuth Session] ⚠️ Temporary userID detected:', dbUser.userID)
+              console.log('[NextAuth Session] User needs to register with a permanent userID')
+              // 不設置 userID 到 session，這樣會觸發註冊流程
+              session.user.id = dbUser.id
+              session.user.name = dbUser.name
+              session.user.image = dbUser.image
+              // 不設置 userID，讓前端檢測到沒有 userID 並重定向到註冊頁面
               return session
             }
 

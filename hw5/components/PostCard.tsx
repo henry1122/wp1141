@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
 import { FaHeart, FaComment, FaRetweet, FaTrash, FaEllipsisH } from 'react-icons/fa'
@@ -15,8 +15,85 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
   const router = useRouter()
   const [showMenu, setShowMenu] = useState(false)
   const [showCommentModal, setShowCommentModal] = useState(false)
+  const [showComments, setShowComments] = useState(false)
+  const [comments, setComments] = useState<any[]>([])
+  const [loadingComments, setLoadingComments] = useState(false)
+  // Comments are stored as childPosts in Prisma
+  const [commentCount, setCommentCount] = useState(post._count?.childPosts || post._count?.comments || 0)
 
-  const isOwnPost = session?.user?.id === post.author.id
+  // Update comment count when post prop changes
+  useEffect(() => {
+    setCommentCount(post._count?.childPosts || post._count?.comments || 0)
+  }, [post._count?.childPosts, post._count?.comments])
+
+  // Convert both to strings for comparison (MongoDB ObjectId)
+  const isOwnPost = session?.user?.id && post.author?.id && 
+    session.user.id.toString() === post.author.id.toString()
+
+  // Fetch comments when showing comments
+  const fetchComments = async () => {
+    if (loadingComments) return
+    setLoadingComments(true)
+    try {
+      const res = await fetch(`/api/posts/${post.id}/comments`, {
+        credentials: 'include',
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setComments(data.comments || [])
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error)
+    } finally {
+      setLoadingComments(false)
+    }
+  }
+
+  // Toggle comments visibility
+  const handleToggleComments = () => {
+    if (!showComments && commentCount >= 1) {
+      setShowComments(true)
+      fetchComments()
+    } else {
+      setShowComments(false)
+    }
+  }
+
+  // Listen for comment added events
+  useEffect(() => {
+    const handleCommentAdded = (event: CustomEvent) => {
+      if (event.detail?.parentPostId === post.id) {
+        setCommentCount((prev) => prev + 1)
+        // Add new comment to list if comments are shown
+        if (showComments && event.detail?.comment) {
+          setComments((prev) => [event.detail.comment, ...prev])
+        } else if (showComments) {
+          // Refresh comments if they're currently shown
+          fetchComments()
+        }
+        if (onUpdate) {
+          onUpdate()
+        }
+      }
+    }
+
+    const handleRefresh = () => {
+      if (showComments) {
+        fetchComments()
+      }
+      if (onUpdate) {
+        onUpdate()
+      }
+    }
+
+    window.addEventListener('comment-added', handleCommentAdded as EventListener)
+    window.addEventListener('refresh-posts', handleRefresh)
+
+    return () => {
+      window.removeEventListener('comment-added', handleCommentAdded as EventListener)
+      window.removeEventListener('refresh-posts', handleRefresh)
+    }
+  }, [post.id, onUpdate, showComments])
 
   const handleLike = async () => {
     if (!session?.user?.id) return
@@ -208,11 +285,13 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
             </div>
 
             {/* Post Content */}
-            <div
-              className="mb-3 whitespace-pre-wrap break-words text-foreground"
-              dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
-              onClick={handleContentClick}
-            />
+            {post.content && (
+              <div
+                className="mb-3 whitespace-pre-wrap break-words text-foreground"
+                dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
+                onClick={handleContentClick}
+              />
+            )}
 
             {/* Image */}
             {post.imageUrl && (
@@ -226,11 +305,13 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
             {/* Interactions */}
             <div className="flex items-center space-x-6 text-muted-foreground">
               <button
-                onClick={() => setShowCommentModal(true)}
-                className="flex items-center space-x-2 hover:text-primary transition rounded-full p-2 hover:bg-secondary/50"
+                onClick={handleToggleComments}
+                className={`flex items-center space-x-2 transition rounded-full p-2 hover:bg-secondary/50 ${
+                  showComments ? 'text-primary' : 'hover:text-primary'
+                }`}
               >
                 <FaComment />
-                <span>{post._count.comments}</span>
+                <span>{commentCount}</span>
               </button>
 
               <button
@@ -254,30 +335,68 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
               </button>
             </div>
 
-            {/* Comments Preview */}
-            {post.childPosts && post.childPosts.length > 0 && (
+            {/* Comments Section */}
+            {showComments && commentCount >= 1 && (
               <div className="mt-4 pt-4 border-t border-border">
-                {post.childPosts.slice(0, 2).map((comment: any) => (
-                  <div
-                    key={comment.id}
-                    className="mb-2 text-sm text-muted-foreground cursor-pointer hover:text-foreground transition"
-                    onClick={() => router.push(`/post/${comment.id}`)}
-                  >
-                    <span className="font-semibold text-foreground">
-                      {comment.author.userID}
-                    </span>
-                    {' '}
-                    {comment.content.substring(0, 100)}
-                    {comment.content.length > 100 && '...'}
+                {loadingComments ? (
+                  <div className="text-center py-4 text-muted-foreground">載入留言中...</div>
+                ) : comments.length > 0 ? (
+                  <div className="space-y-4">
+                    {comments.map((comment: any) => (
+                      <div
+                        key={comment.id}
+                        className="flex space-x-3 pb-4 border-b border-border last:border-0"
+                      >
+                        <img
+                          src={comment.author?.image || '/default-avatar.png'}
+                          alt={comment.author?.name || 'User'}
+                          className="w-10 h-10 rounded-full cursor-pointer"
+                          onClick={() => router.push(`/profile/${comment.author?.userID}`)}
+                        />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center space-x-2 mb-1">
+                            <span
+                              className="font-semibold text-foreground cursor-pointer hover:underline"
+                              onClick={() => router.push(`/profile/${comment.author?.userID}`)}
+                            >
+                              {comment.author?.name || 'Unknown'}
+                            </span>
+                            <span className="text-muted-foreground text-sm">
+                              @{comment.author?.userID || 'unknown'}
+                            </span>
+                            <span className="text-muted-foreground text-sm">·</span>
+                            <span className="text-muted-foreground text-sm">
+                              {formatTimeAgo(comment.createdAt)}
+                            </span>
+                          </div>
+                          <div className="text-foreground whitespace-pre-wrap break-words">
+                            {comment.content}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                {post.childPosts.length > 2 && (
-                  <button
-                    onClick={() => router.push(`/post/${post.id}`)}
-                    className="text-sm text-primary hover:underline"
-                  >
-                    View more comments
-                  </button>
+                ) : (
+                  <div className="text-center py-4 text-muted-foreground">尚無留言</div>
+                )}
+                
+                {/* Add Comment Button */}
+                {session?.user?.id && (
+                  <div className="mt-4 pt-4 border-t border-border">
+                    <button
+                      onClick={() => setShowCommentModal(true)}
+                      className="w-full text-left px-4 py-3 bg-secondary hover:bg-secondary/80 rounded-lg transition text-foreground"
+                    >
+                      <div className="flex items-center space-x-3">
+                        <img
+                          src={session.user.image || '/default-avatar.png'}
+                          alt={session.user.name || 'User'}
+                          className="w-8 h-8 rounded-full"
+                        />
+                        <span className="text-muted-foreground">寫下你的留言...</span>
+                      </div>
+                    </button>
+                  </div>
                 )}
               </div>
             )}

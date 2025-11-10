@@ -46,7 +46,7 @@ export default function PostDetail() {
     return (
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 ml-64 flex items-center justify-center">
           <div className="text-xl">Loading...</div>
         </div>
       </div>
@@ -57,7 +57,7 @@ export default function PostDetail() {
     return (
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-1 ml-64 flex items-center justify-center">
           <div className="text-xl">Post not found</div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function PostDetail() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <div className="flex-1 border-x border-dark-border">
+      <div className="flex-1 ml-64 border-x border-dark-border">
         {/* Header */}
         <div className="sticky top-0 bg-dark/80 backdrop-blur-md border-b border-dark-border z-10">
           <div className="flex items-center space-x-4 p-4">

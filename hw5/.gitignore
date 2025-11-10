@@ -38,4 +38,37 @@ next-env.d.ts
 # prisma
 /prisma/migrations
 
+# test/debug scripts
+check-db-password.js
+check-oauth-config.js
+diagnose-mongodb.js
+test-db-connection.js
+test-multiple-configs.js
+test-password-encoding.js
+
+# temporary scripts
+fix_rebase.ps1
+fix_secrets.sh
+restart-server.ps1
+
+# chat history
+chat-history/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# TypeScript build info
+*.tsbuildinfo
+
+# logs
+*.log
+logs/
 

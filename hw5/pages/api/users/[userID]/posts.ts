@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               _count: {
                 select: {
-                  comments: true,
+                  childPosts: true, // Comments are stored as child posts
                   likes: true,
                   reposts: true,
                 },
@@ -139,9 +139,38 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           liked: likedSet.has(post.id),
           reposted: repostedSet.has(post.id),
         }))
+      } else {
+        // Add default values if not logged in
+        posts = posts.map((post) => ({
+          ...post,
+          liked: false,
+          reposted: false,
+        }))
       }
 
-      return res.status(200).json({ posts })
+      // Ensure all posts have required fields
+      const formattedPosts = posts.map((post) => ({
+        id: post.id,
+        content: post.content || '',
+        author: post.author || {
+          id: '',
+          name: 'Unknown',
+          userID: 'unknown',
+          image: null,
+        },
+        createdAt: post.createdAt,
+        imageUrl: post.imageUrl || null,
+        _count: post._count || {
+          comments: 0,
+          likes: 0,
+          reposts: 0,
+        },
+        liked: post.liked || false,
+        reposted: post.reposted || false,
+        isRepost: post.isRepost || false,
+      }))
+
+      return res.status(200).json({ posts: formattedPosts })
     } catch (error) {
       console.error('Error fetching user posts:', error)
       return res.status(500).json({ error: 'Internal server error' })

@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
           _count: {
             select: {
-              comments: true,
+              childPosts: true, // Comments are stored as child posts
               likes: true,
               reposts: true,
             },
@@ -39,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               },
               _count: {
                 select: {
-                  comments: true,
+                  childPosts: true, // Comments are stored as child posts
                   likes: true,
                   reposts: true,
                 },

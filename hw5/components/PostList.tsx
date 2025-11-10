@@ -24,11 +24,59 @@ export default function PostList({ type = 'all', userID, postType = 'posts' }: P
         url = `/api/posts?type=${type}`
       }
 
-      const res = await fetch(url)
+      const res = await fetch(url, {
+        credentials: 'include', // Include cookies for session
+      })
+      
+      if (!res.ok) {
+        console.error('Failed to fetch posts:', res.status, res.statusText)
+        const errorData = await res.json().catch(() => ({}))
+        console.error('Error data:', errorData)
+        setPosts([])
+        return
+      }
+      
       const data = await res.json()
-      setPosts(data.posts || [])
+      console.log('Fetched posts:', data.posts?.length || 0, 'posts')
+      
+      // Log comment counts for debugging
+      if (data.posts && data.posts.length > 0) {
+        console.log('Post comment counts:', data.posts.map((p: any) => ({
+          id: p.id,
+          content: p.content?.substring(0, 20),
+          childPosts: p._count?.childPosts,
+          comments: p._count?.comments,
+        })))
+      }
+      
+      // Ensure posts have all required fields
+      const validPosts = (data.posts || []).filter((post: any) => {
+        if (!post || !post.id) {
+          console.warn('Invalid post (missing id):', post)
+          return false
+        }
+        if (!post.content) {
+          console.warn('Post missing content:', post.id)
+        }
+        if (!post.author) {
+          console.warn('Post missing author:', post.id)
+        }
+        // Normalize comment count - use childPosts if available, fallback to comments
+        if (post._count) {
+          if (post._count.childPosts !== undefined && post._count.comments === undefined) {
+            post._count.comments = post._count.childPosts
+          } else if (post._count.comments !== undefined && post._count.childPosts === undefined) {
+            post._count.childPosts = post._count.comments
+          }
+        }
+        return true
+      })
+      
+      console.log('Valid posts:', validPosts.length)
+      setPosts(validPosts)
     } catch (error) {
       console.error('Error fetching posts:', error)
+      setPosts([])
     } finally {
       setLoading(false)
     }
@@ -71,15 +119,19 @@ export default function PostList({ type = 'all', userID, postType = 'posts' }: P
       })
 
       channel.bind('new-comment', (data: any) => {
+        console.log('Received new-comment event:', data)
         // Update comment count for parent post
         setPosts((prevPosts) =>
           prevPosts.map((post) => {
             if (post.id === data.parentPostId) {
+              const currentCount = post._count?.childPosts || post._count?.comments || 0
+              console.log(`Updating comment count for post ${post.id}: ${currentCount} -> ${currentCount + 1}`)
               return {
                 ...post,
                 _count: {
                   ...post._count,
-                  comments: (post._count?.comments || 0) + 1,
+                  childPosts: currentCount + 1,
+                  comments: currentCount + 1, // Keep both for backward compatibility
                 },
               }
             }

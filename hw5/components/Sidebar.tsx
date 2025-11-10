@@ -59,7 +59,11 @@ export default function Sidebar() {
 
           <button
             onClick={() => navigateTo(`/profile/${session?.user?.userID}`)}
-            className={`w-full flex items-center space-x-4 px-4 py-3 rounded-full transition hover:bg-secondary text-foreground`}
+            className={`w-full flex items-center space-x-4 px-4 py-3 rounded-full transition ${
+              router.pathname.startsWith('/profile/')
+                ? 'bg-primary text-primary-foreground font-semibold'
+                : 'hover:bg-secondary text-foreground'
+            }`}
           >
             <FaUser className="text-xl" />
             <span className="text-lg">Profile</span>

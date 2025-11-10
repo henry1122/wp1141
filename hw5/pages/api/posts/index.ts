@@ -46,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
             _count: {
               select: {
-                comments: true,
+                childPosts: true, // Comments are stored as child posts
                 likes: true,
                 reposts: true,
               },
@@ -72,7 +72,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             },
             _count: {
               select: {
-                comments: true,
+                childPosts: true, // Comments are stored as child posts
                 likes: true,
                 reposts: true,
               },
@@ -169,7 +169,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           },
           _count: {
             select: {
-              comments: true,
+              childPosts: true, // Comments are stored as child posts
               likes: true,
               reposts: true,
             },
@@ -189,14 +189,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         })
 
         if (parentPostId) {
-          // This is a comment
+          // This is a comment - get updated comment count
+          const commentCount = await prisma.post.count({
+            where: { parentPostId: post.parentPostId || parentPostId },
+          })
+          
+          console.log('Triggering new-comment event for parentPostId:', parentPostId, 'commentCount:', commentCount)
+          
           pusher.trigger('my-x-channel', 'new-comment', {
             post: {
               ...post,
               liked: false,
               reposted: false,
             },
-            parentPostId,
+            parentPostId: parentPostId,
+            commentCount: commentCount,
           })
         } else {
           // This is a new post

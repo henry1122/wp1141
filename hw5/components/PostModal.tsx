@@ -42,9 +42,34 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
       })
 
       if (res.ok) {
-        onClose()
-        // Reload to show the new post/comment
-        window.location.reload()
+        const data = await res.json()
+        
+        // If this is a comment, trigger update without full reload
+        if (parentPostId) {
+          // Close modal first
+          onClose()
+          
+          // Trigger a custom event to update comment count
+          window.dispatchEvent(new CustomEvent('comment-added', {
+            detail: { parentPostId, comment: data.post }
+          }))
+          
+          // Also try to update via callback if available
+          // Small delay to ensure modal is closed
+          setTimeout(() => {
+            // Try to refresh the post list if we're on a post detail page
+            if (window.location.pathname.startsWith('/post/')) {
+              window.location.reload()
+            } else {
+              // On home/feed page, just trigger a refresh
+              window.dispatchEvent(new CustomEvent('refresh-posts'))
+            }
+          }, 100)
+        } else {
+          // For new posts, reload the page
+          onClose()
+          window.location.reload()
+        }
       } else {
         const data = await res.json()
         alert(data.error || '發布失敗，請重試')

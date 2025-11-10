@@ -67,13 +67,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(403).json({ error: 'Forbidden' })
       }
 
-      const { bio, coverImage } = req.body
+      const { bio, coverImage, image } = req.body
 
       const updatedUser = await prisma.user.update({
         where: { id: user.id },
         data: {
           ...(bio !== undefined && { bio }),
           ...(coverImage !== undefined && { coverImage }),
+          ...(image !== undefined && { image }),
         },
       })
 
