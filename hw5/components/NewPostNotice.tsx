@@ -29,7 +29,8 @@ export default function NewPostNotice({ onDismiss }: NewPostNoticeProps) {
         })
         if (res.ok) {
           const data = await res.json()
-          const ids = new Set(data.following?.map((u: any) => u.id) || [])
+          const following = data.following || []
+          const ids = new Set<string>(following.map((u: any) => String(u.id)).filter(Boolean))
           setFollowingIds(ids)
         }
       } catch (error) {

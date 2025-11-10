@@ -131,12 +131,14 @@ npm run dev
 2. 建立新專案
 3. 啟用 Google+ API
 4. 建立 OAuth 2.0 憑證
-5. 設定授權重新導向 URI：
+5. 設定授權重新導向 URI（**必須同時添加本地和生產環境**）：
    - 本地開發: `http://localhost:3000/api/auth/callback/google`
-   - 生產環境: `https://your-domain.vercel.app/api/auth/callback/google`
-6. 設定授權的 JavaScript 來源：
+   - 生產環境: `https://wp1141-kappa.vercel.app/api/auth/callback/google`
+   - ⚠️ **重要：** 兩個都要添加，不能只添加一個
+6. 設定授權的 JavaScript 來源（**必須同時添加本地和生產環境**）：
    - 本地開發: `http://localhost:3000`
-   - 生產環境: `https://your-domain.vercel.app`
+   - 生產環境: `https://wp1141-kappa.vercel.app`
+   - ⚠️ **重要：** 兩個都要添加，不能只添加一個
 
 #### GitHub OAuth
 
