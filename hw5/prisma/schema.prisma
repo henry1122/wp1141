@@ -47,7 +47,7 @@ model User {
   emailVerified DateTime?
   image         String?
   userID        String    @unique // Custom userID for login
-  provider      String    // OAuth provider (google, github, facebook)
+  provider      String    // OAuth provider (google, github)
   bio           String?
   coverImage    String?
   createdAt     DateTime  @default(now())
