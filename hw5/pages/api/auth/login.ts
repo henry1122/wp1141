@@ -30,8 +30,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // If user has credentials provider, we need to create a proper NextAuth session
-    // For now, we'll return user info and let the frontend handle it
-    // The frontend will need to manually set up the session or use a workaround
     if (user.provider === 'credentials' || user.accounts[0]?.provider === 'credentials') {
       // Return user info - frontend will handle session creation
       return res.status(200).json({
@@ -45,17 +43,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           provider: 'credentials',
         },
         message: 'Login successful - please use OAuth or create session manually',
-        // For development: we can create a simple session
         needsManualSession: true,
       })
     }
 
-    // For OAuth users, return user info (frontend will handle OAuth signIn)
+    // For OAuth users, return user info with provider info
+    // Frontend will use this to trigger OAuth signIn with the correct provider
     if (!user.accounts.length) {
       return res.status(404).json({ error: 'No account found for this userID' })
     }
 
-    return res.status(200).json({ user })
+    const provider = user.accounts[0].provider
+    
+    return res.status(200).json({ 
+      success: true,
+      user: {
+        id: user.id,
+        userID: user.userID,
+        email: user.email,
+        name: user.name,
+        image: user.image,
+        provider: provider,
+      },
+      provider: provider, // Tell frontend which provider to use
+      needsOAuthSignIn: true, // Frontend should trigger OAuth signIn
+    })
   } catch (error) {
     console.error('Login error:', error)
     

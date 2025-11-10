@@ -101,26 +101,26 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-dark rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+      <div className="bg-background rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-xl border border-border">
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-dark-border">
+        <div className="flex items-center justify-between p-4 border-b border-border">
           <button
             onClick={handleDiscard}
-            className="text-gray-400 hover:text-white transition"
+            className="text-muted-foreground hover:text-foreground transition rounded-full p-2 hover:bg-secondary"
           >
             <FaTimes className="text-xl" />
           </button>
           <div className="flex items-center space-x-4">
             <button
               onClick={handleLoadDrafts}
-              className="text-primary hover:text-primary/80 transition"
+              className="text-primary hover:text-primary/80 transition px-3 py-2 rounded-full hover:bg-secondary"
             >
               Drafts
             </button>
             <button
               onClick={handlePost}
               disabled={!canPost || loading}
-              className="bg-primary text-white px-6 py-2 rounded-full font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-primary text-primary-foreground px-6 py-2 rounded-full font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               {loading ? 'Posting...' : 'Post'}
             </button>
@@ -131,29 +131,29 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
         <div className="flex-1 p-4 overflow-y-auto">
           {showDrafts ? (
             <div className="space-y-4">
-              <h2 className="text-xl font-bold mb-4">Drafts</h2>
+              <h2 className="text-xl font-bold mb-4 text-foreground">Drafts</h2>
               {drafts.length === 0 ? (
-                <p className="text-gray-400">No drafts</p>
+                <p className="text-muted-foreground">No drafts</p>
               ) : (
                 drafts.map((draft) => (
                   <div
                     key={draft.id}
-                    className="bg-dark-hover p-4 rounded-lg flex items-center justify-between"
+                    className="bg-secondary p-4 rounded-lg flex items-center justify-between border border-border"
                   >
-                    <p className="flex-1">{draft.content.substring(0, 100)}...</p>
+                    <p className="flex-1 text-foreground">{draft.content.substring(0, 100)}...</p>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => {
                           setContent(draft.content)
                           setShowDrafts(false)
                         }}
-                        className="text-primary hover:text-primary/80"
+                        className="text-primary hover:text-primary/80 px-3 py-1 rounded hover:bg-secondary"
                       >
                         Load
                       </button>
                       <button
                         onClick={() => handleDeleteDraft(draft.id)}
-                        className="text-red-500 hover:text-red-400"
+                        className="text-destructive hover:text-destructive/80 px-3 py-1 rounded hover:bg-secondary"
                       >
                         Delete
                       </button>
@@ -167,19 +167,22 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
               value={content}
               onChange={(e) => {
                 const newContent = e.target.value
-                // Allow typing but check length before posting
-                setContent(newContent)
+                // Check length and prevent typing if over limit (except for hashtags/mentions)
+                const testLength = calculatePostLength(newContent)
+                if (testLength <= maxLength || newContent.length <= content.length) {
+                  setContent(newContent)
+                }
               }}
               placeholder="What's happening?"
-              className="w-full bg-transparent resize-none outline-none text-lg min-h-[200px]"
+              className="w-full bg-transparent resize-none outline-none text-lg min-h-[200px] text-foreground placeholder:text-muted-foreground"
             />
           )}
         </div>
 
         {/* Footer */}
         {!showDrafts && (
-          <div className="p-4 border-t border-dark-border flex items-center justify-between">
-            <div className={`text-sm ${length > maxLength ? 'text-red-500' : length > maxLength * 0.9 ? 'text-yellow-500' : 'text-gray-400'}`}>
+          <div className="p-4 border-t border-border flex items-center justify-between">
+            <div className={`text-sm ${length > maxLength ? 'text-destructive' : length > maxLength * 0.9 ? 'text-yellow-600' : 'text-muted-foreground'}`}>
               {length}/{maxLength}
             </div>
           </div>
@@ -188,15 +191,15 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
         {/* Discard Confirmation */}
         {showDiscardConfirm && (
           <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-60">
-            <div className="bg-dark rounded-2xl p-6 max-w-md w-full mx-4">
-              <h3 className="text-xl font-bold mb-4">Discard post?</h3>
-              <p className="text-gray-400 mb-6">
+            <div className="bg-background rounded-2xl p-6 max-w-md w-full mx-4 border border-border shadow-xl">
+              <h3 className="text-xl font-bold mb-4 text-foreground">Discard post?</h3>
+              <p className="text-muted-foreground mb-6">
                 This can&apos;t be undone and you&apos;ll lose your draft.
               </p>
               <div className="flex space-x-4">
                 <button
                   onClick={handleSaveDraft}
-                  className="flex-1 bg-dark-hover border border-dark-border py-3 rounded-full font-semibold hover:bg-dark-border transition"
+                  className="flex-1 bg-secondary border border-border py-3 rounded-full font-semibold hover:bg-secondary/80 transition text-foreground"
                 >
                   Save draft
                 </button>
@@ -205,7 +208,7 @@ export default function PostModal({ onClose, initialContent = '', parentPostId }
                     setShowDiscardConfirm(false)
                     onClose()
                   }}
-                  className="flex-1 bg-red-500 text-white py-3 rounded-full font-semibold hover:bg-red-600 transition"
+                  className="flex-1 bg-destructive text-destructive-foreground py-3 rounded-full font-semibold hover:opacity-90 transition"
                 >
                   Discard
                 </button>

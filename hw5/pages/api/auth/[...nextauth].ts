@@ -6,6 +6,17 @@ const handler = NextAuth(authOptions)
 
 export default async function authHandler(req: any, res: any) {
   try {
+    // Log request details for debugging
+    if (req.method === 'GET' && req.url?.includes('/callback')) {
+      console.log('[NextAuth API] ===== Callback Request =====')
+      console.log('[NextAuth API] URL:', req.url)
+      console.log('[NextAuth API] Query:', req.query)
+      console.log('[NextAuth API] NEXTAUTH_URL:', process.env.NEXTAUTH_URL)
+      console.log('[NextAuth API] NEXTAUTH_SECRET:', process.env.NEXTAUTH_SECRET ? 'Set' : 'Missing')
+      console.log('[NextAuth API] GITHUB_ID:', process.env.GITHUB_ID ? 'Set' : 'Missing')
+      console.log('[NextAuth API] GITHUB_SECRET:', process.env.GITHUB_SECRET ? 'Set' : 'Missing')
+    }
+    
     return await handler(req, res)
   } catch (error) {
     console.error('❌ NextAuth API Error:', error)

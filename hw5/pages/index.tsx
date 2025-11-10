@@ -20,8 +20,9 @@ export default function Home() {
       return
     }
     
-    // If authenticated but no userID, redirect to register
+    // If authenticated but no userID, redirect to register to input userID
     if (status === 'authenticated' && session && !session.user?.userID) {
+      console.log('[Home] User authenticated but no userID, redirecting to register')
       router.push('/auth/register')
       return
     }
@@ -53,9 +54,9 @@ export default function Home() {
   }
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 border-x border-dark-border">
+      <div className="flex-1 border-x border-border ml-64">
         <HomeFeed />
       </div>
     </div>

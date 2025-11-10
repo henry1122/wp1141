@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { userIDSchema } from '@/lib/auth'
+import { userIDSchema } from '@/lib/userID'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 
@@ -164,7 +164,7 @@ export default function Register() {
           <div className="bg-dark-hover rounded-2xl p-8 space-y-6 shadow-lg text-center">
             <h1 className="text-3xl font-bold mb-2">Please Sign In First</h1>
             <p className="text-gray-400 mb-6">
-              You need to sign in with Google, GitHub, or Facebook before you can create your account.
+              You need to sign in with Google or GitHub before you can create your account.
             </p>
             <button
               onClick={() => router.push('/auth/signin')}
@@ -191,17 +191,17 @@ export default function Register() {
   // This is the correct state for new users
   if (status === 'authenticated' && session && !session.user?.userID) {
     return (
-    <div className="flex items-center justify-center min-h-screen bg-dark py-8 px-4">
+    <div className="flex items-center justify-center min-h-screen bg-background py-8 px-4">
       <div className="w-full max-w-md">
-        <div className="bg-dark-hover rounded-2xl p-8 space-y-6 shadow-lg">
+        <div className="bg-background border border-border rounded-2xl p-8 space-y-6 shadow-lg">
           <div className="text-center">
-            <h1 className="text-3xl font-bold mb-2">Create your account</h1>
-            <p className="text-gray-400">Choose your userID</p>
+            <h1 className="text-3xl font-bold mb-2 text-foreground">Create your account</h1>
+            <p className="text-muted-foreground">Choose your userID</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
-              <label htmlFor="userID" className="block text-sm font-medium mb-2 text-white">
+              <label htmlFor="userID" className="block text-sm font-medium mb-2 text-foreground">
                 UserID
               </label>
               <input
@@ -209,27 +209,27 @@ export default function Register() {
                 type="text"
                 id="userID"
                 autoFocus
-                className="w-full bg-dark border border-dark-border rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                className="w-full bg-background border border-border rounded-lg px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
                 placeholder="e.g. ric2k1"
               />
               {errors.userID && (
-                <p className="mt-1 text-sm text-red-500">{errors.userID.message}</p>
+                <p className="mt-1 text-sm text-destructive">{errors.userID.message}</p>
               )}
-              <p className="mt-1 text-xs text-gray-400">
+              <p className="mt-1 text-xs text-muted-foreground">
                 3-20 characters, alphanumeric and underscore only
               </p>
             </div>
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500 rounded-lg p-3">
-                <p className="text-sm text-red-500">{error}</p>
+              <div className="bg-destructive/10 border border-destructive rounded-lg p-3">
+                <p className="text-sm text-destructive">{error}</p>
               </div>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary text-white py-3 px-4 rounded-full font-semibold hover:bg-primary/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-primary text-primary-foreground py-3 px-4 rounded-full font-semibold hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
             >
               {loading ? 'Creating account...' : 'Continue'}
             </button>

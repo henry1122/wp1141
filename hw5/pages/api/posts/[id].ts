@@ -97,7 +97,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'DELETE') {
     try {
+      console.log('[DELETE Post] Starting delete request for post:', id)
+      console.log('[DELETE Post] Session:', session ? 'exists' : 'missing', 'User ID:', session?.user?.id)
+      
       if (!session?.user?.id) {
+        console.log('[DELETE Post] Unauthorized: No session or user ID')
         return res.status(401).json({ error: 'Unauthorized' })
       }
 
@@ -105,21 +109,41 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: { id: id as string },
       })
 
+      console.log('[DELETE Post] Post found:', !!post, 'Post authorId:', post?.authorId, 'Session user.id:', session.user.id)
+
       if (!post) {
+        console.log('[DELETE Post] Post not found')
         return res.status(404).json({ error: 'Post not found' })
       }
 
-      if (post.authorId !== session.user.id) {
+      // Convert both to strings for comparison to handle ObjectId type issues
+      const postAuthorId = String(post.authorId)
+      const sessionUserId = String(session.user.id)
+      
+      console.log('[DELETE Post] Comparing authorId:', postAuthorId, 'with session userId:', sessionUserId)
+
+      if (postAuthorId !== sessionUserId) {
+        console.log('[DELETE Post] Forbidden: User is not the author')
         return res.status(403).json({ error: 'Forbidden' })
       }
 
+      console.log('[DELETE Post] Attempting to delete post')
       await prisma.post.delete({
         where: { id: id as string },
       })
 
+      console.log('[DELETE Post] Post deleted successfully')
       return res.status(200).json({ success: true })
     } catch (error) {
-      console.error('Error deleting post:', error)
+      console.error('[DELETE Post] Error deleting post:', error)
+      if (error instanceof Error) {
+        console.error('[DELETE Post] Error message:', error.message)
+        console.error('[DELETE Post] Error stack:', error.stack)
+        return res.status(500).json({ 
+          error: 'Internal server error',
+          message: error.message 
+        })
+      }
       return res.status(500).json({ error: 'Internal server error' })
     }
   }

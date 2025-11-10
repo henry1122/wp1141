@@ -151,13 +151,13 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
 
   return (
     <>
-      <div className="border-b border-dark-border p-4 hover:bg-dark-hover/50 transition">
+      <div className="border-b border-border p-4 hover:bg-secondary/30 transition bg-background">
         <div className="flex space-x-3">
           {/* Avatar */}
           <img
             src={post.author.image || '/default-avatar.png'}
             alt={post.author.name}
-            className="w-12 h-12 rounded-full cursor-pointer"
+            className="w-12 h-12 rounded-full cursor-pointer border border-border"
             onClick={handleAuthorClick}
           />
 
@@ -167,37 +167,37 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center space-x-2">
                 <span
-                  className="font-semibold cursor-pointer hover:underline"
+                  className="font-semibold cursor-pointer hover:underline text-foreground"
                   onClick={handleAuthorClick}
                 >
                   {post.author.name}
                 </span>
                 <span
-                  className="text-gray-400 cursor-pointer hover:underline"
+                  className="text-muted-foreground cursor-pointer hover:underline"
                   onClick={handleAuthorClick}
                 >
                   @{post.author.userID}
                 </span>
-                <span className="text-gray-400">·</span>
-                <span className="text-gray-400">{formatTimeAgo(post.createdAt)}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-muted-foreground">{formatTimeAgo(post.createdAt)}</span>
               </div>
 
               {isOwnPost && !post.isRepost && (
                 <div className="relative">
                   <button
                     onClick={() => setShowMenu(!showMenu)}
-                    className="text-gray-400 hover:text-white transition"
+                    className="text-muted-foreground hover:text-foreground transition rounded-full p-2 hover:bg-secondary"
                   >
                     <FaEllipsisH />
                   </button>
                   {showMenu && (
-                    <div className="absolute right-0 top-8 bg-dark-hover border border-dark-border rounded-lg shadow-lg overflow-hidden z-10">
+                    <div className="absolute right-0 top-8 bg-background border border-border rounded-lg shadow-lg overflow-hidden z-10">
                       <button
                         onClick={() => {
                           handleDelete()
                           setShowMenu(false)
                         }}
-                        className="w-full text-left px-4 py-2 text-red-500 hover:bg-dark transition"
+                        className="w-full text-left px-4 py-2 text-destructive hover:bg-secondary transition"
                       >
                         Delete
                       </button>
@@ -209,7 +209,7 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
 
             {/* Post Content */}
             <div
-              className="mb-3 whitespace-pre-wrap break-words"
+              className="mb-3 whitespace-pre-wrap break-words text-foreground"
               dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
               onClick={handleContentClick}
             />
@@ -219,15 +219,15 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
               <img
                 src={post.imageUrl}
                 alt="Post"
-                className="rounded-2xl mb-3 max-w-full"
+                className="rounded-xl mb-3 max-w-full border border-border"
               />
             )}
 
             {/* Interactions */}
-            <div className="flex items-center space-x-6 text-gray-400">
+            <div className="flex items-center space-x-6 text-muted-foreground">
               <button
                 onClick={() => setShowCommentModal(true)}
-                className="flex items-center space-x-2 hover:text-primary transition"
+                className="flex items-center space-x-2 hover:text-primary transition rounded-full p-2 hover:bg-secondary/50"
               >
                 <FaComment />
                 <span>{post._count.comments}</span>
@@ -235,8 +235,8 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
 
               <button
                 onClick={handleRepost}
-                className={`flex items-center space-x-2 transition ${
-                  post.reposted ? 'text-green-500' : 'hover:text-green-500'
+                className={`flex items-center space-x-2 transition rounded-full p-2 hover:bg-secondary/50 ${
+                  post.reposted ? 'text-green-600' : 'hover:text-green-600'
                 }`}
               >
                 <FaRetweet />
@@ -245,8 +245,8 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
 
               <button
                 onClick={handleLike}
-                className={`flex items-center space-x-2 transition ${
-                  post.liked ? 'text-red-500' : 'hover:text-red-500'
+                className={`flex items-center space-x-2 transition rounded-full p-2 hover:bg-secondary/50 ${
+                  post.liked ? 'text-red-600' : 'hover:text-red-600'
                 }`}
               >
                 <FaHeart className={post.liked ? 'fill-current' : ''} />
@@ -256,14 +256,14 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
 
             {/* Comments Preview */}
             {post.childPosts && post.childPosts.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-dark-border">
+              <div className="mt-4 pt-4 border-t border-border">
                 {post.childPosts.slice(0, 2).map((comment: any) => (
                   <div
                     key={comment.id}
-                    className="mb-2 text-sm text-gray-400 cursor-pointer hover:text-white transition"
+                    className="mb-2 text-sm text-muted-foreground cursor-pointer hover:text-foreground transition"
                     onClick={() => router.push(`/post/${comment.id}`)}
                   >
-                    <span className="font-semibold text-white">
+                    <span className="font-semibold text-foreground">
                       {comment.author.userID}
                     </span>
                     {' '}
