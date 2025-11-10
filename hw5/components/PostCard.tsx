@@ -63,10 +63,10 @@ export default function PostCard({ post, onUpdate }: PostCardProps) {
   useEffect(() => {
     const handleCommentAdded = (event: CustomEvent) => {
       if (event.detail?.parentPostId === post.id) {
-        setCommentCount((prev) => prev + 1)
+        setCommentCount((prev: number) => prev + 1)
         // Add new comment to list if comments are shown
         if (showComments && event.detail?.comment) {
-          setComments((prev) => [event.detail.comment, ...prev])
+          setComments((prev: any[]) => [event.detail.comment, ...prev])
         } else if (showComments) {
           // Refresh comments if they're currently shown
           fetchComments()
