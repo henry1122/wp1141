@@ -77,7 +77,9 @@ async function processMessage(event: WebhookEvent): Promise<void> {
   }
 
   // Save user message
-  await conversationService.addMessage(conversation._id.toString(), {
+  const conversationId = (conversation._id as unknown as string).toString()
+
+  await conversationService.addMessage(conversationId, {
     role: 'user',
     content: userMessage,
     timestamp: new Date(),
@@ -89,7 +91,7 @@ async function processMessage(event: WebhookEvent): Promise<void> {
 
   // Get recent messages for context (last 10 messages)
   const recentMessages = await conversationService.getRecentMessages(
-    conversation._id.toString(),
+    conversationId,
     10
   )
 
@@ -135,7 +137,7 @@ async function processMessage(event: WebhookEvent): Promise<void> {
   }
 
   // Save assistant response
-  await conversationService.addMessage(conversation._id.toString(), {
+  await conversationService.addMessage(conversationId, {
     role: 'assistant',
     content: assistantResponse,
     timestamp: new Date(),
