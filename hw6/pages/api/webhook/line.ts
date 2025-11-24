@@ -169,8 +169,10 @@ async function getRawBody(req: NextApiRequest): Promise<string> {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  // LINE Webhook 驗證（按下 Verify 時）有機會以 GET 發送請求
+  // 為了通過驗證，對於非 POST 請求直接回傳 200
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
+    return res.status(200).json({ message: 'OK' })
   }
 
   try {
