@@ -21,6 +21,58 @@ const FALLBACK_RESPONSES = {
   error: '發生了一些錯誤，但我會繼續努力為你服務。請稍後再試。',
 }
 
+// Shared quick reply actions，用於所有回覆訊息
+function buildQuickReplyMessage(text: string): TextMessage {
+  return {
+    type: 'text',
+    text,
+    quickReply: {
+      items: [
+        {
+          type: 'action',
+          action: {
+            type: 'message',
+            label: '📚 學習計畫',
+            text: '學習計畫',
+          },
+        },
+        {
+          type: 'action',
+          action: {
+            type: 'message',
+            label: '📝 整理課程重點',
+            text: '重點整理',
+          },
+        },
+        {
+          type: 'action',
+          action: {
+            type: 'message',
+            label: '🧩 小測驗',
+            text: '測驗',
+          },
+        },
+        {
+          type: 'action',
+          action: {
+            type: 'message',
+            label: '❓ 使用說明',
+            text: '幫助',
+          },
+        },
+        {
+          type: 'action',
+          action: {
+            type: 'message',
+            label: '🔚 結束對話',
+            text: '結束對話',
+          },
+        },
+      ],
+    },
+  }
+}
+
 function handleTextMessage(event: WebhookEvent): string {
   const text = lineService.extractTextMessage(event)
   if (!text) {
@@ -83,10 +135,10 @@ async function processMessage(event: WebhookEvent): Promise<void> {
 
   if (!userMessage) {
     // Handle non-text messages
-    await lineService.replyMessage(replyToken, {
-      type: 'text',
-      text: '目前我只支援文字訊息，請傳送文字訊息給我。',
-    })
+    await lineService.replyMessage(
+      replyToken,
+      buildQuickReplyMessage('目前我只支援文字訊息，請傳送文字訊息給我。')
+    )
     return
   }
 
@@ -128,10 +180,7 @@ async function processMessage(event: WebhookEvent): Promise<void> {
       },
     })
 
-    await lineService.replyMessage(replyToken, {
-      type: 'text',
-      text: endMessage,
-    })
+    await lineService.replyMessage(replyToken, buildQuickReplyMessage(endMessage))
 
     return
   }
@@ -194,10 +243,7 @@ async function processMessage(event: WebhookEvent): Promise<void> {
   })
 
   // Reply to user
-  await lineService.replyMessage(replyToken, {
-    type: 'text',
-    text: assistantResponse,
-  } as TextMessage)
+  await lineService.replyMessage(replyToken, buildQuickReplyMessage(assistantResponse))
 }
 
 async function getRawBody(req: NextApiRequest): Promise<string> {
@@ -252,57 +298,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const replyToken = lineService.getReplyToken(event)
 
         if (userId && replyToken) {
-          await lineService.replyMessage(
-            replyToken,
-            {
-              type: 'text',
-              text: FALLBACK_RESPONSES.greeting,
-              quickReply: {
-                items: [
-                  {
-                    type: 'action',
-                    action: {
-                      type: 'message',
-                      label: '📚 學習計畫',
-                      text: '學習計畫',
-                    },
-                  },
-                  {
-                    type: 'action',
-                    action: {
-                      type: 'message',
-                      label: '📝 整理課程重點',
-                      text: '重點整理',
-                    },
-                  },
-                  {
-                    type: 'action',
-                    action: {
-                      type: 'message',
-                      label: '🧩 小測驗',
-                      text: '測驗',
-                    },
-                  },
-                  {
-                    type: 'action',
-                    action: {
-                      type: 'message',
-                      label: '❓ 使用說明',
-                      text: '幫助',
-                    },
-                  },
-                  {
-                    type: 'action',
-                    action: {
-                      type: 'message',
-                      label: '🔚 結束對話',
-                      text: '結束對話',
-                    },
-                  },
-                ],
-              },
-            } as TextMessage
-          )
+          await lineService.replyMessage(replyToken, buildQuickReplyMessage(FALLBACK_RESPONSES.greeting))
         }
       }
     }
