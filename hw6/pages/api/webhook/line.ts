@@ -89,6 +89,39 @@ async function processMessage(event: WebhookEvent): Promise<void> {
     },
   })
 
+  // Check for end-conversation command from user
+  const normalizedText = userMessage.trim().toLowerCase()
+  const cleanedText = normalizedText.replace(/[\s!！。．,，]/g, '')
+  const isEndCommand =
+    cleanedText === '結束' ||
+    cleanedText === '結束對話' ||
+    cleanedText === 'end' ||
+    cleanedText === 'endchat' ||
+    cleanedText === 'stop'
+
+  if (isEndCommand) {
+    await conversationService.endConversation(conversationId)
+
+    const endMessage =
+      '已為你結束這次對話 ✅\n\n若想重新開始，只要再傳一則新訊息給我，我會自動開啟新的對話。'
+
+    await conversationService.addMessage(conversationId, {
+      role: 'assistant',
+      content: endMessage,
+      timestamp: new Date(),
+      metadata: {
+        system: 'conversation_ended_by_user',
+      },
+    })
+
+    await lineService.replyMessage(replyToken, {
+      type: 'text',
+      text: endMessage,
+    })
+
+    return
+  }
+
   // Get recent messages for context (last 10 messages)
   const recentMessages = await conversationService.getRecentMessages(
     conversationId,

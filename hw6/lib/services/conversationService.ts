@@ -172,10 +172,13 @@ export class ConversationService {
       { upsert: true, new: true }
     )
 
-    // Update total users count
-    if (event === 'conversation_created') {
-      const userCount = await User.countDocuments()
-      stats.totalUsers = userCount
+    // Update today's active user count:
+    // 計算「今天有互動的不同使用者數量」，不管是新使用者還是舊使用者再次使用
+    if (stats && (event === 'message_added' || event === 'conversation_created')) {
+      const activeUserIds = await Conversation.distinct('lineUserId', {
+        updatedAt: { $gte: today },
+      })
+      stats.totalUsers = activeUserIds.length
       await stats.save()
     }
   }
