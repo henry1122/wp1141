@@ -14,7 +14,8 @@ export const config = {
 
 // Fallback responses when LLM is unavailable
 const FALLBACK_RESPONSES = {
-  greeting: '你好！我是你的「AI 筆記助理」。請把會議記錄、課程筆記或任何想法貼給我，我會幫你整理成結構化的重點筆記！\n\n試試看：傳送一段長文字給我。',
+  greeting:
+    '你好！我是你的「AI 教學與筆記助理」📚\n\n我可以幫你：\n- 整理課程重點與筆記\n- 規劃學習/讀書計畫\n- 產生練習題與小測驗\n\n你可以直接點下方按鈕開始，或把上課內容、學習問題貼給我，我會幫你整理成清楚的重點與待辦清單。',
   default: '抱歉，我目前無法處理你的請求。請稍後再試，或嘗試重新發送訊息。',
   quota: '抱歉，AI 服務目前暫時無法使用（配額限制）。請稍後再試，或聯繫管理員。',
   error: '發生了一些錯誤，但我會繼續努力為你服務。請稍後再試。',
@@ -35,6 +36,19 @@ function handleTextMessage(event: WebhookEvent): string {
 
   if (lowerText.includes('幫助') || lowerText.includes('help')) {
     return '我可以幫你：\n1. 📅 整理會議/課程重點\n2. ✅ 產生待辦事項清單\n3. 💡 擴充簡短想法\n\n只需將內容貼給我即可！'
+  }
+
+  // Education assistant helpers when LLM 不可用
+  if (lowerText.includes('學習計畫') || lowerText.includes('讀書計畫') || lowerText.includes('study plan')) {
+    return '讓我們一起排一個學習計畫吧 📚\n\n請告訴我：\n1. 你的目標（例如：兩週後考試、想補強哪一科）\n2. 每天可投入的時間\n3. 想要學習的章節或主題\n\n你也可以直接貼上課表，我會幫你整理成每日學習清單。'
+  }
+
+  if (lowerText.includes('重點整理') || lowerText.includes('課程筆記') || lowerText.includes('上課內容')) {
+    return '想要幫你整理課程重點沒問題 ✏️\n\n請直接把上課內容、投影片文字或講義內容貼給我，我會幫你整理成：\n- 重點摘要\n- 待辦練習題\n- 結論與提醒\n\n也可以分段貼給我，我會幫你累積成同一份筆記。'
+  }
+
+  if (lowerText.includes('測驗') || lowerText.includes('小考') || lowerText.includes('quiz')) {
+    return '來做個小測驗吧 📝\n\n請先告訴我科目與主題，例如：「國中數學 一元二次方程」或「英文 文法：現在完成式」。\n\n在 LLM 可用時，我會根據主題幫你出幾題選擇題與練習題，並附上解析；若 LLM 不可用，你也可以直接問我觀念題，我會用筆記方式幫你整理重點。'
   }
 
   return FALLBACK_RESPONSES.default
@@ -238,10 +252,57 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const replyToken = lineService.getReplyToken(event)
 
         if (userId && replyToken) {
-          await lineService.replyMessage(replyToken, {
-            type: 'text',
-            text: FALLBACK_RESPONSES.greeting,
-          })
+          await lineService.replyMessage(
+            replyToken,
+            {
+              type: 'text',
+              text: FALLBACK_RESPONSES.greeting,
+              quickReply: {
+                items: [
+                  {
+                    type: 'action',
+                    action: {
+                      type: 'message',
+                      label: '📚 學習計畫',
+                      text: '學習計畫',
+                    },
+                  },
+                  {
+                    type: 'action',
+                    action: {
+                      type: 'message',
+                      label: '📝 整理課程重點',
+                      text: '重點整理',
+                    },
+                  },
+                  {
+                    type: 'action',
+                    action: {
+                      type: 'message',
+                      label: '🧩 小測驗',
+                      text: '測驗',
+                    },
+                  },
+                  {
+                    type: 'action',
+                    action: {
+                      type: 'message',
+                      label: '❓ 使用說明',
+                      text: '幫助',
+                    },
+                  },
+                  {
+                    type: 'action',
+                    action: {
+                      type: 'message',
+                      label: '🔚 結束對話',
+                      text: '結束對話',
+                    },
+                  },
+                ],
+              },
+            } as TextMessage
+          )
         }
       }
     }
