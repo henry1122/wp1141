@@ -78,7 +78,20 @@ export default function Home() {
   const fetchStats = async () => {
     try {
       const response = await fetch('/api/stats')
+
+      if (!response.ok) {
+        console.error('Failed to fetch stats: non-200 response', response.status)
+        return
+      }
+
       const data = await response.json()
+
+      // 防禦性檢查：確保結構正確才設定，避免前端因為後端錯誤結構而當掉
+      if (!data?.overall || !data?.today) {
+        console.error('Invalid stats data received:', data)
+        return
+      }
+
       setStats(data)
     } catch (error) {
       console.error('Failed to fetch stats:', error)
