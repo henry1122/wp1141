@@ -1,247 +1,133 @@
-# Line AI Chatbot - 智慧聊天機器人系統
+# Line AI Education Assistant 📚  
+Next.js + Line Messaging API + MongoDB
 
-這是一個整合 Line Messaging API 的智慧聊天機器人系統，使用 Next.js + TypeScript 開發，支援 OpenAI GPT 模型，並提供完整的管理後台。
+---
 
-## 功能特色
+## 🔗 Demo 連結（評分請優先看這裡）
 
-### 🤖 Line Bot 功能
-- **AI 個人小幫手**：協助使用者整理資訊、回答問題、提供日常建議
-- **對話脈絡維持**：自動維持對話上下文，讓回應更連貫
-- **優雅降級**：當 LLM 服務不可用時，自動切換到預設回應腳本
-- **錯誤處理**：完善的錯誤處理機制，包括配額限制、速率限制等
+- **管理後台（Vercel 部署）**：  
+  `https://wp1141-kappa.vercel.app`
+
+- **Line Chatbot（加入好友 / 掃描 QRcode）**：  
+  - 加入連結：  
+    `https://line.me/R/ti/p/%40111jpjkx`  
+  - QRcode 圖片：  
+    `![Line Chatbot QRCode](./Line%20chatbot.png)`
+
+---
+
+## 專案簡介
+
+這是一個整合 **Line Messaging API** 的「AI 教學與筆記助理」，使用 **Next.js + TypeScript** 開發，  
+協助學生與老師在 Line 上完成：課程重點整理、學習計畫規劃、小測驗與對話紀錄管理，並提供一個網頁管理後台方便檢視所有對話與統計資料。
+
+---
+
+## 如何使用
+
+### 在 Line 上與 Bot 互動
+
+1. 使用手機掃描上方 QRcode 或點擊加入好友連結。  
+2. **第一次加入時**，Bot 會自我介紹，並在訊息下方顯示 Quick Reply 按鈕：
+   - `📚 學習計畫`（傳送文字「學習計畫」）
+   - `📝 整理課程重點`（傳送「重點整理」）
+   - `🧩 小測驗`（傳送「測驗」）
+   - `❓ 使用說明`（傳送「幫助」）
+   - `🔚 結束對話`（傳送「結束對話」）
+3. 日常使用時可以：
+   - 直接把 **上課內容 / 投影片文字 / 逐字稿** 貼給 Bot，請它幫忙整理成：
+     - 重點摘要
+     - 待辦事項 / 練習題
+     - 結論與提醒  
+   - 輸入關鍵字：
+     - `學習計畫`：引導你輸入目標、可用時間、章節，幫你規劃讀書計畫。
+     - `重點整理`：提示你把課程內容貼上，Bot 會用統一格式整理。
+     - `測驗 / 小考 / quiz`：說明科目與主題後，Bot 會嘗試出幾題練習題（在 LLM 可用時）。
+     - `幫助`：顯示可以怎麼使用這個教學助理。
+     - `結束 / 結束對話 / end / stop`：將目前這段對話標記為已結束，下次訊息會開啟新對話。
+
+### 管理後台（老師 / 管理者）
+
+1. 開啟：`https://wp1141-kappa.vercel.app`  
+2. 首頁功能：
+   - 上方卡片顯示：
+     - 總使用者數、總對話數（含進行中數量）、總訊息數
+     - 今日 LLM 呼叫 / 錯誤次數與成功率
+     - 今日使用者 / 今日對話 / 今日訊息
+   - 下方列表：
+     - 依 **使用者 ID 搜尋**
+     - 依 **狀態（進行中 / 已結束）篩選**
+     - 顯示訊息數、建立時間、最近一句訊息摘要
+   - 點擊一筆對話可開啟「對話詳情」Modal：
+     - 左右氣泡顯示「使用者 / 小智(AI)」的訊息與時間
+     - 可在後台直接按「結束對話」將該 session 結束
+3. 介面支援：
+   - **中 / 英文 UI 切換**
+   - **背景主題切換（淺色 / 深色漸層）**
+
+---
+
+## 主要功能整理
+
+### 🤖 Line 教學助理（Chatbot）
+
+- **課程筆記整理**：將長段文字整理為「重點 / 待辦 / 結論」，方便複習。
+- **學習計畫協助**：根據使用者目標與可用時間，引導建立讀書計畫。
+- **小測驗模式**：依科目與主題產生練習題（LLM 可用時），並提供簡短解析。
+- **對話脈絡維持**：使用最近 10 則訊息作為上下文，讓回覆更連貫。
+- **降級腳本**：當 OpenAI API 無法使用或額度不足時，自動改用預設教學說明與指引，不會直接壞掉。
+- **結束對話指令**：使用者輸入「結束 / 結束對話 / end / stop」會將該對話標記為已結束，並提示可重新開始新對話。
 
 ### 📊 管理後台
-- **對話監控**：即時查看所有對話記錄
-- **統計資訊**：顯示使用者數、對話數、訊息數等統計
-- **對話詳情**：點擊查看完整對話內容
-- **篩選功能**：依狀態、使用者 ID 篩選對話
-- **即時更新**：每 5 秒自動更新最新對話
 
-## 技術架構
+- **對話列表與詳情**
+  - 依使用者 ID 搜尋、依狀態篩選（進行中 / 已結束）。
+  - 點擊可檢視完整訊息氣泡、時間戳與雙方身分。
+  - 後台可直接將對話標記為已結束。
+- **統計資訊**
+  - 整體：總使用者數、總對話數、進行中對話數、總訊息數。
+  - 今日：今日使用者數（今天有互動過的不同使用者）、今日對話數與訊息數。
+  - LLM：今日呼叫次數、錯誤次數、成功率（以錯誤 / 呼叫計算）。
+- **即時更新**
+  - 每 5 秒自動重新抓取 `/api/conversations` 與 `/api/stats`，不用手動重整即可看到最新狀態。
 
-### 前端
-- **Next.js 14** (TypeScript)
-- **Tailwind CSS** - 現代化 UI 設計
-- **React Hooks** - 狀態管理
+### ⚙️ 技術與實作重點
 
-### 後端
-- **Next.js API Routes** - RESTful API
-- **Mongoose** - MongoDB ODM
-- **Zod** - 資料驗證
+- **前端**：Next.js（TypeScript）、React Hooks、Tailwind CSS。
+- **後端**：Next.js API Routes（Webhook、Conversations、Stats、Health）。
+- **資料庫**：MongoDB Atlas + Mongoose，儲存 `User`、`Conversation`、`Stats`。
+- **LLM 服務**：OpenAI Chat Completions（具錯誤分類與降級處理）。
+- **Line**：`@line/bot-sdk` 整合 Messaging API，支援 Webhook 驗證與 Quick Reply。
 
-### 第三方服務
-- **Line Messaging API** - 訊息接收與回覆
-- **OpenAI API** - LLM 服務
-- **MongoDB Atlas** - 資料庫儲存
+---
 
-## 專案結構
+## 開發與部署（簡要）
 
-```
-.
-├── pages/
-│   ├── api/
-│   │   ├── webhook/
-│   │   │   └── line.ts          # Line webhook 端點
-│   │   ├── conversations/       # 對話管理 API
-│   │   ├── stats/               # 統計資料 API
-│   │   └── health.ts            # 健康檢查端點
-│   ├── index.tsx                # 管理後台首頁
-│   └── _app.tsx                 # Next.js App 設定
-├── lib/
-│   ├── db.ts                    # MongoDB 連線
-│   ├── services/
-│   │   ├── llmService.ts        # LLM 服務
-│   │   ├── lineService.ts       # Line API 服務
-│   │   └── conversationService.ts # 對話管理服務
-│   └── prompts/
-│       └── systemPrompt.ts      # AI 系統提示詞
-├── models/
-│   ├── User.ts                  # 使用者模型
-│   ├── Conversation.ts          # 對話模型
-│   └── Stats.ts                 # 統計模型
-└── styles/
-    └── globals.css              # 全域樣式
-```
-
-## 環境設定
-
-### 1. 安裝依賴
+### 本地開發
 
 ```bash
 npm install
+npm run dev
 ```
 
-### 2. 環境變數設定
+應用程式預設在 `http://localhost:3000` 執行。
 
-複製 `.env.example` 並建立 `.env` 檔案：
-
-```bash
-cp .env.example .env
-```
-
-填入以下環境變數：
+### 主要環境變數（節錄）
 
 ```env
-# Line Bot Configuration
-LINE_CHANNEL_ACCESS_TOKEN=your_line_channel_access_token
-LINE_CHANNEL_SECRET=your_line_channel_secret
-
-# OpenAI Configuration
-OPENAI_API_KEY=your_openai_api_key
+LINE_CHANNEL_ACCESS_TOKEN=...
+LINE_CHANNEL_SECRET=...
+OPENAI_API_KEY=...
 OPENAI_MODEL=gpt-3.5-turbo
-
-# MongoDB Configuration
-MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/linebot?retryWrites=true&w=majority
-
-# Application Configuration
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NODE_ENV=development
+MONGODB_URI=...
+NEXT_PUBLIC_APP_URL=https://wp1141-kappa.vercel.app
+NODE_ENV=production
 ```
 
-### 3. Line Bot 設定
+> 更完整的部署步驟請見 `DEPLOYMENT.md`（若不需要可自行刪除）。
 
-1. 前往 [Line Developers](https://developers.line.biz/)
-2. 建立新的 Provider 和 Channel
-3. 取得 Channel Access Token 和 Channel Secret
-4. 設定 Webhook URL：`https://your-domain.com/api/webhook/line`
-5. 啟用 Webhook
-
-### 4. MongoDB Atlas 設定
-
-1. 前往 [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-2. 建立免費叢集
-3. 建立資料庫使用者
-4. 設定 IP 白名單（或允許所有 IP）
-5. 取得連線字串
-
-### 5. OpenAI API 設定
-
-1. 前往 [OpenAI Platform](https://platform.openai.com/)
-2. 建立 API Key
-3. 確保帳戶有足夠的配額
-
-## 本地開發
-
-```bash
-# 開發模式
-npm run dev
-
-# 建置
-npm run build
-
-# 生產模式
-npm start
-
-# Lint 檢查
-npm run lint
-
-# 格式化程式碼
-npm run format
-```
-
-應用程式將在 `http://localhost:3000` 啟動。
-
-## 部署至 Vercel
-
-### 1. 準備專案
-
-確保所有檔案都已提交到 Git：
-
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
-
-### 2. 部署到 Vercel
-
-1. 前往 [Vercel](https://vercel.com/)
-2. 匯入你的 Git 專案
-3. 設定環境變數（在 Vercel 專案設定中）
-4. 部署
-
-### 3. 設定 Line Webhook
-
-部署完成後，在 Line Developers Console 中設定 Webhook URL：
-
-```
-https://your-project.vercel.app/api/webhook/line
-```
-
-### 4. 驗證部署
-
-- 訪問 `https://your-project.vercel.app` 查看管理後台
-- 訪問 `https://your-project.vercel.app/api/health` 檢查服務狀態
-- 在 Line 中發送訊息測試 Bot
-
-## API 端點
-
-### Webhook
-- `POST /api/webhook/line` - Line webhook 接收端點
-
-### 對話管理
-- `GET /api/conversations` - 取得對話列表
-  - Query parameters: `lineUserId`, `status`, `startDate`, `endDate`, `limit`, `skip`
-- `GET /api/conversations/[id]` - 取得單一對話詳情
-- `DELETE /api/conversations/[id]` - 結束對話
-
-### 統計資料
-- `GET /api/stats` - 取得統計資訊
-
-### 健康檢查
-- `GET /api/health` - 服務健康狀態檢查
-
-## 功能說明
-
-### 對話流程
-
-1. 使用者發送訊息到 Line Bot
-2. Webhook 接收訊息並驗證簽章
-3. 系統取得或建立使用者與對話
-4. 將使用者訊息儲存到資料庫
-5. 取得最近 10 則訊息作為上下文
-6. 呼叫 LLM 產生回應（或使用降級回應）
-7. 儲存 AI 回應並回覆使用者
-
-### 錯誤處理
-
-系統具備完善的錯誤處理機制：
-
-- **LLM 配額不足**：顯示友善訊息，使用預設回應
-- **速率限制**：提示使用者稍後再試
-- **網路錯誤**：自動重試或使用降級回應
-- **資料庫錯誤**：記錄錯誤並回覆預設訊息
-
-### 降級機制
-
-當 LLM 服務不可用時，系統會：
-
-1. 偵測關鍵字（你好、幫助等）
-2. 提供預設回應腳本
-3. 記錄錯誤到統計資料
-4. 繼續提供基本服務
-
-## 開發建議
-
-### 擴展功能
-
-1. **多平台支援**：可擴展至 Messenger、Discord 等平台
-2. **進階篩選**：後台可加入更多篩選條件
-3. **使用者分析**：顯示使用者行為分析圖表
-4. **回應客製化**：後台可調整 AI 人設與回覆規則
-5. **批次作業**：支援批次刪除對話
-
-### 效能優化
-
-1. **快取機制**：對常用查詢加入快取
-2. **分頁優化**：實作游標分頁
-3. **訊息壓縮**：對長訊息進行壓縮儲存
+---
 
 ## 授權
 
-MIT License
-
-## 聯絡方式
-
-如有問題或建議，歡迎提出 Issue 或 Pull Request。
-
+本專案僅用於課程作業與教學示範用途，不建議直接用於正式商業環境。
