@@ -1,0 +1,651 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "studentId": "468638",
+      "name": "曲志",
+      "passwordHash": "$2a$10$4O2uGpS2JQk5be5swhKFB.cV4c9LNz6qdZceBOgHrxcAhBCI2alHy",
+      "createdAt": "2025-11-30T14:35:24.628Z"
+    },
+    {
+      "id": 2,
+      "studentId": "575998",
+      "name": "梅芬",
+      "passwordHash": "$2a$10$Yh.PzH.qFoznj.7un6s2BOE6WyRr.xNGPiFjUyaMw3sH.9YK.yco.",
+      "createdAt": "2025-12-02T13:58:21.059Z"
+    },
+    {
+      "id": 3,
+      "studentId": "125437",
+      "name": "石志建",
+      "passwordHash": "$2a$10$umpRyhzHcebsFodLAdcraePnmuXnOLC/CyIqA5kM2HKdOoeQynozW",
+      "createdAt": "2025-12-02T13:58:21.123Z"
+    },
+    {
+      "id": 4,
+      "studentId": "474640",
+      "name": "單淑",
+      "passwordHash": "$2a$10$P4rkFGXW8KiSo6dOTBnKSOJP0ywH3/sdqP76OLB.XS8fZD8owFWH6",
+      "createdAt": "2025-12-02T13:58:21.186Z"
+    },
+    {
+      "id": 5,
+      "studentId": "720983",
+      "name": "賈志",
+      "passwordHash": "$2a$10$REituUeOH2maWBKJqhR7MuD98vsPWWduyId2CPXn29LcJHObhYr92",
+      "createdAt": "2025-12-02T13:58:21.251Z"
+    },
+    {
+      "id": 6,
+      "studentId": "420110",
+      "name": "湯雯婷",
+      "passwordHash": "$2a$10$JrB/8d6Sq.w4dThnVVaeRe.xZ3z2/p5zLGiIdvsU1fbNpjOJA8uiy",
+      "createdAt": "2025-12-02T13:58:21.317Z"
+    },
+    {
+      "id": 7,
+      "studentId": "314409",
+      "name": "喻雅宏",
+      "passwordHash": "$2a$10$1494Wsb4i6UvBXl9r7sj9.LMPRpNwBJ4y6W9PEtXg0uI9..H.9KGC",
+      "createdAt": "2025-12-02T13:58:21.381Z"
+    },
+    {
+      "id": 8,
+      "studentId": "505041",
+      "name": "鈄志惠",
+      "passwordHash": "$2a$10$7XsrzTIsA0GK7wa9UmnzIOUyUGy0mnNRFScpw5SgtOljRrqsUc5DC",
+      "createdAt": "2025-12-02T13:58:21.445Z"
+    },
+    {
+      "id": 9,
+      "studentId": "937488",
+      "name": "錢哲芬",
+      "passwordHash": "$2a$10$Mg5OpLWccuh50YJ.hx4tMe.7fQTIyzP24ueio909FojgSEUzpCZiu",
+      "createdAt": "2025-12-02T13:58:21.509Z"
+    },
+    {
+      "id": 10,
+      "studentId": "568261",
+      "name": "齊君淑",
+      "passwordHash": "$2a$10$HVtAOtCVsLdmvN.1EX9rBOFQXvBBvjxzAXVJnlYBZZ7X7noOCptgS",
+      "createdAt": "2025-12-02T13:58:21.574Z"
+    },
+    {
+      "id": 11,
+      "studentId": "718952",
+      "name": "杜雅",
+      "passwordHash": "$2a$10$wQBtB7TBN4IDwSaLmxDFruq3/9JsEoCHBPhVCBGg.9aUCzOcFGVQW",
+      "createdAt": "2025-12-02T13:58:21.638Z"
+    },
+    {
+      "id": 12,
+      "studentId": "674922",
+      "name": "秋豪佩",
+      "passwordHash": "$2a$10$VJtivYoru7WXQsmvkzpB0.s9Y2K431qJ2kFGEYd.NXiEF75bNy8WG",
+      "createdAt": "2025-12-02T13:58:21.703Z"
+    },
+    {
+      "id": 13,
+      "studentId": "701435",
+      "name": "薊明家",
+      "passwordHash": "$2a$10$cAYAD/CHgcdjajCiJdbI.O6JgeOZfK.S54RHtqmRD/4ByM8igCLPW",
+      "createdAt": "2025-12-02T13:58:21.767Z"
+    },
+    {
+      "id": 14,
+      "studentId": "407747",
+      "name": "裴芬",
+      "passwordHash": "$2a$10$vdnK8ReopOkGutfTxoQzLeL8vrEbhKEdXmZlFIuJszB1poKwK0MCe",
+      "createdAt": "2025-12-02T13:58:21.837Z"
+    },
+    {
+      "id": 15,
+      "studentId": "743187",
+      "name": "高娟",
+      "passwordHash": "$2a$10$E.i00tooN0BuHiTkrdeGb./sC1pC44XcnWgfuERDTqKioay16iyku",
+      "createdAt": "2025-12-02T13:58:21.902Z"
+    },
+    {
+      "id": 16,
+      "studentId": "980098",
+      "name": "仲志",
+      "passwordHash": "$2a$10$TTKHFcxuceA8kflsyiXmTeL9RZNi92IZYULRS4ApF/9AuMVGs2yhO",
+      "createdAt": "2025-12-02T13:58:21.971Z"
+    },
+    {
+      "id": 17,
+      "studentId": "478197",
+      "name": "袁玲君",
+      "passwordHash": "$2a$10$LaIvuNztSQRSB8dsHkTkg.9Rur4jBXYyJm2hvfUz33F3H8meYwPAm",
+      "createdAt": "2025-12-02T13:58:22.039Z"
+    },
+    {
+      "id": 18,
+      "studentId": "839843",
+      "name": "盛志美",
+      "passwordHash": "$2a$10$gXgid.U2D/92ALBB7SEOAOsqosWgjOIB.ZfD7rQMqzSLvLWF5OTDO",
+      "createdAt": "2025-12-02T13:58:22.115Z"
+    },
+    {
+      "id": 19,
+      "studentId": "736115",
+      "name": "束穎雅",
+      "passwordHash": "$2a$10$q8//zxN7jhVkSTx0BsA54eYt/aNer9CKauCJnlB9oBtp.L3HEL.uS",
+      "createdAt": "2025-12-02T13:58:22.185Z"
+    },
+    {
+      "id": 20,
+      "studentId": "781507",
+      "name": "宓萍雅",
+      "passwordHash": "$2a$10$EhHpeXK2RNo3KXSfx2aI2Ox4doItpaCMB2gtbq8KTA7lpHmxf.0ke",
+      "createdAt": "2025-12-02T13:58:22.253Z"
+    },
+    {
+      "id": 21,
+      "studentId": "164512",
+      "name": "巫俊梅",
+      "passwordHash": "$2a$10$VrjvXUQqCRDp1mYGzosdg.aCefKfewWguINViSovTqy9PO/qjDjIy",
+      "createdAt": "2025-12-02T13:58:22.318Z"
+    },
+    {
+      "id": 22,
+      "studentId": "543140",
+      "name": "景娟",
+      "passwordHash": "$2a$10$/JTRBrTGzWVw8KEmE8SCW.1fj7bMQmN8NNuMayuixIytLHWxib9T6",
+      "createdAt": "2025-12-02T13:58:22.384Z"
+    },
+    {
+      "id": 23,
+      "studentId": "336006",
+      "name": "梁君豪",
+      "passwordHash": "$2a$10$lVhUbopIm7yt4KMMGitgcuwA1L2TVjqzhOBo50S8fifj93r1z0kc2",
+      "createdAt": "2025-12-02T13:58:22.450Z"
+    },
+    {
+      "id": 24,
+      "studentId": "987244",
+      "name": "楊嘉俊",
+      "passwordHash": "$2a$10$cuw9npE.EwxHSHRkYbl.xOjKBNu.HqhFpo1NesqkZmQo.IWM8Um8S",
+      "createdAt": "2025-12-02T13:58:22.520Z"
+    },
+    {
+      "id": 25,
+      "studentId": "775784",
+      "name": "傅穎強",
+      "passwordHash": "$2a$10$qnW3ng.FNhQZ/bhz.1bdXe7Rz0MZz2YdMpGRXwVmO4nj4LZupSrJW",
+      "createdAt": "2025-12-02T13:58:22.586Z"
+    },
+    {
+      "id": 26,
+      "studentId": "715514",
+      "name": "錢雅志",
+      "passwordHash": "$2a$10$BgzQcxoBS4AB5yD9RU6ecOWFXomYpaiHDbySKcrkbmpTZ8JMxL3Jy",
+      "createdAt": "2025-12-02T13:58:22.651Z"
+    },
+    {
+      "id": 27,
+      "studentId": "392095",
+      "name": "米雅",
+      "passwordHash": "$2a$10$Jm6g7hCUGaR5qjRLDD9ZsONlsjJCNvca560girRvlJrITTVOawTvy",
+      "createdAt": "2025-12-02T13:58:22.715Z"
+    },
+    {
+      "id": 28,
+      "studentId": "725182",
+      "name": "房淑",
+      "passwordHash": "$2a$10$wLazjGl06nXwYXolaQHv3eNiH9/COpEuGUBWL3yZB8xWbgMyO2JQq",
+      "createdAt": "2025-12-02T13:58:22.780Z"
+    },
+    {
+      "id": 29,
+      "studentId": "975509",
+      "name": "洪宏",
+      "passwordHash": "$2a$10$3yoXGzfnsWjJb5vF5C8VfusIk4MOhtlLV4quuJXbqrYe3QapYD03m",
+      "createdAt": "2025-12-02T13:58:22.845Z"
+    },
+    {
+      "id": 30,
+      "studentId": "149050",
+      "name": "谷志嘉",
+      "passwordHash": "$2a$10$uWtxwxQWOfePw7DBrZFGqeGXjRhvL890ZQindzJd3MCI4huieYfe6",
+      "createdAt": "2025-12-02T13:58:22.910Z"
+    },
+    {
+      "id": 31,
+      "studentId": "874507",
+      "name": "昌嘉",
+      "passwordHash": "$2a$10$yewGqi8qksFGxeTsTSC.7uqceLDo.1xgZZ7yKDcqcHAU58t6oEjJy",
+      "createdAt": "2025-12-02T13:58:22.974Z"
+    },
+    {
+      "id": 32,
+      "studentId": "417513",
+      "name": "臧玲佳",
+      "passwordHash": "$2a$10$m.mBZTbuHKUUYC4Q1FQZXO.JyFFSDLQPAmRvM0GxqZQI41BscG49i",
+      "createdAt": "2025-12-02T13:58:23.038Z"
+    },
+    {
+      "id": 33,
+      "studentId": "800669",
+      "name": "常偉穎",
+      "passwordHash": "$2a$10$ffrMn33Oipzttl.l0wkZ4OvbotT7IT3O2xnEtgfUpvGf99FLcJ2XS",
+      "createdAt": "2025-12-02T13:58:23.103Z"
+    },
+    {
+      "id": 34,
+      "studentId": "507538",
+      "name": "甘文",
+      "passwordHash": "$2a$10$EX/cfG8FpfK9jjJ67luETe1NJ/RQNE2yElevcEnrp21BbYFBbYes6",
+      "createdAt": "2025-12-02T13:58:23.167Z"
+    },
+    {
+      "id": 35,
+      "studentId": "867117",
+      "name": "符佩哲",
+      "passwordHash": "$2a$10$rrEIgpuvh2Shp7anSXB9g.LvS9J0OGW1t3IrnqkChx4AvJl9dr4hK",
+      "createdAt": "2025-12-02T13:58:23.231Z"
+    },
+    {
+      "id": 36,
+      "studentId": "264624",
+      "name": "岑佩",
+      "passwordHash": "$2a$10$B9xWYZMw1XHRDRyvErZ4SuWWcBSY3QKW4LJ7bHjkiBaiFL.hJfaW.",
+      "createdAt": "2025-12-02T13:58:23.297Z"
+    },
+    {
+      "id": 37,
+      "studentId": "803820",
+      "name": "顧哲",
+      "passwordHash": "$2a$10$c6.UvgDg5b.0cv0WgyL0suhaFC552MLQgNR7qPmtq7F2TUvxsUW/6",
+      "createdAt": "2025-12-02T13:58:23.362Z"
+    },
+    {
+      "id": 38,
+      "studentId": "606844",
+      "name": "吉淑",
+      "passwordHash": "$2a$10$e3wd7G59eAqZvF0D9ZItZe363tkOv.z.TQWO5K2ZxJ3Fj8e2TvO7.",
+      "createdAt": "2025-12-02T13:58:23.428Z"
+    },
+    {
+      "id": 39,
+      "studentId": "748585",
+      "name": "白雯娟",
+      "passwordHash": "$2a$10$AIn4TLspmX1wSvO9G1dJj.MelUvO18RYGaIuKIFk7deEoqIRKlunu",
+      "createdAt": "2025-12-02T13:58:23.493Z"
+    },
+    {
+      "id": 40,
+      "studentId": "845922",
+      "name": "蘇春倫",
+      "passwordHash": "$2a$10$FSfQhgS8Ak6I0wQguolK4esjwRS93Ex5Kf4a4pDic6jR686IwI7H.",
+      "createdAt": "2025-12-02T13:58:23.557Z"
+    },
+    {
+      "id": 41,
+      "studentId": "179226",
+      "name": "蓬嘉志",
+      "passwordHash": "$2a$10$rxorxjBCOZF3fjm.pIUZ.u8KK6cD5d1QLds0NLMzUDTewEjDeNfYi",
+      "createdAt": "2025-12-02T13:58:23.623Z"
+    }
+  ],
+  "students": [
+    {
+      "id": 1,
+      "userId": 2,
+      "name": "梅芬",
+      "grade": "草屯",
+      "phone": "一中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.060Z"
+    },
+    {
+      "id": 2,
+      "userId": 3,
+      "name": "石志建",
+      "grade": "南投",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.124Z"
+    },
+    {
+      "id": 3,
+      "userId": 4,
+      "name": "單淑",
+      "grade": "衛道",
+      "phone": "衛道",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:21.187Z"
+    },
+    {
+      "id": 4,
+      "userId": 5,
+      "name": "賈志",
+      "grade": "曉明",
+      "phone": "曉明",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:21.252Z"
+    },
+    {
+      "id": 5,
+      "userId": 6,
+      "name": "湯雯婷",
+      "grade": "東勢",
+      "phone": "曉明",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.318Z"
+    },
+    {
+      "id": 6,
+      "userId": 7,
+      "name": "喻雅宏",
+      "grade": "新光",
+      "phone": "二中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.381Z"
+    },
+    {
+      "id": 7,
+      "userId": 8,
+      "name": "鈄志惠",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.446Z"
+    },
+    {
+      "id": 8,
+      "userId": 9,
+      "name": "錢哲芬",
+      "grade": "弘文",
+      "phone": "弘文",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.510Z"
+    },
+    {
+      "id": 9,
+      "userId": 10,
+      "name": "齊君淑",
+      "grade": "衛道",
+      "phone": "一中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.574Z"
+    },
+    {
+      "id": 10,
+      "userId": 11,
+      "name": "杜雅",
+      "grade": "衛道",
+      "phone": "一中",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:21.639Z"
+    },
+    {
+      "id": 11,
+      "userId": 12,
+      "name": "秋豪佩",
+      "phone": "一中",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:21.704Z"
+    },
+    {
+      "id": 12,
+      "userId": 13,
+      "name": "薊明家",
+      "grade": "豐東",
+      "phone": "一中",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:21.768Z"
+    },
+    {
+      "id": 13,
+      "userId": 14,
+      "name": "裴芬",
+      "grade": "中科實",
+      "phone": "一中",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:21.838Z"
+    },
+    {
+      "id": 14,
+      "userId": 15,
+      "name": "高娟",
+      "grade": "衛道",
+      "phone": "一中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.903Z"
+    },
+    {
+      "id": 15,
+      "userId": 16,
+      "name": "仲志",
+      "grade": "三光",
+      "phone": "一中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:21.972Z"
+    },
+    {
+      "id": 16,
+      "userId": 17,
+      "name": "袁玲君",
+      "grade": "福科",
+      "phone": "一中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.040Z"
+    },
+    {
+      "id": 17,
+      "userId": 18,
+      "name": "盛志美",
+      "grade": "居仁",
+      "phone": "女中",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:22.116Z"
+    },
+    {
+      "id": 18,
+      "userId": 19,
+      "name": "束穎雅",
+      "grade": "東山",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.186Z"
+    },
+    {
+      "id": 19,
+      "userId": 20,
+      "name": "宓萍雅",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.255Z"
+    },
+    {
+      "id": 20,
+      "userId": 21,
+      "name": "巫俊梅",
+      "grade": "國姓",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.319Z"
+    },
+    {
+      "id": 21,
+      "userId": 22,
+      "name": "景娟",
+      "grade": "曉明",
+      "phone": "女中",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:22.385Z"
+    },
+    {
+      "id": 22,
+      "userId": 23,
+      "name": "梁君豪",
+      "grade": "僑泰",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.451Z"
+    },
+    {
+      "id": 23,
+      "userId": 24,
+      "name": "楊嘉俊",
+      "grade": "光明",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.521Z"
+    },
+    {
+      "id": 24,
+      "userId": 25,
+      "name": "傅穎強",
+      "grade": "后里",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.587Z"
+    },
+    {
+      "id": 25,
+      "userId": 26,
+      "name": "錢雅志",
+      "grade": "豐東",
+      "phone": "女中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.652Z"
+    },
+    {
+      "id": 26,
+      "userId": 27,
+      "name": "米雅",
+      "grade": "衛道",
+      "phone": "衛道",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.716Z"
+    },
+    {
+      "id": 27,
+      "userId": 28,
+      "name": "房淑",
+      "grade": "衛道",
+      "phone": "衛道",
+      "note": "202",
+      "createdAt": "2025-12-02T13:58:22.780Z"
+    },
+    {
+      "id": 28,
+      "userId": 29,
+      "name": "洪宏",
+      "grade": "衛道",
+      "phone": "衛道",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.846Z"
+    },
+    {
+      "id": 29,
+      "userId": 30,
+      "name": "谷志嘉",
+      "grade": "衛道",
+      "phone": "衛道",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.910Z"
+    },
+    {
+      "id": 30,
+      "userId": 31,
+      "name": "昌嘉",
+      "grade": "曉明",
+      "phone": "曉明",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:22.975Z"
+    },
+    {
+      "id": 31,
+      "userId": 32,
+      "name": "臧玲佳",
+      "grade": "曉明",
+      "phone": "曉明",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.039Z"
+    },
+    {
+      "id": 32,
+      "userId": 33,
+      "name": "常偉穎",
+      "grade": "明道",
+      "phone": "明道",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.103Z"
+    },
+    {
+      "id": 33,
+      "userId": 34,
+      "name": "甘文",
+      "grade": "明道",
+      "phone": "明道",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.168Z"
+    },
+    {
+      "id": 34,
+      "userId": 35,
+      "name": "符佩哲",
+      "grade": "中興",
+      "phone": "文華",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.232Z"
+    },
+    {
+      "id": 35,
+      "userId": 36,
+      "name": "岑佩",
+      "phone": "二中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.297Z"
+    },
+    {
+      "id": 36,
+      "userId": 37,
+      "name": "顧哲",
+      "grade": "居仁",
+      "phone": "二中",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.363Z"
+    },
+    {
+      "id": 37,
+      "userId": 38,
+      "name": "吉淑",
+      "grade": "豐東",
+      "phone": "惠文",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.429Z"
+    },
+    {
+      "id": 38,
+      "userId": 39,
+      "name": "白雯娟",
+      "grade": "北新",
+      "phone": "西苑",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.494Z"
+    },
+    {
+      "id": 39,
+      "userId": 40,
+      "name": "蘇春倫",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.558Z"
+    },
+    {
+      "id": 40,
+      "userId": 41,
+      "name": "蓬嘉志",
+      "phone": "明德",
+      "note": "K01",
+      "createdAt": "2025-12-02T13:58:23.624Z"
+    }
+  ],
+  "classes": [],
+  "nextIds": {
+    "user": 42,
+    "student": 41,
+    "class": 1
+  }
+}

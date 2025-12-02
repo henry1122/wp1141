@@ -1,0 +1,21 @@
+{
+  "slots": [
+    {
+      "id": 1,
+      "weekday": 1,
+      "time": "19:00",
+      "userId": 2,
+      "studentId": "575998",
+      "studentName": "梅芬"
+    },
+    {
+      "id": 2,
+      "weekday": 2,
+      "time": "19:00",
+      "userId": 4,
+      "studentId": "474640",
+      "studentName": "單淑"
+    }
+  ],
+  "nextId": 3
+}

@@ -1,0 +1,45 @@
+############################
+# Node / TypeScript monorepo
+############################
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.turbo/
+.vercel/
+.cache/
+.vite/
+
+# Tests / coverage
+coverage/
+*.lcov
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Environment variables (do NOT commit real secrets)
+.env
+.env.*
+!.env.example
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Misc
+*.local
+
+
