@@ -286,6 +286,300 @@
       "name": "蓬嘉志",
       "passwordHash": "$2a$10$rxorxjBCOZF3fjm.pIUZ.u8KK6cD5d1QLds0NLMzUDTewEjDeNfYi",
       "createdAt": "2025-12-02T13:58:23.623Z"
+    },
+    {
+      "id": 42,
+      "studentId": "�Ǹ�",
+      "name": "�m�W",
+      "passwordHash": "$2a$10$jMoRD0iKZQu3KKm.qTfNrO2.vjTEXvRy0YQl0l.LZxPKUwJnT3qeO",
+      "createdAt": "2025-12-16T14:05:07.390Z"
+    },
+    {
+      "id": 43,
+      "studentId": "091964",
+      "name": "�L�G�n",
+      "passwordHash": "$2a$10$zMpbYM6b26DzpKAHYDPHUu94k8jNfMZk/t9xPIReE16uG5TF7MOfq",
+      "createdAt": "2025-12-16T14:05:07.455Z"
+    },
+    {
+      "id": 44,
+      "studentId": "101998",
+      "name": "������",
+      "passwordHash": "$2a$10$nfQtwM4Sm.QwIqTQaBD.Ze3X3dNXetIf.MD2yzfWmePKyEjKiBU0K",
+      "createdAt": "2025-12-16T14:05:07.518Z"
+    },
+    {
+      "id": 45,
+      "studentId": "102399",
+      "name": "�L౿�",
+      "passwordHash": "$2a$10$ln0pAdSwfhNoxu6Atobo2.HhjBWJdcNjSinsCMAWliv8RVYMAYHL6",
+      "createdAt": "2025-12-16T14:05:07.582Z"
+    },
+    {
+      "id": 46,
+      "studentId": "103032",
+      "name": "�B�a�N",
+      "passwordHash": "$2a$10$/t/TOh6CqD2/r2DhPWGkpeEE8jxNBCEAY0r3L/1rPaiD.oW.S5I8.",
+      "createdAt": "2025-12-16T14:05:07.646Z"
+    },
+    {
+      "id": 47,
+      "studentId": "103599",
+      "name": "�I���",
+      "passwordHash": "$2a$10$kqx39itkqK3eJX0nBsWRdOzTkd9xr6VOolbKbKC6jU0Djpt2YaGcC",
+      "createdAt": "2025-12-16T14:05:07.709Z"
+    },
+    {
+      "id": 48,
+      "studentId": "103601",
+      "name": "�i����",
+      "passwordHash": "$2a$10$syDiJhdqaOfVC6AXCiQ4SuWb7tZpyC1jcmYmAsPNBVlbm3JTJkuzO",
+      "createdAt": "2025-12-16T14:05:07.773Z"
+    },
+    {
+      "id": 49,
+      "studentId": "106110",
+      "name": "�^����",
+      "passwordHash": "$2a$10$SpvaKr8hmZeqnvOhd7rwFee6W4oiRCdNJTuQzt.Zo70AaDNOGhdPO",
+      "createdAt": "2025-12-16T14:05:07.837Z"
+    },
+    {
+      "id": 50,
+      "studentId": "106703",
+      "name": "��޷��",
+      "passwordHash": "$2a$10$x3qRim1nGBcUJclNLmVeveo3cUWp50S8/nVJSnXZVsfUKIAy85GMK",
+      "createdAt": "2025-12-16T14:05:07.902Z"
+    },
+    {
+      "id": 51,
+      "studentId": "109020",
+      "name": "����ʳ",
+      "passwordHash": "$2a$10$Z2TwFAGAoRvpZ6QDeMWcZez9lTMrg98Vy41cHCUz6z7.npwryLuQC",
+      "createdAt": "2025-12-16T14:05:07.966Z"
+    },
+    {
+      "id": 52,
+      "studentId": "111433",
+      "name": "�\\�w�e",
+      "passwordHash": "$2a$10$MJqxGMLC4woE4aFKkr7ZRexbSomQ3qbqIdN0RekbnbB4svFtRAgP6",
+      "createdAt": "2025-12-16T14:05:08.030Z"
+    },
+    {
+      "id": 53,
+      "studentId": "111437",
+      "name": "�����x",
+      "passwordHash": "$2a$10$OqYCezT5xTKz9TgbUrGwROvhwpHba1xHPAgf7fY6qO4o7987Noh06",
+      "createdAt": "2025-12-16T14:05:08.094Z"
+    },
+    {
+      "id": 54,
+      "studentId": "111467",
+      "name": "��a��",
+      "passwordHash": "$2a$10$8rz.YKAzMnTFLlDA8O70LeqEePBUj7EQhUGVigmTdDsVLVY8O3.Gu",
+      "createdAt": "2025-12-16T14:05:08.157Z"
+    },
+    {
+      "id": 55,
+      "studentId": "111570",
+      "name": "���t��",
+      "passwordHash": "$2a$10$nF5N7egiZpdw2GWtE8eDGOmsjBJ3RFU4AVnqIHs34QGIk3r8zE1s2",
+      "createdAt": "2025-12-16T14:05:08.221Z"
+    },
+    {
+      "id": 56,
+      "studentId": "111572",
+      "name": "���_��",
+      "passwordHash": "$2a$10$TD5n4GSgQwjUL75KMcaL2eX3H/VqRVNzvADDftlNOy9NU7bbfhhyu",
+      "createdAt": "2025-12-16T14:05:08.286Z"
+    },
+    {
+      "id": 57,
+      "studentId": "111574",
+      "name": "�E�f�e",
+      "passwordHash": "$2a$10$H1k.bHiMgDng6WYekYrPV.Y0NToXeL5Ewbu2BKvqjWrhcRFU26Eay",
+      "createdAt": "2025-12-16T14:05:08.351Z"
+    },
+    {
+      "id": 58,
+      "studentId": "111576",
+      "name": "���Ǩ�",
+      "passwordHash": "$2a$10$ukfAbV1QiQS7wSPrsd7seeotf6pveDNLjSrVn9WHmMLv3KnMQIULe",
+      "createdAt": "2025-12-16T14:05:08.415Z"
+    },
+    {
+      "id": 59,
+      "studentId": "111578",
+      "name": "�๣�t",
+      "passwordHash": "$2a$10$IlUzUQokxfYGgoaSmPRYXeFw.SONXsdXlmcsAeR/8KfnZ7KPrz9fG",
+      "createdAt": "2025-12-16T14:05:08.479Z"
+    },
+    {
+      "id": 60,
+      "studentId": "112104",
+      "name": "���H��",
+      "passwordHash": "$2a$10$wJTWbRMjuDjodnvgmGgvpe0uhAqLaLJuEK1NJ11cg/HzQGZsbqHWi",
+      "createdAt": "2025-12-16T14:05:08.543Z"
+    },
+    {
+      "id": 61,
+      "studentId": "112116",
+      "name": "�����",
+      "passwordHash": "$2a$10$BvWayq6QwivLBjHmy9xPEe7X2AHfvoLkXc68Kqj58oCbdvIGpFKQW",
+      "createdAt": "2025-12-16T14:05:08.607Z"
+    },
+    {
+      "id": 62,
+      "studentId": "112234",
+      "name": "�i�춲",
+      "passwordHash": "$2a$10$u/tvJfOcrywGAcNvgp6BZusC9C.fKQsDN2M3Jnn3f7baX3U65RYSu",
+      "createdAt": "2025-12-16T14:05:08.670Z"
+    },
+    {
+      "id": 63,
+      "studentId": "112388",
+      "name": "��ͺ�R",
+      "passwordHash": "$2a$10$/CoYUtCVriNU5kB.tuQ.UONJ1/WUURoGzVf/THnH.WFhn7N7MogMa",
+      "createdAt": "2025-12-16T14:05:08.734Z"
+    },
+    {
+      "id": 64,
+      "studentId": "112504",
+      "name": "�G�w�N",
+      "passwordHash": "$2a$10$ZKxlf6kNsIXPzDhbnPNAEOEjsPWtHfDtmyueQn3C9ymdUDuV/2X6y",
+      "createdAt": "2025-12-16T14:05:08.798Z"
+    },
+    {
+      "id": 65,
+      "studentId": "112509",
+      "name": "���M�O",
+      "passwordHash": "$2a$10$4h.XRJwyw2I/bqETFjGLNe8S01BYM1MUeFGgOphOclcEGquuDvifq",
+      "createdAt": "2025-12-16T14:05:08.869Z"
+    },
+    {
+      "id": 66,
+      "studentId": "112511",
+      "name": "�B�a��",
+      "passwordHash": "$2a$10$K3ERjWU5KAVkXpviaKYdn.QpAAUuP.HOUajB50sesGoOir177C9yq",
+      "createdAt": "2025-12-16T14:05:08.934Z"
+    },
+    {
+      "id": 67,
+      "studentId": "112513",
+      "name": "�����}",
+      "passwordHash": "$2a$10$e/kyRTNkZZsq9Vsp.2oYlOcC8cIKpBpmKeEY8DIYOAB.OyWUlrH9i",
+      "createdAt": "2025-12-16T14:05:08.999Z"
+    },
+    {
+      "id": 68,
+      "studentId": "112515",
+      "name": "�K���L",
+      "passwordHash": "$2a$10$dH1yMANPB7.13.MmIgrpseRpazL9TbDND47l54x0Dn.KhesKbuYEa",
+      "createdAt": "2025-12-16T14:05:09.062Z"
+    },
+    {
+      "id": 69,
+      "studentId": "113130",
+      "name": "��d�v",
+      "passwordHash": "$2a$10$axVTTXMGnluNBHDsxaYwWeK/d6H2T3JFdspBxIULwDFdnZ/XpaDZW",
+      "createdAt": "2025-12-16T14:05:09.126Z"
+    },
+    {
+      "id": 70,
+      "studentId": "113408",
+      "name": "�Q�߶�",
+      "passwordHash": "$2a$10$3AKjwt1lQLfXGKh3Q7wBh.o0K7fWoxbPDWJMFgf0qas4xKNHVIGty",
+      "createdAt": "2025-12-16T14:05:09.189Z"
+    },
+    {
+      "id": 71,
+      "studentId": "113439",
+      "name": "�����E",
+      "passwordHash": "$2a$10$VDfp0YOmkNh54.YlE5wDLu2g3/AAn61cTdbH4r2ZC47sEOrAdK0cy",
+      "createdAt": "2025-12-16T14:05:09.253Z"
+    },
+    {
+      "id": 72,
+      "studentId": "113441",
+      "name": "���Nڬ",
+      "passwordHash": "$2a$10$LhN9eShzefNjFxDOeXSmO.NU9b/TyBRKqs8BRYgvzBAk2SST4r16y",
+      "createdAt": "2025-12-16T14:05:09.317Z"
+    },
+    {
+      "id": 73,
+      "studentId": "114058",
+      "name": "���~��",
+      "passwordHash": "$2a$10$sotc1D.uXI2zgHX/AZL/s.Nt4nZYZEfWqTqTblqKdpSsAFeTjVGnW",
+      "createdAt": "2025-12-16T14:05:09.380Z"
+    },
+    {
+      "id": 74,
+      "studentId": "114230",
+      "name": "�G�}��",
+      "passwordHash": "$2a$10$KUVKK8kEdhhw9zFNJ9PHJ.IyshJT.Walpo9Zxb6ABSw1x23z11LhK",
+      "createdAt": "2025-12-16T14:05:09.444Z"
+    },
+    {
+      "id": 75,
+      "studentId": "115047",
+      "name": "�\\�x��",
+      "passwordHash": "$2a$10$j18Hhmft.jiZMi3i.RWSK.CZUbF0qMwwsuBELKW46l1xK.tDarD5a",
+      "createdAt": "2025-12-16T14:05:09.508Z"
+    },
+    {
+      "id": 76,
+      "studentId": "115173",
+      "name": "²޳�g",
+      "passwordHash": "$2a$10$c3MTqXzaNsBg7nZ.P0.G8u08qT8HAfRvKWH5MjZd/UidBUcIy9sQO",
+      "createdAt": "2025-12-16T14:05:09.572Z"
+    },
+    {
+      "id": 77,
+      "studentId": "116265",
+      "name": "��Ե�",
+      "passwordHash": "$2a$10$0LagH9HvIo/0HNHg9TuYgeFQ.62LsrWrK01wFkPQV7Q0piFMyZVtm",
+      "createdAt": "2025-12-16T14:05:09.636Z"
+    },
+    {
+      "id": 78,
+      "studentId": "116341",
+      "name": "���R��",
+      "passwordHash": "$2a$10$xqKKpsnUGUXFUn46rlHaw.AZ/bZ3cYt2kk0W1K3g3UjLA6x4NNiC6",
+      "createdAt": "2025-12-16T14:05:09.702Z"
+    },
+    {
+      "id": 79,
+      "studentId": "116354",
+      "name": "���ߩ�",
+      "passwordHash": "$2a$10$/VZMQH786fUVGj//T/MlpuJEhDgAT2Y/qTdWEmUpPV8k6MpHioJuG",
+      "createdAt": "2025-12-16T14:05:09.765Z"
+    },
+    {
+      "id": 80,
+      "studentId": "116403",
+      "name": "���ɺ�",
+      "passwordHash": "$2a$10$KoqxzLdR6nzI.zC/1EQYMONH8zyAVtzsVVt5kVbzkaBUD0W1fPG62",
+      "createdAt": "2025-12-16T14:05:09.829Z"
+    },
+    {
+      "id": 81,
+      "studentId": "116508",
+      "name": "�L�i��",
+      "passwordHash": "$2a$10$7DKdWfDWPQ2fjrv2AlMPW.bVk90ClQyme46Xl8wS8nOtG.hWEfL/W",
+      "createdAt": "2025-12-16T14:05:09.892Z"
+    },
+    {
+      "id": 82,
+      "studentId": "117701",
+      "name": "�P����",
+      "passwordHash": "$2a$10$4.8d0y1HjllcZhzlC/IOneJG6gACPmc9Rnq5.5XBJ1e1ip2Iu4CQG",
+      "createdAt": "2025-12-16T14:05:09.957Z"
+    },
+    {
+      "id": 83,
+      "studentId": "117702",
+      "name": "�ৰ��",
+      "passwordHash": "$2a$10$5HoWNpnmwkluohSEaaMY0uhXQjqcL4VVsG5grq5M4ZQ3sYlqVtg8u",
+      "createdAt": "2025-12-16T14:05:10.020Z"
     }
   ],
   "students": [
@@ -640,12 +934,382 @@
       "phone": "明德",
       "note": "K01",
       "createdAt": "2025-12-02T13:58:23.624Z"
+    },
+    {
+      "id": 41,
+      "userId": 42,
+      "name": "�m�W",
+      "grade": "�ꤤ",
+      "phone": "����",
+      "note": "�Z�O",
+      "createdAt": "2025-12-16T14:05:07.391Z"
+    },
+    {
+      "id": 42,
+      "userId": 43,
+      "name": "�L�G�n",
+      "grade": "�ùD",
+      "phone": "�@��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:07.455Z"
+    },
+    {
+      "id": 43,
+      "userId": 44,
+      "name": "������",
+      "grade": "���",
+      "phone": "�@��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:07.519Z"
+    },
+    {
+      "id": 44,
+      "userId": 45,
+      "name": "�L౿�",
+      "grade": "�n��",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:07.583Z"
+    },
+    {
+      "id": 45,
+      "userId": 46,
+      "name": "�B�a�N",
+      "grade": "�ùD",
+      "phone": "�ùD",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:07.647Z"
+    },
+    {
+      "id": 46,
+      "userId": 47,
+      "name": "�I���",
+      "grade": "���",
+      "phone": "���",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:07.710Z"
+    },
+    {
+      "id": 47,
+      "userId": 48,
+      "name": "�i����",
+      "grade": "�F��",
+      "phone": "���",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:07.774Z"
+    },
+    {
+      "id": 48,
+      "userId": 49,
+      "name": "�^����",
+      "grade": "�s��",
+      "phone": "�G��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:07.838Z"
+    },
+    {
+      "id": 49,
+      "userId": 50,
+      "name": "��޷��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:07.903Z"
+    },
+    {
+      "id": 50,
+      "userId": 51,
+      "name": "����ʳ",
+      "grade": "����",
+      "phone": "����",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:07.968Z"
+    },
+    {
+      "id": 51,
+      "userId": 52,
+      "name": "�\\�w�e",
+      "grade": "�ùD",
+      "phone": "�@��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.031Z"
+    },
+    {
+      "id": 52,
+      "userId": 53,
+      "name": "�����x",
+      "grade": "�ùD",
+      "phone": "�@��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:08.095Z"
+    },
+    {
+      "id": 53,
+      "userId": 54,
+      "name": "��a��",
+      "phone": "�@��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:08.158Z"
+    },
+    {
+      "id": 54,
+      "userId": 55,
+      "name": "���t��",
+      "grade": "�תF",
+      "phone": "�@��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:08.222Z"
+    },
+    {
+      "id": 55,
+      "userId": 56,
+      "name": "���_��",
+      "grade": "�����",
+      "phone": "�@��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:08.287Z"
+    },
+    {
+      "id": 56,
+      "userId": 57,
+      "name": "�E�f�e",
+      "grade": "�ùD",
+      "phone": "�@��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.352Z"
+    },
+    {
+      "id": 57,
+      "userId": 58,
+      "name": "���Ǩ�",
+      "grade": "�T��",
+      "phone": "�@��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.416Z"
+    },
+    {
+      "id": 58,
+      "userId": 59,
+      "name": "�๣�t",
+      "grade": "�֬�",
+      "phone": "�@��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.480Z"
+    },
+    {
+      "id": 59,
+      "userId": 60,
+      "name": "���H��",
+      "grade": "�~��",
+      "phone": "�k��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:08.544Z"
+    },
+    {
+      "id": 60,
+      "userId": 61,
+      "name": "�����",
+      "grade": "�F�s",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.608Z"
+    },
+    {
+      "id": 61,
+      "userId": 62,
+      "name": "�i�춲",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.671Z"
+    },
+    {
+      "id": 62,
+      "userId": 63,
+      "name": "��ͺ�R",
+      "grade": "��m",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.735Z"
+    },
+    {
+      "id": 63,
+      "userId": 64,
+      "name": "�G�w�N",
+      "grade": "���",
+      "phone": "�k��",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:08.799Z"
+    },
+    {
+      "id": 64,
+      "userId": 65,
+      "name": "���M�O",
+      "grade": "����",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.870Z"
+    },
+    {
+      "id": 65,
+      "userId": 66,
+      "name": "�B�a��",
+      "grade": "����",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:08.935Z"
+    },
+    {
+      "id": 66,
+      "userId": 67,
+      "name": "�����}",
+      "grade": "�Z��",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.000Z"
+    },
+    {
+      "id": 67,
+      "userId": 68,
+      "name": "�K���L",
+      "grade": "�תF",
+      "phone": "�k��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.063Z"
+    },
+    {
+      "id": 68,
+      "userId": 69,
+      "name": "��d�v",
+      "grade": "�ùD",
+      "phone": "�ùD",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.127Z"
+    },
+    {
+      "id": 69,
+      "userId": 70,
+      "name": "�Q�߶�",
+      "grade": "�ùD",
+      "phone": "�ùD",
+      "note": "202",
+      "createdAt": "2025-12-16T14:05:09.190Z"
+    },
+    {
+      "id": 70,
+      "userId": 71,
+      "name": "�����E",
+      "grade": "�ùD",
+      "phone": "�ùD",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.254Z"
+    },
+    {
+      "id": 71,
+      "userId": 72,
+      "name": "���Nڬ",
+      "grade": "�ùD",
+      "phone": "�ùD",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.318Z"
+    },
+    {
+      "id": 72,
+      "userId": 73,
+      "name": "���~��",
+      "grade": "���",
+      "phone": "���",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.381Z"
+    },
+    {
+      "id": 73,
+      "userId": 74,
+      "name": "�G�}��",
+      "grade": "���",
+      "phone": "���",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.445Z"
+    },
+    {
+      "id": 74,
+      "userId": 75,
+      "name": "�\\�x��",
+      "grade": "���D",
+      "phone": "���D",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.509Z"
+    },
+    {
+      "id": 75,
+      "userId": 76,
+      "name": "²޳�g",
+      "grade": "���D",
+      "phone": "���D",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.573Z"
+    },
+    {
+      "id": 76,
+      "userId": 77,
+      "name": "��Ե�",
+      "grade": "����",
+      "phone": "���",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.639Z"
+    },
+    {
+      "id": 77,
+      "userId": 78,
+      "name": "���R��",
+      "phone": "�G��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.703Z"
+    },
+    {
+      "id": 78,
+      "userId": 79,
+      "name": "���ߩ�",
+      "grade": "�~��",
+      "phone": "�G��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.766Z"
+    },
+    {
+      "id": 79,
+      "userId": 80,
+      "name": "���ɺ�",
+      "grade": "�תF",
+      "phone": "�f��",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.830Z"
+    },
+    {
+      "id": 80,
+      "userId": 81,
+      "name": "�L�i��",
+      "grade": "�_�s",
+      "phone": "��b",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.893Z"
+    },
+    {
+      "id": 81,
+      "userId": 82,
+      "name": "�P����",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:09.957Z"
+    },
+    {
+      "id": 82,
+      "userId": 83,
+      "name": "�ৰ��",
+      "phone": "���w",
+      "note": "K01",
+      "createdAt": "2025-12-16T14:05:10.021Z"
     }
   ],
   "classes": [],
   "nextIds": {
-    "user": 42,
-    "student": 41,
+    "user": 84,
+    "student": 83,
     "class": 1
   }
 }

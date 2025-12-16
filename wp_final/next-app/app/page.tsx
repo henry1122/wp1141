@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 
 type Lang = 'zh' | 'en';
 type TabKey =
@@ -9,7 +9,8 @@ type TabKey =
   | 'courses'
   | 'assignments'
   | 'subjects'
-  | 'quiz'
+  | 'quiz' // 改為「錯題回顧」
+  | 'grades' // 新增成績總覽
   | 'tutoring';
 
 interface User {
@@ -70,6 +71,22 @@ interface SubjectCourse {
   nameEn: string;
   descriptionZh: string;
   descriptionEn: string;
+  teacherZh: string;
+  teacherEn: string;
+  scheduleZh: string;
+  scheduleEn: string;
+  progressZh: string;
+  progressEn: string;
+}
+
+interface QuizScore {
+  date: string;
+  subject: string;
+  title: string;
+  score: number;
+  total: number;
+  file?: string;
+  seatNo?: string;
 }
 
 const assignmentsToday: AssignmentItem[] = [
@@ -111,50 +128,108 @@ const subjects: SubjectCourse[] = [
     nameZh: '國文',
     nameEn: 'Chinese',
     descriptionZh: '閱讀理解、寫作與國學常識，加強段落結構與閱讀速度。',
-    descriptionEn: 'Reading, composition, and classical Chinese basics.'
+    descriptionEn: 'Reading, composition, and classical Chinese basics.',
+    teacherZh: '王老師',
+    teacherEn: 'Ms. Wang',
+    scheduleZh: '每週一、四晚間 19:00–21:00',
+    scheduleEn: 'Mon & Thu 19:00–21:00',
+    progressZh: '目前進度：閱讀測驗第 3 冊，作文側重段落練習與修辭。',
+    progressEn: 'Now: Reading Book 3, focusing on paragraph structure and writing style.'
   },
   {
     id: 2,
     nameZh: '英文',
     nameEn: 'English',
     descriptionZh: '字彙、文法、克漏字與閱讀測驗，對接學測與指考題型。',
-    descriptionEn: 'Vocabulary, grammar, cloze tests, and reading for exams.'
+    descriptionEn: 'Vocabulary, grammar, cloze tests, and reading for exams.',
+    teacherZh: '林老師',
+    teacherEn: 'Mr. Lin',
+    scheduleZh: '每週二晚間 19:00–21:00',
+    scheduleEn: 'Tue 19:00–21:00',
+    progressZh: '目前進度：時態總複習，準備進入閱讀測驗練習。',
+    progressEn: 'Now: Tense review, moving into reading comprehension drills.'
   },
   {
     id: 3,
     nameZh: '數學',
     nameEn: 'Math',
     descriptionZh: '一次函數、二次函數、機率與幾何，強調觀念與題型整理。',
-    descriptionEn: 'Functions, probability, and geometry with problem drills.'
+    descriptionEn: 'Functions, probability, and geometry with problem drills.',
+    teacherZh: '曾老師',
+    teacherEn: 'Mr. Tseng',
+    scheduleZh: '每週三、六晚間 19:00–21:00',
+    scheduleEn: 'Wed & Sat 19:00–21:00',
+    progressZh: '目前進度：一次函數小考完成，準備進入比例與百分比單元。',
+    progressEn: 'Now: Finished linear equations quiz, moving to ratio & percentage.'
   },
   {
     id: 4,
     nameZh: '物理',
     nameEn: 'Physics',
     descriptionZh: '力學、波動與電學，結合理解與計算練習。',
-    descriptionEn: 'Mechanics, waves, and electricity with calculations.'
+    descriptionEn: 'Mechanics, waves, and electricity with calculations.',
+    teacherZh: '黃老師',
+    teacherEn: 'Mr. Huang',
+    scheduleZh: '每週五晚間 19:00–21:00',
+    scheduleEn: 'Fri 19:00–21:00',
+    progressZh: '目前進度：力學基礎收尾，下一階段進入簡單電路。',
+    progressEn: 'Now: Wrapping up basic mechanics, next topic is simple circuits.'
   },
   {
     id: 5,
     nameZh: '化學',
     nameEn: 'Chemistry',
     descriptionZh: '化學反應式、酸鹼與氧化還原，搭配實驗觀念。',
-    descriptionEn: 'Reactions, acids-bases, and redox concepts.'
+    descriptionEn: 'Reactions, acids-bases, and redox concepts.',
+    teacherZh: '邱老師',
+    teacherEn: 'Ms. Chiu',
+    scheduleZh: '每週日早上 09:00–11:00',
+    scheduleEn: 'Sun 09:00–11:00',
+    progressZh: '目前進度：化學式與配平，之後會開始酸鹼中和反應。',
+    progressEn: 'Now: Chemical formulas & balancing, next is acid-base reactions.'
   },
   {
     id: 6,
     nameZh: '地科',
     nameEn: 'Earth Science',
     descriptionZh: '地球結構、氣象與天文，搭配圖表與實例說明。',
-    descriptionEn: 'Earth structure, weather, and astronomy.'
+    descriptionEn: 'Earth structure, weather, and astronomy.',
+    teacherZh: '簡老師',
+    teacherEn: 'Ms. Chien',
+    scheduleZh: '不定期加開複習班',
+    scheduleEn: 'Review classes on demand',
+    progressZh: '目前進度：板塊構造與地震，下一次會複習天氣圖判讀。',
+    progressEn: 'Now: Plate tectonics & earthquakes, next up: reading weather maps.'
   },
   {
     id: 7,
     nameZh: '生物',
     nameEn: 'Biology',
     descriptionZh: '細胞、生理與遺傳基礎，強調圖像與概念連結。',
-    descriptionEn: 'Cells, physiology, and basic genetics.'
+    descriptionEn: 'Cells, physiology, and basic genetics.',
+    teacherZh: '賴老師',
+    teacherEn: 'Ms. Lai',
+    scheduleZh: '每週六下午 14:00–16:00',
+    scheduleEn: 'Sat 14:00–16:00',
+    progressZh: '目前進度：細胞構造與能量，下一單元是人體消化與循環。',
+    progressEn: 'Now: Cell structure & energy, next unit: human digestion and circulation.'
   }
+];
+
+const studyTipsZh: string[] = [
+  '寫完一份小考後，先標記「為什麼會錯」，比只記答案更重要。',
+  '不要只看訂正，請把易錯題隔天再做一次，確認真的懂了。',
+  '錯題本重點不在「抄題目」，而是把自己的想法與盲點寫下來。',
+  '每次考完試，先挑出 3 題最關鍵的錯題，深度分析就好，不必全部看完。',
+  '如果同一個單元錯 3 題以上，就代表觀念需要從課本或講義重新整理。'
+];
+
+const studyTipsEn: string[] = [
+  'After each quiz, write down WHY you made mistakes instead of only the correct answer.',
+  'Redo your wrong questions the next day to make sure the concept truly sticks.',
+  'A good “error notebook” explains your thinking process, not just the model solution.',
+  'After a test, pick the top 3 key mistakes and analyze them deeply rather than skimming all questions.',
+  'If you have more than 3 mistakes in the same topic, go back to the textbook and rebuild the concept.'
 ];
 
 const quizSets = [
@@ -222,7 +297,7 @@ const quizSets = [
 
 export default function HomePage() {
   const [lang, setLang] = useState<Lang>('zh');
-  const [tab, setTab] = useState<TabKey>('profile');
+  const [tab, setTab] = useState<TabKey>('subjects'); // 登入後預設顯示「課程內容」
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -238,6 +313,21 @@ export default function HomePage() {
   const [pwMessage, setPwMessage] = useState<string | null>(null);
   const [tutoringSlots, setTutoringSlots] = useState<TutoringSlot[]>([]);
   const [quizIndex, setQuizIndex] = useState(0);
+  const [quizScores, setQuizScores] = useState<QuizScore[]>([]);
+  const [gradesSummary, setGradesSummary] = useState<{
+    overallAverage: number;
+    subjectSummaries: { subject: string; count: number; average: number }[];
+  } | null>(null);
+  const [gradesLoading, setGradesLoading] = useState(false);
+  const [gradesError, setGradesError] = useState<string | null>(null);
+  const [selectedSubjectId, setSelectedSubjectId] = useState<number>(subjects[0]?.id ?? 1);
+
+  const todayTip = useMemo(() => {
+    const tips = lang === 'zh' ? studyTipsZh : studyTipsEn;
+    if (tips.length === 0) return '';
+    const idx = new Date().getDate() % tips.length;
+    return tips[idx];
+  }, [lang]);
 
   async function fetchMe() {
     try {
@@ -272,6 +362,38 @@ export default function HomePage() {
     if (user) fetchData();
   }, [user]);
 
+  useEffect(() => {
+    async function fetchQuizScores() {
+      if (!user) return;
+      setGradesLoading(true);
+      setGradesError(null);
+      try {
+        const res = await fetch('/api/quiz-scores/me', {
+          credentials: 'include'
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          setGradesError(data.message || '讀取小考成績失敗。');
+          setQuizScores([]);
+          setGradesSummary(null);
+        } else {
+          setQuizScores(data.scores || []);
+          setGradesSummary(data.summary || null);
+        }
+      } catch (e: any) {
+        setGradesError(e.message || '讀取小考成績時發生錯誤。');
+        setQuizScores([]);
+        setGradesSummary(null);
+      } finally {
+        setGradesLoading(false);
+      }
+    }
+
+    if (user && (tab === 'grades' || tab === 'quiz')) {
+      fetchQuizScores();
+    }
+  }, [user, tab]);
+
   const t = {
     title: lang === 'zh' ? '補習班管理系統' : 'Cram School Manager',
     subtitle:
@@ -289,7 +411,8 @@ export default function HomePage() {
     tabCourses: lang === 'zh' ? '課表' : 'Timetable',
     tabAssignments: lang === 'zh' ? '課程作業' : 'Assignments',
     tabSubjects: lang === 'zh' ? '課程內容' : 'Subjects',
-    tabQuiz: lang === 'zh' ? '小測驗' : 'Quiz',
+    tabQuiz: lang === 'zh' ? '錯題回顧' : 'Review',
+    tabGrades: lang === 'zh' ? '成績分析' : 'Grades',
     tabTutoring: lang === 'zh' ? '輔導時間' : 'Tutoring'
   };
 
@@ -454,6 +577,36 @@ export default function HomePage() {
           </div>
         </div>
 
+        {/* 今日小 tip */}
+        <div
+          style={{
+            marginBottom: '1rem',
+            padding: '0.75rem 1rem',
+            borderRadius: '0.75rem',
+            background:
+              'linear-gradient(135deg, rgba(187, 247, 208, 0.4), rgba(191, 219, 254, 0.4))',
+            border: '1px solid rgba(34, 197, 94, 0.35)',
+            fontSize: '0.85rem',
+            color: '#065f46',
+            display: 'flex',
+            gap: '0.5rem',
+            alignItems: 'flex-start'
+          }}
+        >
+          <span
+            style={{
+              fontWeight: 600,
+              fontSize: '0.8rem',
+              padding: '0.15rem 0.5rem',
+              borderRadius: '999px',
+              background: 'rgba(22, 163, 74, 0.12)'
+            }}
+          >
+            {lang === 'zh' ? '今日小 tip' : 'Today’s tip'}
+          </span>
+          <span>{todayTip}</span>
+        </div>
+
         <div style={{ marginBottom: '1.25rem' }}>
           <div className="tabs-nav">
             <button
@@ -485,6 +638,12 @@ export default function HomePage() {
               onClick={() => setTab('quiz')}
             >
               {t.tabQuiz}
+            </button>
+            <button
+              className={`tab ${tab === 'grades' ? 'tab-active' : ''}`}
+              onClick={() => setTab('grades')}
+            >
+              {t.tabGrades}
             </button>
             <button
               className={`tab ${tab === 'tutoring' ? 'tab-active' : ''}`}
@@ -741,8 +900,24 @@ export default function HomePage() {
                   gap: '1rem'
                 }}
               >
-                {subjects.map((s) => (
-                  <div key={s.id} className="stat-card">
+                {subjects.map((s) => {
+                  const selected = s.id === selectedSubjectId;
+                  return (
+                    <button
+                      key={s.id}
+                      type="button"
+                      onClick={() => setSelectedSubjectId(s.id)}
+                      className="stat-card"
+                      style={{
+                        textAlign: 'left',
+                        cursor: 'pointer',
+                        border: selected ? '1px solid #22c55e' : undefined,
+                        boxShadow: selected
+                          ? '0 0 0 1px rgba(34,197,94,0.3)'
+                          : undefined,
+                        background: selected ? '#ecfdf3' : undefined
+                      }}
+                    >
                     <div
                       style={{
                         display: 'flex',
@@ -772,10 +947,48 @@ export default function HomePage() {
                       }}
                     >
                       {lang === 'zh' ? s.descriptionZh : s.descriptionEn}
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="form-column">
+              {(() => {
+                const current = subjects.find((s) => s.id === selectedSubjectId) ?? subjects[0];
+                if (!current) return null;
+                return (
+                  <div>
+                    <h3 style={{ fontSize: '0.95rem', marginBottom: '0.5rem' }}>
+                      {lang === 'zh' ? '課程細節與進度' : 'Course details & progress'}
+                    </h3>
+                    <div className="stat-card" style={{ marginBottom: '0.75rem' }}>
+                      <div className="stat-label">
+                        {lang === 'zh' ? '授課老師' : 'Teacher'}
+                      </div>
+                      <div className="stat-value" style={{ fontSize: '1rem' }}>
+                        {lang === 'zh' ? current.teacherZh : current.teacherEn}
+                      </div>
+                    </div>
+                    <div className="stat-card" style={{ marginBottom: '0.75rem' }}>
+                      <div className="stat-label">
+                        {lang === 'zh' ? '上課時間' : 'Schedule'}
+                      </div>
+                      <div style={{ fontSize: '0.9rem', color: '#374151' }}>
+                        {lang === 'zh' ? current.scheduleZh : current.scheduleEn}
+                      </div>
+                    </div>
+                    <div className="stat-card">
+                      <div className="stat-label">
+                        {lang === 'zh' ? '目前進度' : 'Current progress'}
+                      </div>
+                      <div style={{ fontSize: '0.9rem', color: '#374151', lineHeight: 1.6 }}>
+                        {lang === 'zh' ? current.progressZh : current.progressEn}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                );
+              })()}
             </div>
           </div>
         )}
@@ -784,7 +997,7 @@ export default function HomePage() {
           <div className="form-row">
             <div className="form-column">
               <h3 style={{ fontSize: '0.95rem', marginBottom: '0.75rem' }}>
-                {lang === 'zh' ? '課後小測驗' : 'After-class quiz'}
+                {lang === 'zh' ? '錯題回顧' : 'Wrong-question review'}
               </h3>
               <p
                 style={{
@@ -794,45 +1007,316 @@ export default function HomePage() {
                 }}
               >
                 {lang === 'zh'
-                  ? '系統會隨機顯示一組題目，按「下一題」可以換一組。'
-                  : 'The system shows a random set of practice questions. Click "Next" for another set.'}
+                  ? '下面依照每一次小考的得分，幫你標記出「容易失分」的場次，當作錯題回顧的重點清單。資料直接從 week6_test 裡的小考 CSV 匯入。'
+                  : 'Each quiz below is marked to highlight where you lost more points, based on real CSV score data.'}
               </p>
-              <div className="students-list">
-                <div className="student-row">
-                  <div style={{ gridColumn: '1 / -1' }}>
-                    {(() => {
-                      const set = quizSets[quizIndex % quizSets.length];
-                      const qs =
-                        lang === 'zh' ? set.questionsZh : set.questionsEn;
-                      return (
-                        <>
+              {gradesLoading && (
+                <div
+                  style={{
+                    fontSize: '0.85rem',
+                    color: '#6b7280',
+                    marginBottom: '0.5rem'
+                  }}
+                >
+                  {lang === 'zh' ? '小考成績載入中…' : 'Loading quiz scores...'}
+                </div>
+              )}
+              {gradesError && (
+                <div className="error-text" style={{ marginBottom: '0.75rem' }}>
+                  {gradesError}
+                </div>
+              )}
+              {!gradesLoading && quizScores.length === 0 && !gradesError && (
+                <div
+                  style={{
+                    fontSize: '0.85rem',
+                    color: '#6b7280',
+                    marginBottom: '0.75rem'
+                  }}
+                >
+                  {lang === 'zh'
+                    ? '目前找不到任何小考成績。請確認 week6_test 中的 CSV 是否已放在專案根目錄。'
+                    : 'No quiz scores found. Please check that CSV files in week6_test are available.'}
+                </div>
+              )}
+              {quizScores.length > 0 && (
+                <div className="students-list">
+                  <div className="student-row student-header">
+                    <div>{lang === 'zh' ? '日期' : 'Date'}</div>
+                    <div>{lang === 'zh' ? '科目 / 測驗' : 'Subject / Quiz'}</div>
+                    <div>{lang === 'zh' ? '得分' : 'Score'}</div>
+                    <div>{lang === 'zh' ? '錯題重點 / 建議' : 'Focus / Suggestion'}</div>
+                  </div>
+                  {quizScores.map((s, idx) => {
+                    const rate = s.score / s.total;
+                    let suggestionZh: string;
+                    let suggestionEn: string;
+                    if (rate >= 0.9) {
+                      suggestionZh = '這次幾乎沒失分，可以把題目當成考前複習題庫。';
+                      suggestionEn =
+                        'Very few mistakes; treat this quiz as a review question bank.';
+                    } else if (rate >= 0.75) {
+                      suggestionZh =
+                        '有一些粗心或觀念小洞，建議把錯題依「題型」整理，找出共通盲點。';
+                      suggestionEn =
+                        'Some careless or small concept gaps; group wrong questions by type and look for patterns.';
+                    } else {
+                      suggestionZh =
+                        '這次屬於「錯題核心清單」，下次考前務必重做同單元題目，並在錯題本寫下為什麼會錯。';
+                      suggestionEn =
+                        'This quiz should go into your core error list; redo similar questions before the next exam and write down WHY you missed them.';
+                    }
+                    return (
+                      <div key={`${s.title}-${idx}`} className="student-row">
+                        <div>{s.date || '-'}</div>
+                        <div>
+                          <div style={{ fontWeight: 600 }}>{s.subject}</div>
                           <div
                             style={{
-                              fontWeight: 600,
-                              marginBottom: '0.5rem'
+                              fontSize: '0.75rem',
+                              color: '#6b7280'
                             }}
                           >
-                            {lang === 'zh' ? set.zhTitle : set.enTitle}
+                            {s.title}
                           </div>
-                          <ol style={{ paddingLeft: '1.2rem', margin: 0 }}>
-                            {qs.map((q) => (
-                              <li key={q}>{q}</li>
-                            ))}
-                          </ol>
-                        </>
-                      );
-                    })()}
-                  </div>
+                        </div>
+                        <div>
+                          <span style={{ fontWeight: 600 }}>
+                            {s.score}/{s.total}
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '0.8rem', color: '#4b5563' }}>
+                          {lang === 'zh' ? suggestionZh : suggestionEn}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
-              </div>
-              <button
-                className="button-primary"
-                type="button"
-                style={{ marginTop: '0.75rem' }}
-                onClick={() => setQuizIndex((i) => i + 1)}
+              )}
+            </div>
+          </div>
+        )}
+
+        {tab === 'grades' && (
+          <div className="form-row">
+            <div className="form-column">
+              <h3 style={{ fontSize: '0.95rem', marginBottom: '0.75rem' }}>
+                {lang === 'zh' ? '小考成績與趨勢' : 'Quiz scores & trend'}
+              </h3>
+              <p
+                style={{
+                  fontSize: '0.85rem',
+                  color: '#4b5563',
+                  marginBottom: '0.75rem'
+                }}
               >
-                {lang === 'zh' ? '下一組題目' : 'Next questions'}
-              </button>
+                {lang === 'zh'
+                  ? '這裡從 week6_test 裡的小考 CSV 把你的成績全部抓出來，幫你看平均表現與各科弱點。'
+                  : 'This view reads all your quiz scores from the CSV files and summarizes trends and weak spots.'}
+              </p>
+              {gradesLoading && (
+                <div
+                  style={{
+                    fontSize: '0.85rem',
+                    color: '#6b7280',
+                    marginBottom: '0.5rem'
+                  }}
+                >
+                  {lang === 'zh' ? '小考成績載入中…' : 'Loading quiz scores...'}
+                </div>
+              )}
+              {gradesError && (
+                <div className="error-text" style={{ marginBottom: '0.75rem' }}>
+                  {gradesError}
+                </div>
+              )}
+              {!gradesLoading && quizScores.length === 0 && !gradesError && (
+                <div
+                  style={{
+                    fontSize: '0.85rem',
+                    color: '#6b7280',
+                    marginBottom: '0.75rem'
+                  }}
+                >
+                  {lang === 'zh'
+                    ? '目前沒有讀到任何小考成績，老師可以把 CSV 放到專案根目錄的 week6_test 資料夾。'
+                    : 'No quiz scores found. Please place CSV files into the week6_test folder at project root.'}
+                </div>
+              )}
+              {quizScores.length > 0 && (
+                <>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'minmax(0, 1.6fr) minmax(0, 2fr)',
+                      gap: '0.75rem',
+                      marginBottom: '0.75rem',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {/* 大圓形平均得分率 */}
+                    <div
+                      className="stat-card"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: '1.25rem'
+                      }}
+                    >
+                      {(() => {
+                        const pct = gradesSummary?.overallAverage ?? 0;
+                        const angle = pct * 3.6;
+                        return (
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              gap: '0.5rem'
+                            }}
+                          >
+                            <div
+                              style={{
+                                width: 140,
+                                height: 140,
+                                borderRadius: '50%',
+                                background: `conic-gradient(#22c55e ${angle}deg, #e5e7eb 0deg)`,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                position: 'relative'
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: 100,
+                                  height: 100,
+                                  borderRadius: '50%',
+                                  background: 'white',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  boxShadow: 'inset 0 0 0 1px #e5e7eb'
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    fontSize: '0.8rem',
+                                    color: '#6b7280',
+                                    marginBottom: '0.15rem'
+                                  }}
+                                >
+                                  {lang === 'zh' ? '平均得分率' : 'Average'}
+                                </div>
+                                <div
+                                  style={{
+                                    fontSize: '1.6rem',
+                                    fontWeight: 700,
+                                    color: '#16a34a'
+                                  }}
+                                >
+                                  {pct}
+                                  <span style={{ fontSize: '0.85rem' }}>%</span>
+                                </div>
+                              </div>
+                            </div>
+                            <div
+                              style={{
+                                fontSize: '0.8rem',
+                                color: '#4b5563',
+                                textAlign: 'center'
+                              }}
+                            >
+                              {lang === 'zh'
+                                ? '這個圓圈代表你在所有小考中的整體表現。綠色越滿，離目標越近。'
+                                : 'This circle shows your overall performance across all quizzes.'}
+                            </div>
+                          </div>
+                        );
+                      })()}
+                    </div>
+
+                    {/* 各科平均卡片 */}
+                    <div
+                      style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
+                        gap: '0.75rem'
+                      }}
+                    >
+                      {gradesSummary?.subjectSummaries?.map((s) => (
+                        <div key={s.subject} className="stat-card">
+                          <div className="stat-label">
+                            {lang === 'zh' ? `${s.subject} 平均` : `Avg ${s.subject}`}
+                          </div>
+                          <div
+                            className="stat-value"
+                            style={{ fontSize: '0.95rem', marginBottom: '0.15rem' }}
+                          >
+                            {s.average}
+                            <span style={{ fontSize: '0.8rem' }}>%</span>
+                          </div>
+                          <div style={{ fontSize: '0.75rem', color: '#6b7280' }}>
+                            {lang === 'zh'
+                              ? `共 ${s.count} 次小考`
+                              : `${s.count} quizzes`}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                    <div className="students-list">
+                      <div className="student-row student-header">
+                        <div>{lang === 'zh' ? '日期' : 'Date'}</div>
+                        <div>{lang === 'zh' ? '科目 / 測驗' : 'Subject / Quiz'}</div>
+                        <div>{lang === 'zh' ? '得分' : 'Score'}</div>
+                        <div>{lang === 'zh' ? '備註' : 'Note'}</div>
+                      </div>
+                      {quizScores.map((s, idx) => (
+                        <div key={`${s.title}-${idx}`} className="student-row">
+                          <div>{s.date}</div>
+                          <div>
+                            <div style={{ fontWeight: 600 }}>{s.subject}</div>
+                            <div
+                              style={{
+                                fontSize: '0.75rem',
+                                color: '#6b7280'
+                              }}
+                            >
+                              {s.title}
+                            </div>
+                          </div>
+                          <div>
+                            <span style={{ fontWeight: 600 }}>
+                              {s.score}/{s.total}
+                            </span>
+                          </div>
+                          <div style={{ fontSize: '0.8rem', color: '#4b5563' }}>
+                            {(() => {
+                              const rate = s.score / s.total;
+                              if (rate >= 0.9) {
+                                return lang === 'zh'
+                                  ? '表現很好，維持複習節奏即可。'
+                                  : 'Great performance, just keep your review pace.';
+                              }
+                              if (rate >= 0.75) {
+                                return lang === 'zh'
+                                  ? '略有小失誤，可以從錯題中找出共通觀念。'
+                                  : 'A few mistakes; look for common concepts among wrong questions.';
+                              }
+                              return lang === 'zh'
+                                ? '這次可以特別整理錯題，建議下次考前多做一次同類型題目。'
+                                : 'Use this quiz to build your error list and redo similar questions before the next test.';
+                            })()}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
             </div>
           </div>
         )}
